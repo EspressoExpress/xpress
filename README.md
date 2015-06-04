@@ -1,5 +1,5 @@
-# xpress
-<img src='mockup.png' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+# Espresso Express
+
 ## Overview
 
 This is a matchmaking application that matches coffee requesters who are willing to pay to have coffee delivered to them, with coffee deliverers who are willing to deliver coffee for a nominal fee.
@@ -22,4 +22,4 @@ This is a matchmaking application that matches coffee requesters who are willing
 * [ ] After order acceptance delivery user and requesting user can chat in realtime
 * [ ] User can store common orders / payment information in a user profile.
 
-
+<img src='mockup.png' title='Video Walkthrough' width='' alt='Video Walkthrough' />
