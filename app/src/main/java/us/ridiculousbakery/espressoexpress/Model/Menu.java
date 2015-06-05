@@ -1,4 +1,4 @@
-package us.ridiculousbakery.espressoexpress;
+package us.ridiculousbakery.espressoexpress.Model;
 
 import java.util.ArrayList;
 

@@ -1,4 +1,4 @@
-package us.ridiculousbakery.espressoexpress;
+package us.ridiculousbakery.espressoexpress.Model;
 
 /**
  * Created by bkuo on 6/3/15.

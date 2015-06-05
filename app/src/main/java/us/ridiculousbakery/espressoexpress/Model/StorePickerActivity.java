@@ -1,9 +1,11 @@
-package us.ridiculousbakery.espressoexpress;
+package us.ridiculousbakery.espressoexpress.Model;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import us.ridiculousbakery.espressoexpress.R;
 
 
 public class StorePickerActivity extends ActionBarActivity {
