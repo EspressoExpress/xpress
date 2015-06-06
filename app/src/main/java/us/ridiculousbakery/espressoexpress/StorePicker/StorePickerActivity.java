@@ -1,44 +1,38 @@
 package us.ridiculousbakery.espressoexpress.StorePicker;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.FrameLayout;
+
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import us.ridiculousbakery.espressoexpress.R;
 
 
 public class StorePickerActivity extends ActionBarActivity {
-
+    /*
+     * Define a request code to send to Google Play services This code is
+     * returned in Activity.onActivityResult
+     */
+    private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private StorePickerMapFragment fgMapStoreFragment;
     private StorePickerListFragment fgListStoreFragment;
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store_picker);
-        FrameLayout flContainer = (FrameLayout) findViewById(R.id.flContainer);
-//        fgMapStoreFragment = new fgMapStoreFragment();
-//        MapF
-//        storePickerListFragment = new StorePickerListFragment();
 
         if (savedInstanceState == null) {
             activate_list_fragment();
 
         }
-//                ((SupportfgMapStoreFragment) getSupportFragmentManager().findFragmentById(R.id.map));
-//        if (fgMapStoreFragment != null) {
-//            fgMapStoreFragment.getMapAsync(new OnMapReadyCallback() {
-//                @Override
-//                public void onMapReady(GoogleMap map) {
-//                    loadMap(map);
-//                }
-//            });
-//        } else {
-//            Toast.makeText(this, "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
-//        }
+
     }
 
     @Override
@@ -47,6 +41,9 @@ public class StorePickerActivity extends ActionBarActivity {
         getMenuInflater().inflate(R.menu.menu_store_picker, menu);
         return true;
     }
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -89,4 +86,42 @@ public class StorePickerActivity extends ActionBarActivity {
 
     }
 
+
+    /*
+     * Called when the Activity becomes visible.
+    */
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    /*
+	 * Called when the Activity is no longer visible.
+	 */
+    @Override
+    protected void onStop() {
+        // Disconnecting the client invalidates it.
+
+        super.onStop();
+    }
+    /*
+     * Handle results returned to the FragmentActivity by Google Play services
+     */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Decide what to do based on the original request code
+        switch (requestCode) {
+
+            case CONNECTION_FAILURE_RESOLUTION_REQUEST:
+			/*
+			 * If the result code is Activity.RESULT_OK, try to connect again
+			 */
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        fgListStoreFragment.reconnect();
+                        break;
+                }
+
+        }
+    }
 }

@@ -1,5 +1,7 @@
 package us.ridiculousbakery.espressoexpress.Model;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.Serializable;
 
 /**
@@ -33,10 +35,10 @@ public class Store implements Serializable {
         this.name = name;
     }
 
-    Store(String name, Double lon, Double lat, String logo) {
+    Store(String name, LatLng latlng, String logo) {
         this.name = name;
-        this.lon = lon;
-        this.lat = lat;
+        this.lon = latlng.longitude;
+        this.lat = latlng.latitude;
         this.logo=logo;
     }
 //    public ArrayList<Item>  getMenu(){
