@@ -5,7 +5,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.TextView;
 
+import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
 
@@ -15,7 +17,7 @@ import us.ridiculousbakery.espressoexpress.R;
 public class MenuAdapter extends BaseAdapter {
 
     private class ViewHolder {
-
+        TextView name;
     }
 
     private LayoutInflater inflater;
@@ -36,17 +38,20 @@ public class MenuAdapter extends BaseAdapter {
 
     @Override
     public View getView(int i, View view, ViewGroup viewGroup) {
+
         ViewHolder viewHolder;
+        Item item = storeMenu.getItems().get(i);
+
         if (view == null) {
             viewHolder = new ViewHolder();
             view = inflater.inflate(R.layout.menu_item, viewGroup, false);
-            // viewHolder.image = view.findViewByID()
+            viewHolder.name = (TextView) view.findViewById(R.id.tvName);
             view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }
 
-        //viewHolder.image.image = item.image
+        viewHolder.name.setText(item.getName());
 
         return view;
     }
