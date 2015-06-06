@@ -3,13 +3,20 @@ package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
+import org.apache.http.Header;
+import org.json.JSONObject;
+
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.MenuAdapter;
+import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
+import us.ridiculousbakery.espressoexpress.Model.User;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -50,8 +57,25 @@ public class MenuFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_menu_list, container, false);
         lvMenu = (ListView) v.findViewById(R.id.lvMenu);
         lvMenu.setAdapter(aMenu);
+        lvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                // Present Dialog Fragment
+                Item item = (Item) aMenu.getItem(i);
+                showCustomizeItemDialog(item);
+            }
+        });
         return v;
     }
 
+    //================================================================================
+    // Navigation
+    //================================================================================
+
+    public void showCustomizeItemDialog(Item item) {
+        FragmentManager fm = getChildFragmentManager();
+        CustomizeItemDialog customizeDialog = CustomizeItemDialog.newInstance(item);
+        customizeDialog.show(fm, "fragment_customize_item");
+    }
 
 }
