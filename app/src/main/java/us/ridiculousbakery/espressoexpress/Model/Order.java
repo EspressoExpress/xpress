@@ -10,8 +10,8 @@ public class Order {
     private ArrayList<LineItem> lineItems;
 
 
-    private Float lon;
-    private Float lat;
+    private Double lon;
+    private Double lat;
     private long valid_until;
     private long created_at;
     private Store store;

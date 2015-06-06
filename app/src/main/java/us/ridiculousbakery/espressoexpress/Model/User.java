@@ -6,8 +6,8 @@ package us.ridiculousbakery.espressoexpress.Model;
 public class User {
     private String name;
 
-    private Float lon;
-    private Float lat;
+    private Double lon;
+    private Double lat;
 
 
 //Payment info fields

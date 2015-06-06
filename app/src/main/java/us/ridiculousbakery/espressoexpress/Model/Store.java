@@ -16,18 +16,29 @@ public class Store implements Serializable {
         return logo;
     }
 
-    public Float getLon() {
+    public Double getLon() {
         return lon;
     }
 
-    public Float getLat() {
+    public Double getLat() {
         return lat;
     }
 
     private String logo;
-    private Float lon;
-    private Float lat;
+    private Double lon;
+    private Double lat;
 
+
+    Store(String name) {
+        this.name = name;
+    }
+
+    Store(String name, Double lon, Double lat, String logo) {
+        this.name = name;
+        this.lon = lon;
+        this.lat = lat;
+        this.logo=logo;
+    }
 //    public ArrayList<Item>  getMenu(){
 //
 //        return {fdshjilfjlmf.,sd,fjdskl,fsd,a}
