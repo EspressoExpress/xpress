@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,8 +67,19 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
                 showCustomizeItemDialog(item);
             }
         });
+
+        View header = inflater.inflate(R.layout.menu_header, container, false);
+
+        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+        MenuHeaderFragment menuHeaderFragment = new MenuHeaderFragment();
+        ft.replace(R.id.flContainer, menuHeaderFragment);
+        ft.commit();
+        lvMenu.addHeaderView(header);
+
         return v;
     }
+
+
 
     //================================================================================
     // Navigation

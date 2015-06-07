@@ -11,19 +11,37 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-        <Button
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="New Button"
-            android:id="@+id/btnSmall" />
+            android:layout_weight="1">
 
-        <Button
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/holo_blue_light"
+                android:src="@drawable/ic_store_pick_map"
+                android:id="@+id/ibSmall" />
+
+        </FrameLayout>
+
+        <FrameLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="New Button"
-            android:id="@+id/btnMedium" />
+            android:layout_weight="1">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@android:color/holo_red_dark"
+                android:src="@drawable/ic_store_pick_map"
+                android:id="@+id/ibMedium" />
+
+        </FrameLayout>
+
+
 
     </LinearLayout>
 
@@ -33,19 +51,21 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
-
-        <Button
-            android:layout_width="0dp"
+        <ImageButton
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="New Button"
-            android:id="@+id/btnLarge" />
+            android:background="@android:color/holo_orange_light"
+            android:src="@drawable/ic_store_pick_map"
+            android:id="@+id/ibLarge" />
 
-        <Button
-            android:layout_width="0dp"
+        <ImageButton
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="New Button"
-            android:id="@+id/btnXLarge" />
+            android:background="@android:color/holo_green_light"
+            android:src="@drawable/ic_store_pick_map"
+            android:id="@+id/ibXLarge" />
+
     </LinearLayout>
 </LinearLayout>
