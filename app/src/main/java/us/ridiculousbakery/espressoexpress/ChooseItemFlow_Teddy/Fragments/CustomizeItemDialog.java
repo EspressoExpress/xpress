@@ -28,7 +28,7 @@ import us.ridiculousbakery.espressoexpress.R;
 /**
  * Created by teddywyly on 6/6/15.
  */
-public class CustomizeItemDialog extends DialogFragment implements CupSizeFragment.OnSizeSelectedListener {
+public class CustomizeItemDialog extends DialogFragment implements CupSizeFragment.OnSizeSelectedListener, MilkFragment.OnPercentageChosenListener {
 
     private CupSizeFragment cupSizeFragment;
     private MilkFragment milkFragment;
@@ -108,10 +108,19 @@ public class CustomizeItemDialog extends DialogFragment implements CupSizeFragme
     // OnSizeSelectedListener
     //================================================================================
 
-
     @Override
     public void onCupSizeSelected() {
         // Store Size in Options and show next fragment
         showMilkFragment(getView());
     }
+
+    //================================================================================
+    // OnPercentageChosenListener
+    //================================================================================
+
+    @Override
+    public void onMilkPercentageChosen() {
+        dismiss();
+    }
+
 }
