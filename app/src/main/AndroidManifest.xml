@@ -29,10 +29,6 @@
         <activity
             android:name=".StorePicker.StorePickerActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <uses-library
@@ -49,6 +45,10 @@
         <activity
             android:name=".ChooseItemFlow_Teddy.Activities.MenuActivity"
             android:label="@string/title_activity_menu" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

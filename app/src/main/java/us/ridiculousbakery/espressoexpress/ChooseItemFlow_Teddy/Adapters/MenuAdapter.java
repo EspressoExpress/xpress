@@ -16,6 +16,7 @@ import us.ridiculousbakery.espressoexpress.R;
  */
 public class MenuAdapter extends BaseAdapter {
 
+
     private class ViewHolder {
         TextView name;
     }
