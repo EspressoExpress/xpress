@@ -1,5 +1,6 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -22,6 +23,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import us.ridiculousbakery.espressoexpress.Model.Item;
+import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.User;
 import us.ridiculousbakery.espressoexpress.R;
 
@@ -30,8 +32,18 @@ import us.ridiculousbakery.espressoexpress.R;
  */
 public class CustomizeItemDialog extends DialogFragment implements CupSizeFragment.OnSizeSelectedListener, MilkFragment.OnPercentageChosenListener {
 
+
+    public interface CustomizeItemDialogListener {
+        void onFinishCustomizingLineItem(LineItem lineItem);
+    }
+
+
+    private CustomizeItemDialogListener listener;
+
     private CupSizeFragment cupSizeFragment;
     private MilkFragment milkFragment;
+
+    private LineItem lineItem;
 
     public static CustomizeItemDialog newInstance(Item item) {
         CustomizeItemDialog dialog = new CustomizeItemDialog();
@@ -57,6 +69,8 @@ public class CustomizeItemDialog extends DialogFragment implements CupSizeFragme
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Item item = getArguments().getParcelable("item");
+        lineItem = new LineItem(item);
     }
 
     @Override
@@ -66,6 +80,27 @@ public class CustomizeItemDialog extends DialogFragment implements CupSizeFragme
         if (dialog != null) {
             dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        Fragment parentFragment = getParentFragment();
+        if (parentFragment != null) {
+            if (parentFragment instanceof CustomizeItemDialogListener) {
+                listener = (CustomizeItemDialogListener) parentFragment;
+            } else {
+                throw new ClassCastException(parentFragment.toString()
+                        + " must implement CustomizeItemDialogListener");
+            }
+        } else {
+            if (getActivity() instanceof CustomizeItemDialogListener) {
+                listener = (CustomizeItemDialogListener) getActivity();
+            } else {
+                throw new ClassCastException(getActivity().toString()
+                        + " must implement CustomizeItemDialogListener");
+            }
         }
     }
 
@@ -120,6 +155,7 @@ public class CustomizeItemDialog extends DialogFragment implements CupSizeFragme
 
     @Override
     public void onMilkPercentageChosen() {
+        listener.onFinishCustomizingLineItem(lineItem);
         dismiss();
     }
 

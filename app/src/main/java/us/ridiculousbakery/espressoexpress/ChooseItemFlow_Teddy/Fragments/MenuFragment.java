@@ -15,6 +15,7 @@ import org.json.JSONObject;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.MenuAdapter;
 import us.ridiculousbakery.espressoexpress.Model.Item;
+import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.Model.User;
 import us.ridiculousbakery.espressoexpress.R;
@@ -22,7 +23,7 @@ import us.ridiculousbakery.espressoexpress.R;
 /**
  * Created by teddywyly on 6/6/15.
  */
-public class MenuFragment extends Fragment {
+public class MenuFragment extends Fragment implements CustomizeItemDialog.CustomizeItemDialogListener {
 
     private MenuAdapter aMenu;
     private StoreMenu storeMenu;
@@ -78,4 +79,13 @@ public class MenuFragment extends Fragment {
         customizeDialog.show(fm, "fragment_customize_item");
     }
 
+    //================================================================================
+    // CustomizeItemDialogListener
+    //================================================================================
+
+
+    @Override
+    public void onFinishCustomizingLineItem(LineItem lineItem) {
+
+    }
 }
