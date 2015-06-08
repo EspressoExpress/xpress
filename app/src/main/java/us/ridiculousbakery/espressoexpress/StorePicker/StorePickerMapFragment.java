@@ -7,10 +7,12 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
+import us.ridiculousbakery.espressoexpress.Model.FakeDataSource;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
 
@@ -21,7 +23,8 @@ public class StorePickerMapFragment extends Fragment {
 
 
     private ViewPager vp;
-    private ArrayAdapter<Store> aaStores;
+//    private ArrayAdapter<Store> aaStores;
+    private StorePagerAdapter paStores;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -33,16 +36,19 @@ public class StorePickerMapFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_stores_map, container, false);
         vp = (ViewPager)v.findViewById(R.id.vpStores);
-//        paStores = new PagerAdapter<Store>(getActivity(), android.R.layout.simple_list_item_1);
+//        PagerAdapter
+        paStores = new StorePagerAdapter(getActivity(), android.R.layout.simple_list_item_1);
+
 //
-//        vp.setAdapter(aaStores);
-//        aaStores.addAll(FakeDataSource.nearby_stores(new LatLng(2, 2)));
+        vp.setAdapter(paStores);
+        paStores.addAll(FakeDataSource.nearby_stores(new LatLng(2, 2)));
 
         return v;
     }
     public void notifyNewData(ArrayList<Store> stores){
-        if( aaStores!=null){
-            aaStores.clear(); aaStores.addAll(stores);
+        if( paStores!=null){
+            paStores.clear(); paStores.addAll(stores);
+//            paStores.setPrimaryItem(0);
         }
     }
 
