@@ -7,4 +7,5 @@
     <string name="list_of_stores">Choose from list</string>
     <string name="map_of_stores">Choose from map</string>
     <string name="title_activity_menu">MenuActivity</string>
+    <string name="title_activity_cart">CartActivity</string>
 </resources>
