@@ -6,7 +6,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import us.ridiculousbakery.espressoexpress.Model.Item;
+import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.Order;
+import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
 
 public class CartActivity extends ActionBarActivity {
@@ -18,6 +23,11 @@ public class CartActivity extends ActionBarActivity {
         setContentView(R.layout.activity_cart);
         //create fake order
         Order order = new Order();
+        order.setStore(new Store("Starbucks"));
+        ArrayList<LineItem> orderItems = new ArrayList<>();
+        orderItems.add(new LineItem(new Item("Latte")));
+        orderItems.add(new LineItem(new Item("Frapp")));
+        order.setLineItems(orderItems);
         if (savedInstanceState == null) {
             // Create order fragment
             CartFragment cartFragment = CartFragment.newInstance(order);

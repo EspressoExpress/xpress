@@ -3,10 +3,12 @@ package us.ridiculousbakery.espressoexpress.Model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.io.Serializable;
+
 /**
  * Created by bkuo on 6/3/15.
  */
-public class Item implements Parcelable {
+public class Item implements Serializable, Parcelable {
 
     private String name;
 
