@@ -20,7 +20,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import us.ridiculousbakery.espressoexpress.Model.FakeDataSource;
@@ -36,7 +35,7 @@ public class StorePickerActivity extends ActionBarActivity implements
      * returned in Activity.onActivityResult
      */
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private SupportMapFragment fgMapStoreFragment;
+    private StorePickerMapFragment fgMapStoreFragment;
     private StorePickerListFragment fgListStoreFragment;
     private StorePickerPagerFragment fgPagerStoreFragment;
     private GoogleMap map;
@@ -91,11 +90,11 @@ public class StorePickerActivity extends ActionBarActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    private SupportMapFragment getMapStoreFragment() {
+    private StorePickerMapFragment getMapStoreFragment() {
         if (fgMapStoreFragment != null) return fgMapStoreFragment;
 
-//        private SupportMapFragment mapFragment;
-         fgMapStoreFragment = new SupportMapFragment();
+//        private StorePickerMapFragment mapFragment;
+         fgMapStoreFragment = new StorePickerMapFragment();
 
         fgMapStoreFragment.getMapAsync(new OnMapReadyCallback() {
             @Override

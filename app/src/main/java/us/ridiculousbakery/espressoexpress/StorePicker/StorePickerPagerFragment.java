@@ -66,7 +66,6 @@ public class StorePickerPagerFragment extends Fragment {
         if (paStores != null) {
             paStores.clear();
             paStores.addAll(stores);
-//            paStores.setPrimaryItem(0);
         }
     }
 
