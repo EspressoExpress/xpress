@@ -36,6 +36,7 @@ public class StorePickerMapFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_stores_map, container, false);
+
 //        vp = (ViewPager)v.findViewById(R.id.vpStores);
 //        paStores = new StorePagerAdapter(getActivity(), android.R.layout.simple_list_item_1);
 //        vp.setAdapter(paStores);

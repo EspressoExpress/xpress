@@ -18,6 +18,9 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 
 import us.ridiculousbakery.espressoexpress.Model.FakeDataSource;
@@ -25,6 +28,7 @@ import us.ridiculousbakery.espressoexpress.R;
 
 
 public class StorePickerActivity extends ActionBarActivity implements
+        StoreListAdapter.MapTargetListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
     /*
@@ -32,9 +36,10 @@ public class StorePickerActivity extends ActionBarActivity implements
      * returned in Activity.onActivityResult
      */
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private StorePickerMapFragment fgMapStoreFragment;
+    private SupportMapFragment fgMapStoreFragment;
     private StorePickerListFragment fgListStoreFragment;
     private StorePickerPagerFragment fgPagerStoreFragment;
+    private GoogleMap map;
 
     public GoogleApiClient getmGoogleApiClient() {
         return mGoogleApiClient;
@@ -49,6 +54,7 @@ public class StorePickerActivity extends ActionBarActivity implements
 
         if (savedInstanceState == null) {
             activate_list_fragment();
+
 
         }
         mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -85,9 +91,42 @@ public class StorePickerActivity extends ActionBarActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    private StorePickerMapFragment getMapStoreFragment() {
+    private SupportMapFragment getMapStoreFragment() {
         if (fgMapStoreFragment != null) return fgMapStoreFragment;
-        return fgMapStoreFragment = new StorePickerMapFragment();
+
+//        private SupportMapFragment mapFragment;
+         fgMapStoreFragment = new SupportMapFragment();
+
+        fgMapStoreFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap map) {
+                loadMap(map);
+            }
+        });
+        return fgMapStoreFragment;
+//        return fgMapStoreFragment = new StorePickerMapFragment();
+    }
+    protected void loadMap(GoogleMap googleMap) {
+        map = googleMap;
+        if (map != null) {
+            // Map is ready
+            Toast.makeText(this, "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+            map.setMyLocationEnabled(true);
+
+            // Now that map has loaded, let's get our location!
+//            mGoogleApiClient = new GoogleApiClient.Builder(this)
+//                    .addApi(LocationServices.API)
+//                    .addConnectionCallbacks(this)
+//                    .addOnConnectionFailedListener(this).build();
+
+            // Attach long click listener to the map here
+//            map.setOnMapLongClickListener(this);
+//            map.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
+reconnect();
+//            connectClient();
+        } else {
+            Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
+        }
     }
     private StorePickerPagerFragment getPagerStoreFragment() {
         if (fgPagerStoreFragment != null) return fgPagerStoreFragment;
@@ -204,7 +243,7 @@ public class StorePickerActivity extends ActionBarActivity implements
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             Log.i("ZZZZZZ", latLng.toString());
             getListStoreFragment().notifyNewData(FakeDataSource.nearby_stores(latLng));
-            getMapStoreFragment().notifyNewData(FakeDataSource.nearby_stores(latLng));
+//            getMapStoreFragment().notifyNewData(FakeDataSource.nearby_stores(latLng));
 //            aaStores.addAll(FakeDataSource.nearby_stores(latLng));
         } else {
             Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
@@ -251,6 +290,12 @@ public class StorePickerActivity extends ActionBarActivity implements
         }
     }
 
+    @Override
+    public void onNewMapTarget(int index) {
+        activate_map_and_pager_fragments();
+        fgPagerStoreFragment.setMapTarget(index);
+    }
+
     // Define a DialogFragment that displays the error dialog
     public static class ErrorDialogFragment extends DialogFragment {
 
@@ -274,4 +319,6 @@ public class StorePickerActivity extends ActionBarActivity implements
             return mDialog;
         }
     }
+
+
 }

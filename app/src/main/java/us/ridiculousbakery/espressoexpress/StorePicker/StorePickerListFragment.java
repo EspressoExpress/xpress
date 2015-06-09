@@ -43,7 +43,7 @@ public class StorePickerListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_stores_list, container, false);
 
         lv = (ListView) v.findViewById(R.id.lvStores);
-        aaStores = new ArrayAdapter<Store>(getActivity(), android.R.layout.simple_list_item_1);
+        aaStores = new StoreListAdapter(getActivity());
         lv.setAdapter(aaStores);
         aaStores.addAll(FakeDataSource.nearby_stores(new LatLng(2, 2)));
 
