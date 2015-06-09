@@ -2,4 +2,43 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
+
+    <ImageView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:id="@+id/ivLogo"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/tvName"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/ivLogo"
+        android:layout_toEndOf="@+id/ivLogo" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deliver (Free)"
+        android:id="@+id/btnDeliver"
+        android:layout_alignBottom="@+id/ivLogo"
+        android:layout_toRightOf="@+id/ivLogo"
+        android:layout_toEndOf="@+id/ivLogo" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Request($4-$8)"
+        android:id="@+id/btnRequest"
+        android:layout_alignBottom="@+id/ivLogo"
+        android:layout_toRightOf="@+id/btnDeliver"
+        android:layout_toEndOf="@+id/btnDeliver" />
+
 </RelativeLayout>

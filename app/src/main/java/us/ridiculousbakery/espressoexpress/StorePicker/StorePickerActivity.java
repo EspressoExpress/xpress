@@ -34,6 +34,7 @@ public class StorePickerActivity extends ActionBarActivity implements
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private StorePickerMapFragment fgMapStoreFragment;
     private StorePickerListFragment fgListStoreFragment;
+    private StorePickerPagerFragment fgPagerStoreFragment;
 
     public GoogleApiClient getmGoogleApiClient() {
         return mGoogleApiClient;
@@ -60,8 +61,9 @@ public class StorePickerActivity extends ActionBarActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_store_picker, menu);
-        return true;
+//        getMenuInflater().inflate(R.menu.menu_store_picker_map, menu);
+        return false;
+//        return super.onCreateOptionsMenu();
     }
 
 
@@ -77,7 +79,7 @@ public class StorePickerActivity extends ActionBarActivity implements
             activate_list_fragment();
 
         } else if (id == R.id.action_store_pick_map) {
-            activate_map_fragment();
+            activate_map_and_pager_fragments();
         }
 
         return super.onOptionsItemSelected(item);
@@ -87,20 +89,31 @@ public class StorePickerActivity extends ActionBarActivity implements
         if (fgMapStoreFragment != null) return fgMapStoreFragment;
         return fgMapStoreFragment = new StorePickerMapFragment();
     }
+    private StorePickerPagerFragment getPagerStoreFragment() {
+        if (fgPagerStoreFragment != null) return fgPagerStoreFragment;
+        return fgPagerStoreFragment = new StorePickerPagerFragment();
+    }
 
     private StorePickerListFragment getListStoreFragment() {
         if (fgListStoreFragment != null) return fgListStoreFragment;
         return fgListStoreFragment = new StorePickerListFragment();
     }
 
-    private void activate_map_fragment() {
+    private void activate_map_and_pager_fragments() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        getListStoreFragment().setMenuVisibility(false);
+        getMapStoreFragment().setMenuVisibility(true);
         ft.replace(R.id.flContainer, getMapStoreFragment());
+        ft.add(R.id.flContainer, getPagerStoreFragment());
+
         ft.commit();
     }
 
     private void activate_list_fragment() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        getListStoreFragment().setMenuVisibility(true);
+        getMapStoreFragment().setMenuVisibility(false);
+        ft.remove(getPagerStoreFragment());
         ft.replace(R.id.flContainer, getListStoreFragment());
         ft.commit();
 

@@ -1,10 +1,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".StorePickerActivity">
+    xmlns:tools="http://schemas.android.com/tools">
     <item android:id="@+id/action_store_pick_map" android:title="@string/map_of_stores" android:visible="true"
         android:icon="@drawable/ic_store_pick_map"
-        android:orderInCategory="100" app:showAsAction="ifRoom" />
-    <item android:id="@+id/action_store_pick_list" android:title="@string/list_of_stores"
-        android:icon="@drawable/ic_store_pick_list" android:visible="false"
         android:orderInCategory="100" app:showAsAction="ifRoom" />
 </menu>

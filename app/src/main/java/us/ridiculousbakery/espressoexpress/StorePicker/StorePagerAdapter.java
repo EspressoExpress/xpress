@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
+import us.ridiculousbakery.espressoexpress.R;
 
 
 /**
@@ -77,7 +78,7 @@ public class StorePagerAdapter extends PagerAdapter {
     }
 
     private void initView(View v, Store item, int position) {
-        ((TextView)v).setText(item.toString());
+        ((TextView)v.findViewById(R.id.tvName)).setText(item.getName());
     }
 
     public void addAll(ArrayList<Store> stores) {
