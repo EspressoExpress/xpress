@@ -6,6 +6,7 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class StorePagerAdapter extends PagerAdapter {
     private final ArrayList<Store> mItems;
     private final LayoutInflater mInflator;
     private final int mResourceId;
+    private final Context mCtx;
 
 
     @Override
@@ -40,6 +42,7 @@ public class StorePagerAdapter extends PagerAdapter {
     }
 
     public StorePagerAdapter(Context context, int viewRes) {
+        mCtx = context;
         mItems = new ArrayList<Store>();
         mInflator = LayoutInflater.from(context);
         mResourceId = viewRes;
@@ -79,6 +82,8 @@ public class StorePagerAdapter extends PagerAdapter {
 
     private void initView(View v, Store item, int position) {
         ((TextView)v.findViewById(R.id.tvName)).setText(item.getName());
+        ((ImageView)v.findViewById(R.id.ivLogo)).setImageDrawable(mCtx.getResources().getDrawable(item.getLogo()));
+
     }
 
     public void addAll(ArrayList<Store> stores) {
