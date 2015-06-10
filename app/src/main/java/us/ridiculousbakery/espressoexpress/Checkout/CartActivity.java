@@ -72,7 +72,7 @@ public class CartActivity extends ActionBarActivity implements CartFragment.OnIt
     @Override
     public void launchCCForm() {
         FragmentManager fm = getSupportFragmentManager();
-        CCFormFragment ccFormFragment = new CCFormFragment();
+        CCFormFragment ccFormFragment = CCFormFragment.newInstance();
         ccFormFragment.show(fm, "cc_form");
     }
 }

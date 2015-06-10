@@ -18,6 +18,12 @@ public class CCFormFragment extends DialogFragment {
 
     }
 
+    public static CCFormFragment newInstance() {
+        CCFormFragment ccFormFragment = new CCFormFragment();
+        ccFormFragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        return ccFormFragment;
+    }
+
     //inflation logic
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

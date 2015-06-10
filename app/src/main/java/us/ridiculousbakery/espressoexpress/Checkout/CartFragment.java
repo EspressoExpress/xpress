@@ -29,6 +29,7 @@ public class CartFragment extends Fragment {
     protected ListView lvOrderItems;
     protected TextView tvAddress;
     protected TextView tvStoreName;
+    protected Button btPayment;
     protected Button btCheckout;
     private Order order;
     private OnItemClickedListener listener;
@@ -54,6 +55,7 @@ public class CartFragment extends Fragment {
         tvStoreName.setText(order.getStore().getName());
 
         btCheckout = (Button) v.findViewById(R.id.btCheckout);
+        btPayment = (Button) v.findViewById(R.id.btPayment);
         tvAddress = (TextView) v.findViewById(R.id.tvAddress);
         lvOrderItems = (ListView) v.findViewById(R.id.lvOrderItems);
         lvOrderItems.setAdapter(alineItems);
@@ -94,7 +96,7 @@ public class CartFragment extends Fragment {
                 Toast.makeText(getActivity(), "launch item option fragment", Toast.LENGTH_SHORT).show();
             }
         });
-        btCheckout.setOnClickListener(new View.OnClickListener() {
+        btPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.launchCCForm();
