@@ -1,6 +1,7 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -14,7 +15,8 @@ import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
 
-public class CartActivity extends ActionBarActivity {
+public class CartActivity extends ActionBarActivity implements CartFragment.OnItemClickedListener {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,5 +60,12 @@ public class CartActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void launchAddressMap() {
+        FragmentManager fm = getSupportFragmentManager();
+        AddressMapFragment addressMapFragment = AddressMapFragment.newInstance();
+        addressMapFragment.show(fm, "address_map");
     }
 }
