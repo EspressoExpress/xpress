@@ -24,6 +24,8 @@
                 android:src="@drawable/ic_store_pick_map"
                 android:id="@+id/ibSmall" />
 
+
+
         </FrameLayout>
 
         <FrameLayout
