@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,11 +29,13 @@ public class CartFragment extends Fragment {
     protected ListView lvOrderItems;
     protected TextView tvAddress;
     protected TextView tvStoreName;
+    protected Button btCheckout;
     private Order order;
     private OnItemClickedListener listener;
 
     public interface OnItemClickedListener {
         public void launchAddressMap();
+        public void launchCCForm();
     }
 
     public static CartFragment newInstance(Order order) {
@@ -49,6 +52,8 @@ public class CartFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_cart, container,false);
         tvStoreName = (TextView) v.findViewById(R.id.tvStoreName);
         tvStoreName.setText(order.getStore().getName());
+
+        btCheckout = (Button) v.findViewById(R.id.btCheckout);
         tvAddress = (TextView) v.findViewById(R.id.tvAddress);
         lvOrderItems = (ListView) v.findViewById(R.id.lvOrderItems);
         lvOrderItems.setAdapter(alineItems);
@@ -87,6 +92,12 @@ public class CartFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(), "launch item option fragment", Toast.LENGTH_SHORT).show();
+            }
+        });
+        btCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.launchCCForm();
             }
         });
 

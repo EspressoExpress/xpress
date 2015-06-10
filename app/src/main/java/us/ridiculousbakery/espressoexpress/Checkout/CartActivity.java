@@ -68,4 +68,11 @@ public class CartActivity extends ActionBarActivity implements CartFragment.OnIt
         AddressMapFragment addressMapFragment = AddressMapFragment.newInstance();
         addressMapFragment.show(fm, "address_map");
     }
+
+    @Override
+    public void launchCCForm() {
+        FragmentManager fm = getSupportFragmentManager();
+        CCFormFragment ccFormFragment = new CCFormFragment();
+        ccFormFragment.show(fm, "cc_form");
+    }
 }
