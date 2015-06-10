@@ -10,7 +10,6 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
@@ -18,16 +17,26 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
 import us.ridiculousbakery.espressoexpress.Model.FakeDataSource;
+import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.Adapters.StoreListAdapter;
+import us.ridiculousbakery.espressoexpress.StorePicker.Fragments.ListFragment;
+import us.ridiculousbakery.espressoexpress.StorePicker.Fragments.MapFragment;
+import us.ridiculousbakery.espressoexpress.StorePicker.Fragments.PagerFragment;
 
 
 public class StorePickerActivity extends ActionBarActivity implements
         StoreListAdapter.MapTargetListener,
+        OnMapReadyCallback,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
     /*
@@ -35,10 +44,16 @@ public class StorePickerActivity extends ActionBarActivity implements
      * returned in Activity.onActivityResult
      */
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private StorePickerMapFragment fgMapStoreFragment;
-    private StorePickerListFragment fgListStoreFragment;
-    private StorePickerPagerFragment fgPagerStoreFragment;
+    private MapFragment fgMapStoreFragment;
+    private ListFragment fgListStoreFragment;
+    private PagerFragment fgPagerStoreFragment;
+
+    public GoogleMap getMap() {
+        return map;
+    }
+
     private GoogleMap map;
+    private ArrayList<Store> stores;
 
     public GoogleApiClient getmGoogleApiClient() {
         return mGoogleApiClient;
@@ -53,30 +68,24 @@ public class StorePickerActivity extends ActionBarActivity implements
 
         if (savedInstanceState == null) {
             activate_list_fragment();
-
-
         }
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(LocationServices.API)
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this).build();
+        populate_list();
+        Log.i("ZZZZZZZ", "onCreate");
 
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_store_picker_map, menu);
-        return false;
-//        return super.onCreateOptionsMenu();
-    }
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        return false;
+//    }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
@@ -90,22 +99,14 @@ public class StorePickerActivity extends ActionBarActivity implements
         return super.onOptionsItemSelected(item);
     }
 
-    private StorePickerMapFragment getMapStoreFragment() {
+    private MapFragment getMapStoreFragment() {
         if (fgMapStoreFragment != null) return fgMapStoreFragment;
-
-//        private StorePickerMapFragment mapFragment;
-         fgMapStoreFragment = new StorePickerMapFragment();
-
-        fgMapStoreFragment.getMapAsync(new OnMapReadyCallback() {
-            @Override
-            public void onMapReady(GoogleMap map) {
-                loadMap(map);
-            }
-        });
+        fgMapStoreFragment = new MapFragment();
+        fgMapStoreFragment.getMapAsync(this);
         return fgMapStoreFragment;
-//        return fgMapStoreFragment = new StorePickerMapFragment();
     }
-    protected void loadMap(GoogleMap googleMap) {
+
+    public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
         if (map != null) {
             // Map is ready
@@ -121,20 +122,20 @@ public class StorePickerActivity extends ActionBarActivity implements
             // Attach long click listener to the map here
 //            map.setOnMapLongClickListener(this);
 //            map.setInfoWindowAdapter(new CustomWindowAdapter(getLayoutInflater()));
-reconnect();
-//            connectClient();
+        reconnect();
+
         } else {
             Toast.makeText(this, "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
     }
-    private StorePickerPagerFragment getPagerStoreFragment() {
+    private PagerFragment getPagerStoreFragment() {
         if (fgPagerStoreFragment != null) return fgPagerStoreFragment;
-        return fgPagerStoreFragment = new StorePickerPagerFragment();
+        return fgPagerStoreFragment = new PagerFragment();
     }
 
-    private StorePickerListFragment getListStoreFragment() {
+    private ListFragment getListStoreFragment() {
         if (fgListStoreFragment != null) return fgListStoreFragment;
-        return fgListStoreFragment = new StorePickerListFragment();
+        return fgListStoreFragment = new ListFragment();
     }
 
     private void activate_map_and_pager_fragments() {
@@ -143,7 +144,6 @@ reconnect();
         getMapStoreFragment().setMenuVisibility(true);
         ft.replace(R.id.flContainer, getMapStoreFragment());
         ft.add(R.id.flContainer, getPagerStoreFragment());
-
         ft.commit();
     }
 
@@ -154,7 +154,6 @@ reconnect();
         ft.remove(getPagerStoreFragment());
         ft.replace(R.id.flContainer, getListStoreFragment());
         ft.commit();
-
     }
 
     public void reconnect() {
@@ -163,18 +162,21 @@ reconnect();
         }
     }
 
-    /*
-     * Called when the Activity becomes visible.
-    */
     @Override
     protected void onStart() {
         super.onStart();
+        Log.i("ZZZZZZZ", "onStart");
         reconnect();
+
     }
 
-    /*
-     * Called when the Activity is no longer visible.
-	 */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("ZZZZZZZ", "onResume");
+        populate_list();
+    }
+
     @Override
     protected void onStop() {
         // Disconnecting the client invalidates it.
@@ -236,23 +238,50 @@ reconnect();
     public void onConnected(Bundle bundle) {
         Log.i("ZZZZZZ", "Connected");
 //        Toast.makeText(this, "Connected", Toast.LENGTH_SHORT).show();
+populate_list();
+//        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+//        if (location != null) {
+//            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+//            Log.i("ZZZZZZ", latLng.toString());
+//    populate_list();
+//        } else {
+//            Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
+//        }
+
+    }
+
+    private LatLng currentlatLng(){
+        if(!mGoogleApiClient.isConnected()){
+            Log.i("ZZZZZZZ", "No lat lon,  not yet connected");
+            return null;
+        }
+        Log.i("ZZZZZZZ", "we are connected, looking for latlng");
 
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location != null) {
+        if(location!=null){
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
             Log.i("ZZZZZZ", latLng.toString());
-            getListStoreFragment().notifyNewData(FakeDataSource.nearby_stores(latLng));
-//            getMapStoreFragment().notifyNewData(FakeDataSource.nearby_stores(latLng));
-//            aaStores.addAll(FakeDataSource.nearby_stores(latLng));
-        } else {
+            return latLng;
+        }else{
             Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
+            return null;
         }
+    }
 
+    private void populate_list() {
+        LatLng ll = currentlatLng();
+        if (ll != null) {
+            stores = FakeDataSource.nearby_stores(currentlatLng());
+            Log.i("ZZZZZZZ", "store list: " + stores.size());
+            getListStoreFragment().notifyNewData(stores);
+            Bundle b = new Bundle();
+            b.putSerializable("stores", stores);
+            getPagerStoreFragment().setArguments(b);
+        }
     }
 
     @Override
     public void onConnectionSuspended(int i) {
-        Log.i("ZZZZZZ", "Connection Suspended");
         if (i == CAUSE_SERVICE_DISCONNECTED) {
             Toast.makeText(this, "Disconnected. Please re-connect.", Toast.LENGTH_SHORT).show();
         } else if (i == CAUSE_NETWORK_LOST) {
@@ -262,8 +291,6 @@ reconnect();
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-        Log.i("ZZZZZZ", "Connection Failed");
-//        Toast.makeText(this, "Connection Failed", Toast.LENGTH_SHORT).show();
 
 		/*
 		 * Google Play services can resolve some errors it detects. If the error
@@ -291,10 +318,26 @@ reconnect();
 
     @Override
     public void onNewMapTarget(int index) {
-        activate_map_and_pager_fragments();
-        fgPagerStoreFragment.setMapTarget(index);
-    }
+//        fgPagerStoreFragment.setMapTarget(index);
+        Log.i("ZZZZZZZ", "store list: "+ stores.size());
+        final LatLng latLng = new LatLng(stores.get(index).getLat(),stores.get(index).getLon());
+//        getMapStoreFragment().setInitialMapTarget(latLng);
+        getMapStoreFragment().getMapAsync(
+               new OnMapReadyCallback(){
+                   @Override
+                   public void onMapReady(GoogleMap googleMap) {
+                       Log.i("ZZZZZZZ", "camera update: "+ latLng.toString());
 
+                       CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+                       map.animateCamera(cameraUpdate);
+                   }
+               }
+        );
+    }
+    @Override
+    public void onMapsRequired() {
+        activate_map_and_pager_fragments();
+    }
     // Define a DialogFragment that displays the error dialog
     public static class ErrorDialogFragment extends DialogFragment {
 

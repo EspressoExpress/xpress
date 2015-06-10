@@ -1,4 +1,4 @@
-package us.ridiculousbakery.espressoexpress.StorePicker;
+package us.ridiculousbakery.espressoexpress.StorePicker.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +17,7 @@ import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.MenuA
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.StorePickerActivity;
 
 /**
  * Created by bkuo on 6/8/15.
@@ -70,6 +71,8 @@ public class StoreListAdapter extends ArrayAdapter<Store> {
                     public void onClick(View view) {
                         if(mapTargetListener!=null){
                             Log.i("ZZZZZZZ", "onNewMapTArget: "+position);
+                            mapTargetListener.onMapsRequired();
+
                             mapTargetListener.onNewMapTarget(position);
                         }
 
@@ -102,5 +105,6 @@ public class StoreListAdapter extends ArrayAdapter<Store> {
     }
     public interface MapTargetListener{
         public void onNewMapTarget(int index);
+        public void onMapsRequired();
     }
 }

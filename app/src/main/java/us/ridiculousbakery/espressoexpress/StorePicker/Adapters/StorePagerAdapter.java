@@ -1,4 +1,4 @@
-package us.ridiculousbakery.espressoexpress.StorePicker;
+package us.ridiculousbakery.espressoexpress.StorePicker.Adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -48,13 +48,16 @@ public class StorePagerAdapter extends PagerAdapter {
         return view == mBindedViews.get(mItems.indexOf(object));
     }
 
-    public StorePagerAdapter(Context context, int viewRes) {
+    public StorePagerAdapter(Context context) {
         mCtx = context;
         mItems = new ArrayList<Store>();
         mInflator = LayoutInflater.from(context);
-        mResourceId = viewRes;
+        mResourceId = R.layout.store_item;
     }
-
+    public StorePagerAdapter(Context context, ArrayList<Store> list) {
+        this(context);
+        addAll(list);
+    }
     public void add(Store item) {
         mItems.add(item);
     }
@@ -102,6 +105,7 @@ public class StorePagerAdapter extends PagerAdapter {
             }
         });
     }
+
 
     public void addAll(ArrayList<Store> stores) {
         for(int i = 0; i< stores.size(); i++ ){
