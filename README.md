@@ -27,4 +27,4 @@ Coffee requesters will select a nearby cafe and place a standing order.  The ord
 * [ ] Users may rate their counterparties
 * [ ] Users may receive receipts / earnings advices through push notification.
 
-<img src='mockup.png' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='walkthrough_v0.mp4' title='Video Walkthrough' width='' alt='Video Walkthrough' />
