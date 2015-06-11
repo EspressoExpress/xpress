@@ -62,6 +62,8 @@ public class StoreListAdapter extends ArrayAdapter<Store> {
             public void onClick(View v) {
                 Intent i = new Intent(getContext(), MenuActivity.class);
                 i.putExtra("menu", new StoreMenu(true));
+                i.putExtra("store", store);
+
                 getContext().startActivity(i);
             }
         });

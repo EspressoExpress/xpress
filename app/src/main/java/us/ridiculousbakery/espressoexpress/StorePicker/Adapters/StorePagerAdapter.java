@@ -90,7 +90,7 @@ public class StorePagerAdapter extends PagerAdapter {
         }
     }
 
-    private void initView(View v, Store item, int position) {
+    private void initView(View v, final Store item, int position) {
         Log.i("ZZZZZZ", "initView: position:" + position + " store item " + item.getName());
         ((TextView)v.findViewById(R.id.tvName)).setText(item.getName());
         ((ImageView)v.findViewById(R.id.ivLogo)).setImageDrawable(mCtx.getResources().getDrawable(item.getLogo()));
@@ -101,6 +101,7 @@ public class StorePagerAdapter extends PagerAdapter {
             public void onClick(View v) {
                 Intent i = new Intent(mCtx, MenuActivity.class);
                 i.putExtra("menu", new StoreMenu(true));
+                i.putExtra("store", item);
                 mCtx.startActivity(i);
             }
         });
