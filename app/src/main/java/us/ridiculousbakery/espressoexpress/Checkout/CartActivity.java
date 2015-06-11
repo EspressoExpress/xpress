@@ -1,5 +1,6 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -24,12 +25,14 @@ public class CartActivity extends ActionBarActivity implements CartFragment.OnIt
         getSupportActionBar().hide();
         setContentView(R.layout.activity_cart);
         //create fake order
+
         Order order = new Order();
         order.setStore(new Store("Starbucks"));
         ArrayList<LineItem> orderItems = new ArrayList<>();
         orderItems.add(new LineItem(new Item("Latte")));
         orderItems.add(new LineItem(new Item("Frapp")));
         order.setLineItems(orderItems);
+        (new Intent()).putExtra("order", order);
         if (savedInstanceState == null) {
             // Create order fragment
             CartFragment cartFragment = CartFragment.newInstance(order);
