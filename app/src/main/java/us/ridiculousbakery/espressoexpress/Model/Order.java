@@ -9,17 +9,37 @@ import java.util.ArrayList;
  * Created by bkuo on 6/3/15.
  */
 public class Order implements Serializable{
-    public Order(String username, LatLng loc){
-        this.latLng=loc;
+    public Order(String username, LatLng latlng){
+        this.lon = latlng.longitude;
+        this.lat = latlng.latitude;
         this.user= new User(username);
     }
+    public Order(){};
 
     private ArrayList<LineItem> lineItems;
 
-    private LatLng latLng;
+    private Double lon;
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public void setLat(Double lat) {
+        this.lat = lat;
+    }
+
+    public Double getLon() {
+        return lon;
+    }
+
+    public void setLon(Double lon) {
+        this.lon = lon;
+    }
+
+    private Double lat;
 
     public LatLng getLatLng() {
-        return latLng;
+        return new LatLng(lat, lon);
     }
 
     private long valid_until;

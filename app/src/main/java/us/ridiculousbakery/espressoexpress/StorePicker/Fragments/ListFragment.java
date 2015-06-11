@@ -1,17 +1,17 @@
 package us.ridiculousbakery.espressoexpress.StorePicker.Fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ListView;
-
-import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 
@@ -25,40 +25,67 @@ import us.ridiculousbakery.espressoexpress.StorePicker.Adapters.StoreListAdapter
 public class ListFragment extends Fragment {
 
 
-    private GoogleApiClient mGoogleApiClient;
     private ListView lv;
-    private ArrayAdapter<Store> aaStores;
+    private StoreListAdapter aaStores;
+    private ArrayList<Store> stores;
+    private ListListener listListener;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
+        stores = (ArrayList<Store>) getArguments().getSerializable("stores");
+        aaStores = new StoreListAdapter(getActivity(), stores, (StoreListAdapter.ListItemListener) getActivity());
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        listListener = (ListListener) activity;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_stores_list, container, false);
-
+        setMenuVisibility(true);
         lv = (ListView) v.findViewById(R.id.lvStores);
-        if(aaStores == null) aaStores = new StoreListAdapter(getActivity());
+        if (savedInstanceState == null) {
+            Log.i("ZZZZZZZ", "aaStores " + aaStores.toString());
+            lv.setAdapter(aaStores);
+            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Log.i("ZZZZZZZ", "clicked animateToNewMapTarget: " + position);
+                    listListener.onMapsRequired();
+                    listListener.onNewMapTarget(position);
 
-        lv.setAdapter(aaStores);
+                }
 
-
-//        aaStores.addAll(FakeDataSource.nearby_stores(new LatLng(2, 2)));
-
+            });
+        }
         return v;
     }
-    public void notifyNewData(ArrayList<Store>stores){
-        if( aaStores!=null){
-            aaStores.clear(); aaStores.addAll(stores);
-        }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        setMenuVisibility(true);
+      Log.i("ZZZZZZZZ", "SHOWING MENU") ;
+        super.onViewCreated(view, savedInstanceState);
     }
+
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.menu_store_picker_list,menu);
+        inflater.inflate(R.menu.menu_store_picker_list, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
+
+    public interface ListListener {
+        public void onNewMapTarget(int index);
+
+        public void onMapsRequired();
+    }
+
 }

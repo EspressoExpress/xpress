@@ -1,10 +1,9 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities;
 
 import android.content.Intent;
-import android.support.v4.app.FragmentManager;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,7 +20,7 @@ import com.parse.SignUpCallback;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.LoginFragment;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.SignUpFragment;
 import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.StorePicker.StorePickerActivity;
+import us.ridiculousbakery.espressoexpress.StorePicker.Activities.ListPickerActivity;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -172,7 +171,7 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     private void showInitialActivity() {
-        Intent i = new Intent(LoginActivity.this, StorePickerActivity.class);
+        Intent i = new Intent(LoginActivity.this, ListPickerActivity.class);
         startActivity(i);
     }
 }

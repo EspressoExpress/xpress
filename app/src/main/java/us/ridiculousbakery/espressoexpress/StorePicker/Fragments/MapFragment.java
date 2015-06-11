@@ -24,6 +24,7 @@ public class MapFragment extends SupportMapFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
     }
 
     @Override
@@ -34,17 +35,10 @@ public class MapFragment extends SupportMapFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        setMenuVisibility(true);
         return super.onCreateView(inflater, container, savedInstanceState);
-//        if(initialMapTarget!=null){
-//            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(initialMapTarget, 17);
-//            getMap().animateCamera(cameraUpdate);
-//        }
     }
 
-    public void setInitialMapTarget(LatLng latLng) {
-        initialMapTarget = latLng;
-
-    }
 
 
 }

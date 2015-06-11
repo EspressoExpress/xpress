@@ -1,9 +1,11 @@
 package us.ridiculousbakery.espressoexpress.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by bkuo on 6/3/15.
  */
-public class User {
+public class User implements Serializable {
     public User(String user){
         this.name = user;
     }

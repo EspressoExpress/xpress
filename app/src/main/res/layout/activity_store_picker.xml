@@ -9,6 +9,9 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/flContainer"></FrameLayout>
+        android:id="@+id/flContainer">
+
+    </FrameLayout>
+
 
 </RelativeLayout>

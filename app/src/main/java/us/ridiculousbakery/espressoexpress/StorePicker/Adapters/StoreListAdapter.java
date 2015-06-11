@@ -1,8 +1,6 @@
 package us.ridiculousbakery.espressoexpress.StorePicker.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,29 +9,20 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
-import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.MenuActivity;
 import us.ridiculousbakery.espressoexpress.Model.Store;
-import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.StorePicker.StorePickerActivity;
 
 /**
  * Created by bkuo on 6/8/15.
  */
 public class StoreListAdapter extends ArrayAdapter<Store> {
-    private MapTargetListener mapTargetListener;
+    private ListItemListener listListener;
 
-    public StoreListAdapter(Context context){
-        super(context, R.layout.store_item);
-        mapTargetListener=(StorePickerActivity)context;
-    }
-    public StoreListAdapter(Context context, int resource, List<Store> objects) {
-        super(context, resource, objects);
-    }
-    public void setMapTargetListener(MapTargetListener m){
-        mapTargetListener = m;
+    public StoreListAdapter(Context context, ArrayList<Store> stores, ListItemListener listener){
+        super(context, R.layout.store_item, stores);
+        listListener =listener;
     }
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
@@ -47,8 +36,8 @@ public class StoreListAdapter extends ArrayAdapter<Store> {
             viewholder.btnRequest = (Button) convertView.findViewById(R.id.btnRequest);
             viewholder.btnDeliver = (Button) convertView.findViewById(R.id.btnDeliver);
             viewholder.vgStoreItem = (ViewGroup) convertView.findViewById(R.id.vgStoreItem);
-
             convertView.setTag(viewholder);
+
 
         } else {
             viewholder = (ViewHolder) convertView.getTag();
@@ -60,39 +49,11 @@ public class StoreListAdapter extends ArrayAdapter<Store> {
         viewholder.btnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getContext(), MenuActivity.class);
-                i.putExtra("menu", new StoreMenu(true));
-                i.putExtra("store", store);
-
-                getContext().startActivity(i);
+                listListener.gotoMenu(store);
             }
         });
-        viewholder.vgStoreItem.setOnClickListener(
-                new View.OnClickListener(){
-                    @Override
-                    public void onClick(View view) {
-                        if(mapTargetListener!=null){
-                            Log.i("ZZZZZZZ", "onNewMapTArget: "+position);
-                            mapTargetListener.onMapsRequired();
-
-                            mapTargetListener.onNewMapTarget(position);
-                        }
-
-                    }
-                }
 
 
-
-        );
-//        viewholder.btnDeliver.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent i = new Intent(getContext(), TweetDetailActivity.class);
-//                i.putExtra("user", tweet.getUser());
-//                i.putExtra("tweet", tweet);
-//                getContext().startActivity(i);
-//            }
-//        });
 //        Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(viewholder.ivProfileImage);
 //
         return convertView;
@@ -105,8 +66,10 @@ public class StoreListAdapter extends ArrayAdapter<Store> {
         public Button btnDeliver;
         public Button btnRequest;
     }
-    public interface MapTargetListener{
-        public void onNewMapTarget(int index);
-        public void onMapsRequired();
+    public interface ListItemListener {
+
+        public void gotoMenu(Store store);
     }
+
+
 }

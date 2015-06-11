@@ -11,7 +11,7 @@ import com.parse.ParseUser;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.LoginActivity;
 import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.StorePicker.StorePickerActivity;
+import us.ridiculousbakery.espressoexpress.StorePicker.Activities.ListPickerActivity;
 
 public class EntryActivity extends ActionBarActivity {
 
@@ -49,7 +49,7 @@ public class EntryActivity extends ActionBarActivity {
             String activity = LoginActivity.class.getName();
             return activity;
         } else {
-            String activity = StorePickerActivity.class.getName();
+            String activity = ListPickerActivity.class.getName();
             return activity;
         }
     }

@@ -1,7 +1,6 @@
 package us.ridiculousbakery.espressoexpress.StorePicker.Adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.util.Log;
 import android.util.SparseArray;
@@ -15,9 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.MenuActivity;
 import us.ridiculousbakery.espressoexpress.Model.Store;
-import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
 
 
@@ -29,41 +26,34 @@ public class StorePagerAdapter extends PagerAdapter {
     private final List<View> mDiscardedViews = new ArrayList<View>();
     // Views that are already in use.
     private final SparseArray<View> mBindedViews = new SparseArray<View>();
-
-    private final ArrayList<Store> mItems;
+    private ArrayList<Store> stores;
     private final LayoutInflater mInflator;
     private final int mResourceId;
     private final Context mCtx;
+    private PagerItemListener pagerListener;
     private Button btnRequest;
     private Button btnDeliver;
 
 
     @Override
     public int getCount() {
-        return mItems.size();
+        return stores.size();
     }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == mBindedViews.get(mItems.indexOf(object));
+        return view == mBindedViews.get(stores.indexOf(object));
     }
 
     public StorePagerAdapter(Context context) {
         mCtx = context;
-        mItems = new ArrayList<Store>();
         mInflator = LayoutInflater.from(context);
         mResourceId = R.layout.store_item;
     }
-    public StorePagerAdapter(Context context, ArrayList<Store> list) {
+    public StorePagerAdapter(Context context, ArrayList<Store> list, PagerItemListener listener) {
         this(context);
-        addAll(list);
-    }
-    public void add(Store item) {
-        mItems.add(item);
-    }
-
-    public Store remove(int position) {
-        return mItems.remove(position);
+        stores = list;
+        pagerListener = listener;
     }
 
     @Override
@@ -72,7 +62,7 @@ public class StorePagerAdapter extends PagerAdapter {
                 mInflator.inflate(mResourceId, container, false) :
                 mDiscardedViews.remove(0);
 
-        Store data = mItems.get(position);
+        Store data = stores.get(position);
         initView(child, data, position);
 
         mBindedViews.append(position, child);
@@ -99,24 +89,18 @@ public class StorePagerAdapter extends PagerAdapter {
         btnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(mCtx, MenuActivity.class);
-                i.putExtra("menu", new StoreMenu(true));
-                i.putExtra("store", item);
-                mCtx.startActivity(i);
+                pagerListener.gotoMenu(item);
             }
         });
     }
 
 
     public void addAll(ArrayList<Store> stores) {
-        for(int i = 0; i< stores.size(); i++ ){
-            add(stores.get(i));
-        }
+        this.stores = stores;
         notifyDataSetChanged();
     }
 
-    public void clear() {
-        mItems.clear();
+    public interface PagerItemListener {
+        public void gotoMenu(Store store);
     }
-
 }
