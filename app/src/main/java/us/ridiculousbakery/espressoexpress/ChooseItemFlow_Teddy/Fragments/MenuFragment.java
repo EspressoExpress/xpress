@@ -11,14 +11,10 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import org.apache.http.Header;
-import org.json.JSONObject;
-
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.MenuAdapter;
 import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
-import us.ridiculousbakery.espressoexpress.Model.User;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -37,7 +33,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     public static MenuFragment newInstance(StoreMenu storeMenu) {
         MenuFragment fragment = new MenuFragment();
         Bundle args = new Bundle();
-        args.putParcelable("menu", storeMenu);
+        args.putSerializable("menu", storeMenu);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,7 +45,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        storeMenu = getArguments().getParcelable("menu");
+        storeMenu = (StoreMenu) getArguments().getSerializable("menu");
         storeMenu = new StoreMenu(true);
         aMenu = new MenuAdapter(getActivity(), storeMenu);
     }

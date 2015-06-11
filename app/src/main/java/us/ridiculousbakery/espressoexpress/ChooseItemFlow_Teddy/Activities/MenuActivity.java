@@ -19,7 +19,7 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         if (savedInstanceState == null) {
             // Get Menu
-            StoreMenu storeMenu = (StoreMenu) getIntent().getParcelableExtra("menu");
+            StoreMenu storeMenu = (StoreMenu) getIntent().getSerializableExtra("menu");
             MenuFragment fragmentMenu = MenuFragment.newInstance(storeMenu);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContainer, fragmentMenu);
