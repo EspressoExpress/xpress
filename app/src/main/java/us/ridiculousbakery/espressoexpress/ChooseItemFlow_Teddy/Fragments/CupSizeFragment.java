@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.MenuAdapter;
@@ -25,10 +26,10 @@ public class CupSizeFragment extends Fragment implements View.OnClickListener {
 
     private OnSizeSelectedListener listener;
 
-    private Button btnSmall;
-    private Button btnMedium;
-    private Button btnLarge;
-    private Button btnXLarge;
+    private ImageButton ibSmall;
+    private ImageButton ibMedium;
+    private ImageButton ibLarge;
+    private ImageButton ibXLarge;
 
     public interface OnSizeSelectedListener {
         public void onCupSizeSelected();
@@ -63,15 +64,15 @@ public class CupSizeFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_cup_size, container, false);
-        btnSmall = (Button) v.findViewById(R.id.btnSmall);
-        btnMedium = (Button) v.findViewById(R.id.btnMedium);
-        btnLarge = (Button) v.findViewById(R.id.btnLarge);
-        btnXLarge = (Button) v.findViewById(R.id.btnXLarge);
+        ibSmall = (ImageButton) v.findViewById(R.id.ibSmall);
+        ibMedium = (ImageButton) v.findViewById(R.id.ibMedium);
+        ibLarge = (ImageButton) v.findViewById(R.id.ibLarge);
+        ibXLarge = (ImageButton) v.findViewById(R.id.ibXLarge);
 
-        btnSmall.setOnClickListener(this);
-        btnMedium.setOnClickListener(this);
-        btnLarge.setOnClickListener(this);
-        btnXLarge.setOnClickListener(this);
+        ibSmall.setOnClickListener(this);
+        ibMedium.setOnClickListener(this);
+        ibLarge.setOnClickListener(this);
+        ibXLarge.setOnClickListener(this);
 
         return v;
     }
@@ -83,13 +84,13 @@ public class CupSizeFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        if (view == btnSmall) {
+        if (view == ibSmall) {
             listener.onCupSizeSelected();
-        } else if (view == btnMedium) {
+        } else if (view == ibMedium) {
             listener.onCupSizeSelected();
-        } else if (view == btnLarge) {
+        } else if (view == ibLarge) {
             listener.onCupSizeSelected();
-        } else if (view == btnXLarge) {
+        } else if (view == ibXLarge) {
             listener.onCupSizeSelected();
         }
     }
