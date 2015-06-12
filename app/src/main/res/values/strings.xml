@@ -8,4 +8,6 @@
     <string name="map_of_stores">Choose from map</string>
     <string name="title_activity_menu">MenuActivity</string>
     <string name="title_activity_cart">CartActivity</string>
+    <string name="title_activity_tutorial">TutorialActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
 </resources>
