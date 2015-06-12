@@ -21,7 +21,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptor;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import us.ridiculousbakery.espressoexpress.R;
 
@@ -38,7 +42,7 @@ public class AddressMapFragment extends DialogFragment implements
     private GoogleMap map;
     private GoogleApiClient mGoogleApiClient;
     private LocationRequest mLocationRequest;
-
+    private Marker locationMarker;
     private Button btSelectAddress;
 
     public AddressMapFragment() {
@@ -88,7 +92,6 @@ public class AddressMapFragment extends DialogFragment implements
     protected void loadMap(GoogleMap googleMap) {
         map = googleMap;
         if (map != null) {
-            // Map is ready
             //Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
             map.setMyLocationEnabled(true);
             //map.setOnMapLongClickListener(this);
@@ -110,8 +113,9 @@ public class AddressMapFragment extends DialogFragment implements
         if (location != null) {
             Toast.makeText(getActivity(), "GPS location was found!", Toast.LENGTH_SHORT).show();
             LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
             map.animateCamera(cameraUpdate);
+            updateMarker(latLng);
             startLocationUpdates();
         } else {
             Toast.makeText(getActivity(), "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
@@ -119,11 +123,21 @@ public class AddressMapFragment extends DialogFragment implements
     }
 
     protected void startLocationUpdates() {
+        //Toast.makeText(getActivity(), "start location updates", Toast.LENGTH_SHORT).show();
         mLocationRequest = new LocationRequest();
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        /*mLocationRequest.setInterval(UPDATE_INTERVAL);
-        mLocationRequest.setFastestInterval(FASTEST_INTERVAL);*/
+        //mLocationRequest.setInterval(UPDATE_INTERVAL);
+        //mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
         LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
+    }
+
+    private void updateMarker(LatLng latLng){
+        if (locationMarker == null) {
+            BitmapDescriptor defaultMarkerIcon =
+                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+            locationMarker = map.addMarker((new MarkerOptions()).position(latLng).icon(defaultMarkerIcon));
+        }
+        locationMarker.setPosition(latLng);
     }
 
     @Override
@@ -142,7 +156,7 @@ public class AddressMapFragment extends DialogFragment implements
 
     @Override
     public void onLocationChanged(Location location) {
-
+        Toast.makeText(getActivity(), "on location changed", Toast.LENGTH_SHORT).show();
     }
 
 
