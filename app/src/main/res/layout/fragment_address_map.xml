@@ -22,10 +22,19 @@
             android:id="@+id/btSelectAddress"
             android:text="done"/>
         </LinearLayout>
-
         <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <FrameLayout
                 android:id="@+id/addressMapView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
+            </FrameLayout>
+            <View
+                android:id="@+id/mapOverlay"
+                android:background="@android:color/transparent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"></View>
         </FrameLayout>
+
 </LinearLayout>
