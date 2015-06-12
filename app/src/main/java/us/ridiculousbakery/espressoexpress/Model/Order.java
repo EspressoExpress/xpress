@@ -1,5 +1,7 @@
 package us.ridiculousbakery.espressoexpress.Model;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -7,10 +9,19 @@ import java.util.ArrayList;
  * Created by bkuo on 6/3/15.
  */
 public class Order implements Serializable{
+    public Order(String username, LatLng loc){
+        this.latLng=loc;
+        this.user= new User(username);
+    }
 
     private ArrayList<LineItem> lineItems;
-    private Double lon;
-    private Double lat;
+
+    private LatLng latLng;
+
+    public LatLng getLatLng() {
+        return latLng;
+    }
+
     private long valid_until;
     private long created_at;
     private Store store;
@@ -20,13 +31,6 @@ public class Order implements Serializable{
         return lineItems;
     }
 
-    public Double getLon() {
-        return lon;
-    }
-
-    public Double getLat() {
-        return lat;
-    }
 
     public long getValid_until() {
         return valid_until;
@@ -48,13 +52,6 @@ public class Order implements Serializable{
         this.lineItems = lineItems;
     }
 
-    public void setLon(Double lon) {
-        this.lon = lon;
-    }
-
-    public void setLat(Double lat) {
-        this.lat = lat;
-    }
 
     public void setValid_until(long valid_until) {
         this.valid_until = valid_until;
