@@ -26,13 +26,16 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".StorePicker.StorePickerActivity"
-            android:label="@string/app_name" >
+            android:name=".ChooseItemFlow_Teddy.EntryActivity"
+            android:label="@string/title_activity_entry" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".StorePicker.StorePickerActivity"
+            android:label="@string/app_name" >
         </activity>
 
         <uses-library
@@ -51,12 +54,13 @@
             android:label="@string/title_activity_menu" />
         <activity
             android:name=".Checkout.CartActivity"
-            android:label="@string/title_activity_cart">
+            android:label="@string/title_activity_cart" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-            </activity>
+        </activity>
             android:label="@string/title_activity_cart" />
         <activity
             android:name=".ChooseItemFlow_Teddy.Activities.TutorialActivity"
