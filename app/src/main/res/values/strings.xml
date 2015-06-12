@@ -10,4 +10,7 @@
     <string name="title_activity_cart">CartActivity</string>
     <string name="title_activity_tutorial">TutorialActivity</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="hint_email">email</string>
+    <string name="hint_password">password</string>
+    <string name="hint_username">username</string>
 </resources>
