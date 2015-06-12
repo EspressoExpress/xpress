@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -23,6 +22,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -35,13 +35,13 @@ import us.ridiculousbakery.espressoexpress.R;
 public class AddressMapFragment extends DialogFragment implements
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener,
-        com.google.android.gms.location.LocationListener
+        GoogleMap.OnCameraChangeListener
 {
 
     private SupportMapFragment mapFragment;
     private GoogleMap map;
     private GoogleApiClient mGoogleApiClient;
-    private LocationRequest mLocationRequest;
+    //private LocationRequest mLocationRequest;
     private Marker locationMarker;
     private Button btSelectAddress;
 
@@ -94,7 +94,7 @@ public class AddressMapFragment extends DialogFragment implements
         if (map != null) {
             //Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
             map.setMyLocationEnabled(true);
-            //map.setOnMapLongClickListener(this);
+            map.setOnCameraChangeListener(this);
             // Now that map has loaded, let's get our location!
             mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
                     .addApi(LocationServices.API)
@@ -116,20 +116,12 @@ public class AddressMapFragment extends DialogFragment implements
             CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
             map.animateCamera(cameraUpdate);
             updateMarker(latLng);
-            startLocationUpdates();
+            //startLocationUpdates();
         } else {
             Toast.makeText(getActivity(), "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    protected void startLocationUpdates() {
-        //Toast.makeText(getActivity(), "start location updates", Toast.LENGTH_SHORT).show();
-        mLocationRequest = new LocationRequest();
-        mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
-        //mLocationRequest.setInterval(UPDATE_INTERVAL);
-        //mLocationRequest.setFastestInterval(FASTEST_INTERVAL);
-        LocationServices.FusedLocationApi.requestLocationUpdates(mGoogleApiClient, mLocationRequest, this);
-    }
 
     private void updateMarker(LatLng latLng){
         if (locationMarker == null) {
@@ -154,10 +146,54 @@ public class AddressMapFragment extends DialogFragment implements
 
     }
 
+    //have moveable marker effect but jerky
     @Override
-    public void onLocationChanged(Location location) {
-        Toast.makeText(getActivity(), "on location changed", Toast.LENGTH_SHORT).show();
+    public void onCameraChange(CameraPosition cameraPosition) {
+            Toast.makeText(getActivity(), "on cam change", Toast.LENGTH_SHORT).show();
+        if(locationMarker != null) {
+            locationMarker.remove();
+        }
+        locationMarker = null;
+        updateMarker(cameraPosition.target);
     }
+
+
+    /*public void animateMarker(final Marker marker, final LatLng toPosition,
+                              final boolean hideMarker) {
+        final Handler handler = new Handler();
+        final long start = SystemClock.uptimeMillis();
+        Projection proj = mGoogleMapObject.getProjection();
+        Point startPoint = proj.toScreenLocation(marker.getPosition());
+        final LatLng startLatLng = proj.fromScreenLocation(startPoint);
+        final long duration = 500;
+
+        final Interpolator interpolator = new LinearInterpolator();
+
+        handler.post(new Runnable() {
+            @Override
+            public void run() {
+                long elapsed = SystemClock.uptimeMillis() - start;
+                float t = interpolator.getInterpolation((float) elapsed
+                        / duration);
+                double lng = t * toPosition.longitude + (1 - t)
+                        * startLatLng.longitude;
+                double lat = t * toPosition.latitude + (1 - t)
+                        * startLatLng.latitude;
+                marker.setPosition(new LatLng(lat, lng));
+
+                if (t < 1.0) {
+                    // Post again 16ms later.
+                    handler.postDelayed(this, 16);
+                } else {
+                    if (hideMarker) {
+                        marker.setVisible(false);
+                    } else {
+                        marker.setVisible(true);
+                    }
+                }
+            }
+        });
+    }*/
 
 
 }
