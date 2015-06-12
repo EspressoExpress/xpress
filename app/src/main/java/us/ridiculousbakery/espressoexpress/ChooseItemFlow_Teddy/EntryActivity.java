@@ -42,6 +42,8 @@ public class EntryActivity extends ActionBarActivity {
         // NOTE - Place logic here to determine which screen to show next
         // Default is used in this demo code
         // Check for current user
+        ParseUser.logOut();
+
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser == null) {
             String activity = LoginActivity.class.getName();

@@ -1,5 +1,6 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
@@ -19,6 +21,7 @@ import com.parse.SignUpCallback;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.LoginFragment;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.SignUpFragment;
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.StorePickerActivity;
 
 public class LoginActivity extends ActionBarActivity {
 
@@ -29,6 +32,8 @@ public class LoginActivity extends ActionBarActivity {
     private Button btnSwitchLogin;
     private Button btnAuthenticate;
 
+    private ProgressBar pbLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +41,7 @@ public class LoginActivity extends ActionBarActivity {
 
         btnSwitchLogin = (Button) findViewById(R.id.btnSwithLogin);
         btnAuthenticate = (Button) findViewById(R.id.btnAuthenticate);
+        pbLogin = (ProgressBar) findViewById(R.id.pbLogin);
 
         if (savedInstanceState == null) {
             signUpFragment = new SignUpFragment();
@@ -46,6 +52,8 @@ public class LoginActivity extends ActionBarActivity {
 
         btnSwitchLogin.setText("Switch to Login");
         btnAuthenticate.setText("Authenticate");
+
+        pbLogin.setVisibility(ProgressBar.INVISIBLE);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.flContainer, signUpFragment);
@@ -124,17 +132,19 @@ public class LoginActivity extends ActionBarActivity {
         EditText etUsername = (EditText) findViewById(R.id.etUsername);
 
 
-
         if (isShowingLogin) {
 
             // Show spinner UI
+            pbLogin.setVisibility(ProgressBar.VISIBLE);
             ParseUser.logInInBackground(etEmail.getText().toString(), etPassword.getText().toString(), new LogInCallback() {
                 @Override
                 public void done(ParseUser parseUser, ParseException e) {
+                    pbLogin.setVisibility(ProgressBar.INVISIBLE);
                     if (parseUser != null) {
-
+                        Log.d("DEBUG", "LOGGEDIN");
+                        showInitialActivity();
                     } else {
-                        // Display parse exception
+                        Log.d("DEBUG", e.toString());
                     }
                 }
             });
@@ -145,18 +155,24 @@ public class LoginActivity extends ActionBarActivity {
             user.setPassword(etPassword.getText().toString());
             user.put("displayName", etUsername.getText().toString());
             // Show spinner UI
+            pbLogin.setVisibility(ProgressBar.VISIBLE);
             user.signUpInBackground(new SignUpCallback() {
                 @Override
                 public void done(ParseException e) {
+                    pbLogin.setVisibility(ProgressBar.INVISIBLE);
                     if (e == null) {
-                        // Login to new activity
+                        Log.d("DEBUG", "LOGGEDIN");
+                        showInitialActivity();
                     } else {
-                        // Display parse exception to user
+                        Log.d("DEBUG", e.toString());
                     }
                 }
             });
         }
+    }
 
-
+    private void showInitialActivity() {
+        Intent i = new Intent(LoginActivity.this, StorePickerActivity.class);
+        startActivity(i);
     }
 }

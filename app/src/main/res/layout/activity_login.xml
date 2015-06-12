@@ -22,7 +22,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:id="@+id/flContainer"
-        android:layout_above="@+id/button"></FrameLayout>
+        android:layout_above="@+id/btnSwithLogin"></FrameLayout>
 
     <Button
         android:layout_width="wrap_content"
@@ -43,4 +43,12 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <ProgressBar
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/pbLogin"
+        android:layout_alignBottom="@+id/btnAuthenticate"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>
