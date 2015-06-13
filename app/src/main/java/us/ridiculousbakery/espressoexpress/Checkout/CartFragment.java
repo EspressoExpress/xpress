@@ -1,6 +1,7 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
 import android.app.Activity;
+import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,6 +13,8 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -103,5 +106,13 @@ public class CartFragment extends Fragment {
             }
         });
 
+    }
+
+    public void saveAndShowAddress(LatLng latLng, Address address) {
+        if (latLng != null) {
+            order.setLat(latLng.latitude);
+            order.setLon(latLng.longitude);
+            tvAddress.setText(address.getAddressLine(0));
+        }
     }
 }

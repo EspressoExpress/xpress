@@ -49,6 +49,9 @@ public class AddressMapFragment extends DialogFragment implements
         GoogleMap.OnCameraChangeListener
 {
 
+    public interface OnSelectAddressListener {
+        void onSelectAddress(LatLng latLng, Address address);
+    }
     private SupportMapFragment mapFragment;
     private GoogleMap map;
     private GoogleApiClient mGoogleApiClient;
@@ -58,6 +61,7 @@ public class AddressMapFragment extends DialogFragment implements
     private ImageView ivMarker;
     private TextView tvAddress;
     private LatLng addressLatLng;
+    private Address address;
 
     public AddressMapFragment() {
 
@@ -84,6 +88,8 @@ public class AddressMapFragment extends DialogFragment implements
         btSelectAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                OnSelectAddressListener onSelectAddressListener = (OnSelectAddressListener) getActivity();
+                onSelectAddressListener.onSelectAddress(addressLatLng, address);
                 dismiss();
             }
         });
@@ -150,18 +156,14 @@ public class AddressMapFragment extends DialogFragment implements
             try {
                 List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
                 if (!addresses.isEmpty()) {
-                    tvAddress.setText(addressToString(addresses.get(0)));
+                    address = addresses.get(0);
+                    tvAddress.setText(address.getAddressLine(0));
                 }
             } catch (IOException e) {
                 Log.d("updateAddress: ", "can't get address from geocoder", e);
             }
         }
     }
-
-    private String addressToString(Address address) {
-        return address.getAddressLine(0);
-    }
-
 
     private void updateMarker(LatLng latLng){
         if (locationMarker == null) {

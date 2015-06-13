@@ -1,12 +1,15 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
 import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
@@ -16,8 +19,11 @@ import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
 
-public class CartActivity extends ActionBarActivity implements CartFragment.OnItemClickedListener {
+public class CartActivity extends AppCompatActivity implements
+        CartFragment.OnItemClickedListener,
+        AddressMapFragment.OnSelectAddressListener {
 
+    CartFragment cartFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +41,7 @@ public class CartActivity extends ActionBarActivity implements CartFragment.OnIt
         (new Intent()).putExtra("order", order);
         if (savedInstanceState == null) {
             // Create order fragment
-            CartFragment cartFragment = CartFragment.newInstance(order);
+            cartFragment = CartFragment.newInstance(order);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flCart, cartFragment);
             ft.commit();
@@ -77,5 +83,10 @@ public class CartActivity extends ActionBarActivity implements CartFragment.OnIt
         FragmentManager fm = getSupportFragmentManager();
         CCFormFragment ccFormFragment = CCFormFragment.newInstance();
         ccFormFragment.show(fm, "cc_form");
+    }
+
+    @Override
+    public void onSelectAddress(LatLng latLng, Address address) {
+        cartFragment.saveAndShowAddress(latLng, address);
     }
 }
