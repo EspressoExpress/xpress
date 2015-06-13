@@ -1,7 +1,9 @@
 package us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.graphics.Bitmap;
@@ -12,7 +14,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -28,6 +33,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -242,6 +248,8 @@ public class MapPickerActivity extends ActionBarActivity implements
                         public void onMapReady(GoogleMap googleMap) {
                             if(map==null) {
                                 map = googleMap;
+                                map.setMyLocationEnabled(true);
+
                                 populateMap();
                                 map.setOnMarkerClickListener(MapPickerActivity.this);
                             }
@@ -310,12 +318,6 @@ public class MapPickerActivity extends ActionBarActivity implements
             }
 
         }
-
-//        unHighlightStoreMarkers();
-//        highlightStoreMarker();
-//        dropOrderMarkers();
-//        addOrderMarkers();
-
         moveCamera(animate, latLng);
     }
 
@@ -339,7 +341,56 @@ public class MapPickerActivity extends ActionBarActivity implements
         Store store =marker2Store.get(marker);
         Order order = marker2Order.get(marker);
 //        if(store!=null) animateToStore(true, store);
+        if(order!=null) showOrderAcceptDialog(order);
         return false;
+    }
+
+    private void showOrderAcceptDialog(final Order order) {
+        View messageView = LayoutInflater.from(this).
+                inflate(R.layout.order_accept_dialog, null);
+        TextView tvUserName= (TextView) messageView.findViewById(R.id.tvOrderUserName);
+        tvUserName.setText(order.getUser().getName());
+        TextView tvTOS = (TextView) messageView.findViewById(R.id.tvTOS);
+        RoundedImageView ivLogo = (RoundedImageView) messageView.findViewById(R.id.ivLogo);
+        ivLogo.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), order.getStore().getLogo()), 100, 100, true));
+        tvTOS.setText(getResources().getString(R.string.confirmation_dialog_message, order.getUser().getName(), order.getStore().getName()));
+        // Create alert dialog builder
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        // set message_item.xml to AlertDialog builder
+        alertDialogBuilder.setView(messageView);
+
+        // Create alert dialog88888
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        // Configure dialog button (OK)
+        alertDialog.setButton(DialogInterface.BUTTON_POSITIVE, "I got it!",
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Log.i("ZZZZZZZ",  "order for "+ order.getUser().getName() + " accepted");
+                        // Define color of marker icon
+//                        BitmapDescriptor defaultMarker =
+//                                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+//                        // Extract content from alert dialog
+//                        String title = ((EditText) alertDialog.findViewById(R.id.etTitle)).
+//                                getText().toString();
+//                        String snippet = ((EditText) alertDialog.findViewById(R.id.etSnippet)).
+//                                getText().toString();
+//
+
+                    }
+                });
+
+
+        // Configure dialog button (Cancel)
+        alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+
+                        Log.i("ZZZZZZZ",  "order for "+ order.getUser().getName() + " declined");
+                        dialog.cancel(); }
+                });
+        // Display the dialog
+        alertDialog.show();
     }
 
 

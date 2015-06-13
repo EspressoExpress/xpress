@@ -51,6 +51,7 @@ public class Store implements Serializable {
         this.lat = latlng.latitude;
         this.logo=logo;
         this.orders = orders;
+        for(Order order : orders){order.setStore(this);}
     }
 
 }

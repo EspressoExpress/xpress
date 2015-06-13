@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <com.makeramen.roundedimageview.RoundedImageView xmlns:app="http://schemas.android.com/apk/res-auto"
+        app:riv_corner_radius="21dip"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:id="@+id/ivLogo"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="30dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:id="@+id/tvOrderUserName"
+        android:layout_gravity="center_horizontal"
+        android:text="Joe"
+        android:singleLine="false"
+        android:layout_alignBottom="@+id/imageView2"
+        android:layout_toRightOf="@+id/imageView2"
+        android:layout_toEndOf="@+id/imageView2"
+        android:layout_marginLeft="20dp" />
+
+    <TextView
+        android:layout_width="246dp"
+        android:layout_height="wrap_content"
+        android:text="Americano, Caramel Macchiato, Extra Hot"
+        android:id="@+id/tvItems"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16sp"
+        android:layout_marginTop="36dp"
+        android:layout_below="@+id/ivLogo"
+        android:layout_alignLeft="@+id/ivLogo"
+        android:layout_alignStart="@+id/ivLogo" />
+
+    <TextView
+        android:layout_width="246dp"
+        android:layout_height="wrap_content"
+        android:text="@string/confirmation_dialog_message"
+        android:id="@+id/tvTOS"
+        android:layout_gravity="center_horizontal"
+        android:textSize="16sp"
+        android:layout_below="@+id/tvItems"
+        android:layout_alignLeft="@+id/tvItems"
+        android:layout_alignStart="@+id/tvItems"
+        android:layout_marginTop="30dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:src="@drawable/ic_gt"
+        android:layout_alignTop="@+id/ivLogo"
+        android:layout_toRightOf="@+id/ivLogo"
+        android:layout_toEndOf="@+id/ivLogo"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp" />
+</RelativeLayout>

@@ -14,4 +14,6 @@
     <string name="hint_password">password</string>
     <string name="hint_username">username</string>
     <string name="title_activity_entry">EntryActivity</string>
+    <string name="confirmation_dialog_message" formatted="false">By confirming, you are agreeing
+        to bring %s his/her order from %s within 45 minutes. (You get your coffee for free!)</string>
 </resources>

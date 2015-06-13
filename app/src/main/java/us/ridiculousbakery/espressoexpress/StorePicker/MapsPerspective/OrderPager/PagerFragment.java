@@ -49,6 +49,7 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_stores_pager, container, false);
         viewPager = (ViewPager) rootView.findViewById(R.id.vpStores);
+
         if (savedInstanceState == null) {
             Integer position =getArguments().getInt("position");
             viewPager.setAdapter(paStores);

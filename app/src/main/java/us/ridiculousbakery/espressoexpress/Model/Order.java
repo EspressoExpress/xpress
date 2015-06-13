@@ -9,80 +9,68 @@ import java.util.ArrayList;
  * Created by bkuo on 6/3/15.
  */
 public class Order implements Serializable{
+    private ArrayList<LineItem> lineItems;
+        private Double lon;;
+    private Double lat;
+    private long valid_until;
+    private long created_at;
+    private Store store;
+    private User user;
+
     public Order(String username, LatLng latlng){
         this.lon = latlng.longitude;
         this.lat = latlng.latitude;
         this.user= new User(username);
     }
-    public Order(){};
 
-    private ArrayList<LineItem> lineItems;
-
-    private Double lon;
-
-    public Double getLat() {
-        return lat;
-    }
+public Order(){}
 
     public void setLat(Double lat) {
         this.lat = lat;
-    }
-
-    public Double getLon() {
-        return lon;
     }
 
     public void setLon(Double lon) {
         this.lon = lon;
     }
 
-    private Double lat;
-
     public LatLng getLatLng() {
         return new LatLng(lat, lon);
     }
 
-    private long valid_until;
-    private long created_at;
-    private Store store;
-    private User user;
-
     public ArrayList<LineItem> getLineItems() {
         return lineItems;
-    }
-
-
-    public long getValid_until() {
-        return valid_until;
-    }
-
-    public long getCreated_at() {
-        return created_at;
-    }
-
-    public Store getStore() {
-        return store;
-    }
-
-    public User getUser() {
-        return user;
     }
 
     public void setLineItems(ArrayList<LineItem> lineItems) {
         this.lineItems = lineItems;
     }
 
+    public long getValid_until() {
+        return valid_until;
+    }
 
     public void setValid_until(long valid_until) {
         this.valid_until = valid_until;
+    }
+
+    public long getCreated_at() {
+        return created_at;
     }
 
     public void setCreated_at(long created_at) {
         this.created_at = created_at;
     }
 
+    public Store getStore() {
+        return store;
+    }
+
     public void setStore(Store store) {
         this.store = store;
+    }
+
+    public User getUser() {
+        return user;
     }
 
     public void setUser(User user) {
