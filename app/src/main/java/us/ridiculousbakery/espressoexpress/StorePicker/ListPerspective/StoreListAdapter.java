@@ -1,4 +1,4 @@
-package us.ridiculousbakery.espressoexpress.StorePicker.Adapters;
+package us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective;
 
 import android.content.Context;
 import android.view.LayoutInflater;

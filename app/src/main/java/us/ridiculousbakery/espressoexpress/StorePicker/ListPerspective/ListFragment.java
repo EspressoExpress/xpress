@@ -1,4 +1,4 @@
-package us.ridiculousbakery.espressoexpress.StorePicker.Fragments;
+package us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.StorePicker.Adapters.StoreListAdapter;
 
 /**
  * Created by bkuo on 6/6/15.
@@ -57,7 +56,7 @@ public class ListFragment extends Fragment {
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Log.i("ZZZZZZZ", "clicked animateToNewMapTarget: " + position);
+                    Log.i("ZZZZZZZ", "clicked onNewMapTargetRequest: " + position);
                     listListener.onMapsRequired();
                     listListener.onNewMapTarget(position);
 

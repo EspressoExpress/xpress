@@ -1,12 +1,12 @@
-package us.ridiculousbakery.espressoexpress.StorePicker.Activities;
+package us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentSender;
-import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -17,22 +17,28 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.MenuActivity;
-import us.ridiculousbakery.espressoexpress.Model.FakeDataSource;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.StorePicker.Adapters.StoreListAdapter;
-import us.ridiculousbakery.espressoexpress.StorePicker.Fragments.ListFragment;
+import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.StorePager.PagerFragment;
+import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.StorePager.StorePagerAdapter;
 
 
-public class ListPickerActivity extends ActionBarActivity implements
-        StoreListAdapter.ListItemListener,
-        ListFragment.ListListener,
+public class MapPickerActivity extends ActionBarActivity implements
+         PagerFragment.PagerListener,
+        StorePagerAdapter.PagerItemListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
     /*
@@ -40,9 +46,19 @@ public class ListPickerActivity extends ActionBarActivity implements
      * returned in Activity.onActivityResult
      */
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
-    private ListFragment fgListStoreFragment;
+    private MapFragment fgMapStoreFragment;
 
+    private PagerFragment fgPagerStoreFragment;
+
+    private int position;
+
+    public GoogleMap getMap() {
+        return map;
+    }
+
+    private GoogleMap map;
     private ArrayList<Store> stores;
+    private ArrayList<MarkedStore> marked_stores;
 
 
     private GoogleApiClient mGoogleApiClient;
@@ -50,45 +66,55 @@ public class ListPickerActivity extends ActionBarActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_store_picker);
+        stores = (ArrayList<Store>)getIntent().getSerializableExtra("stores");
+        marked_stores = MarkedStore.decorateList(stores);
+        position =getIntent().getIntExtra("position", 0);
 
+        setContentView(R.layout.activity_store_picker);
+        final FragmentManager fm = getSupportFragmentManager();
+
+        if (savedInstanceState == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(LocationServices.API)
                     .addConnectionCallbacks(this)
                     .addOnConnectionFailedListener(this).build();
 
+            getPagerFragment().setArguments(getIntent().getExtras());
+            activate_map_and_pager_fragments();
+        }
     }
 
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
-        if (id == R.id.action_store_pick_map && stores.size()>0) {
-
-            activate_map_and_pager_fragments(0);
+        if (id == R.id.action_store_pick_list) {
+          finish();
         }
-
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
-    private ListFragment getListFragment() {
-        if (fgListStoreFragment != null) return fgListStoreFragment;
-        return fgListStoreFragment = new ListFragment();
+    private MapFragment getMapStoreFragment() {
+        if (fgMapStoreFragment != null) return fgMapStoreFragment;
+        fgMapStoreFragment = new MapFragment();
+//        fgMapStoreFragment.getMapAsync(this);
+        return fgMapStoreFragment;
     }
 
-    private void activate_map_and_pager_fragments(int position) {
-        Intent i = new Intent(this, MapPickerActivity.class);
-        i.putExtra("position", position);
-        startActivity(i);
+
+    private PagerFragment getPagerFragment() {
+        if (fgPagerStoreFragment != null) return fgPagerStoreFragment;
+        return fgPagerStoreFragment = new PagerFragment();
     }
 
-    private void activate_list_fragment() {
+    private void activate_map_and_pager_fragments() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.flContainer, getListFragment());
+        fgMapStoreFragment = new MapFragment();
+        fgMapStoreFragment.setMenuVisibility(true);
+        ft.replace(R.id.flContainer, fgMapStoreFragment);
+        ft.add(R.id.flContainer, getPagerFragment());
         ft.commit();
     }
-
 
     public void reconnect() {
         if (isGooglePlayServicesAvailable() && mGoogleApiClient != null) {
@@ -163,43 +189,6 @@ public class ListPickerActivity extends ActionBarActivity implements
     @Override
     public void onConnected(Bundle bundle) {
         Log.i("ZZZZZZ", "Connected");
-        populate_list();
-    }
-
-    private LatLng currentlatLng() {
-        if (!mGoogleApiClient.isConnected()) {
-            Log.i("ZZZZZZZ", "No lat lon,  not yet connected");
-            return null;
-        }
-        Log.i("ZZZZZZZ", "we are connected, looking for latlng");
-
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location != null) {
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            Log.i("ZZZZZZ", latLng.toString());
-            return latLng;
-        } else {
-            Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
-            return null;
-        }
-    }
-
-    private void populate_list() {
-        if (stores != null) return;
-        LatLng ll = currentlatLng();
-        if (ll == null) return;
-
-        stores = FakeDataSource.nearby_stores(currentlatLng());
-
-        Log.i("ZZZZZZZ", "store list: " + stores.size());
-
-        Bundle b = new Bundle();
-        b.putSerializable("stores", stores);
-        getListFragment().setArguments(b);
-        if (stores.size()>0)getListFragment().setMenuVisibility(true);
-
-
-        activate_list_fragment();
     }
 
     @Override
@@ -239,18 +228,71 @@ public class ListPickerActivity extends ActionBarActivity implements
     }
 
     @Override
-    public void onNewMapTarget(int index) {
-        Log.i("ZZZZZZZ", "Entered onNewMapTarget "+index);
-        final LatLng latLng = new LatLng(stores.get(index).getLat(), stores.get(index).getLon());
+    public void onNewMapTargetRequest(final int index, final boolean animate) {
+        Log.i("ZZZZZZZ", "Entered onNewMapTargetRequest " + index);
+        if(map==null){
             Log.i("ZZZZZZZ", "getting map async");
-            activate_map_and_pager_fragments(index);
+            getMapStoreFragment().getMapAsync(
+                    new OnMapReadyCallback() {
+                        @Override
+                        public void onMapReady(GoogleMap googleMap) {
+                            if(map==null) {
+                                map = googleMap;
+                                populateMap();
+                            }
+                            animateToStore(animate, index);
+                        }
+                    }
+            );
+        }else {
+            Log.i("ZZZZZZZ", "map exists");
+            MapsInitializer.initialize(this);
+            animateToStore(animate, index);
+
+        }
 
     }
+
+    private void populateMap(){
+        for (MarkedStore store : marked_stores) {
+            map.addMarker(
+                    new MarkerOptions()
+                            .position(store.getLatLng())
+                            .title(store.getName())
+                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+            );
+            for (MarkedOrder order : store.getMarkedOrders()) {
+                map.addMarker(
+                        new MarkerOptions()
+                                .position(order.getLatLng())
+                                .title(order.getName())
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
+                );
+            }
+        }
+
+
+
+    }
+
+    private void animateToStore(boolean animate, int index) {
+        LatLng latLng = stores.get(index).getLatLng();
+//        unHighlightStoreMarkers();
+//        highlightStoreMarker();
+//        dropOrderMarkers();
+//        addOrderMarkers();
+
+        moveCamera(animate, latLng);
+    }
+
+    private void moveCamera(boolean animate, LatLng latLng) {
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+        if(animate==true)    map.animateCamera(cameraUpdate);
+        else map.moveCamera(cameraUpdate);
+    }
+
 
     @Override
-    public void onMapsRequired() {
-//        activate_map_and_pager_fragments();
-    }
     public void gotoMenu(Store store){
         Intent i = new Intent(this, MenuActivity.class);
         i.putExtra("menu", new StoreMenu(true));

@@ -1,4 +1,4 @@
-package us.ridiculousbakery.espressoexpress.StorePicker.Fragments;
+package us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

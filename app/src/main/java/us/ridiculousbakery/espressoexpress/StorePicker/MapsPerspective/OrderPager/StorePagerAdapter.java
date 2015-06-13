@@ -1,4 +1,4 @@
-package us.ridiculousbakery.espressoexpress.StorePicker.Adapters;
+package us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.OrderPager;
 
 import android.content.Context;
 import android.support.v4.view.PagerAdapter;

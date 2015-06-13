@@ -3,15 +3,11 @@ package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.parse.ParseUser;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.LoginActivity;
-import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.StorePicker.Activities.ListPickerActivity;
+import us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.ListPickerActivity;
 
 public class EntryActivity extends ActionBarActivity {
 

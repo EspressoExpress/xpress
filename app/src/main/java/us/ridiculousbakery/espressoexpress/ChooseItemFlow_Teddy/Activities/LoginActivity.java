@@ -20,7 +20,7 @@ import com.parse.SignUpCallback;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.LoginFragment;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.SignUpFragment;
 import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.StorePicker.Activities.ListPickerActivity;
+import us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.ListPickerActivity;
 
 public class LoginActivity extends ActionBarActivity {
 

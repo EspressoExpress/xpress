@@ -31,7 +31,9 @@ public class Store implements Serializable {
     public Double getLat() {
         return lat;
     }
-
+    public LatLng getLatLng() {
+        return new LatLng(lat, lon);
+    }
     private int logo;
     private Double lon;
     private Double lat;

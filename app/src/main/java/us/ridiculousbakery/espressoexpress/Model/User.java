@@ -9,6 +9,11 @@ public class User implements Serializable {
     public User(String user){
         this.name = user;
     }
+
+    public String getName() {
+        return name;
+    }
+
     private String name;
 
     private Double lon;
