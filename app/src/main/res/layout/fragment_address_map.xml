@@ -22,19 +22,26 @@
             android:id="@+id/btSelectAddress"
             android:text="done"/>
         </LinearLayout>
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <FrameLayout
+            android:id="@+id/addressMapView"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-            <FrameLayout
-                android:id="@+id/addressMapView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </FrameLayout>
-            <View
-                android:id="@+id/mapOverlay"
-                android:background="@android:color/transparent"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"></View>
         </FrameLayout>
+        <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:id="@+id/ivMarker"
+            android:layout_gravity="center"
+            />
+        <!--<us.ridiculousbakery.espressoexpress.Checkout.CenterMarkerView
+            android:id="@+id/addressMapOverlay"
+            android:background="@android:color/transparent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />-->
+    </FrameLayout>
+
 
 </LinearLayout>

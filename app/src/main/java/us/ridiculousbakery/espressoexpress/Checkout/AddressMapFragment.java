@@ -1,5 +1,7 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -44,6 +47,7 @@ public class AddressMapFragment extends DialogFragment implements
     //private LocationRequest mLocationRequest;
     private Marker locationMarker;
     private Button btSelectAddress;
+    private ImageView ivMarker;
 
     public AddressMapFragment() {
 
@@ -73,6 +77,11 @@ public class AddressMapFragment extends DialogFragment implements
                 dismiss();
             }
         });
+
+        ivMarker = (ImageView) v.findViewById(R.id.ivMarker);
+        Bitmap temp = BitmapFactory.decodeResource(getResources(), R.drawable.sbux_twit_logo);
+        Bitmap marker = Bitmap.createScaledBitmap(temp, 16, 16, true);
+        ivMarker.setImageBitmap(marker);
         return v;
     }
 
@@ -92,7 +101,7 @@ public class AddressMapFragment extends DialogFragment implements
     protected void loadMap(GoogleMap googleMap) {
         map = googleMap;
         if (map != null) {
-            //Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
             map.setMyLocationEnabled(true);
             map.setOnCameraChangeListener(this);
             // Now that map has loaded, let's get our location!
