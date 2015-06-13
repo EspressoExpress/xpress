@@ -39,6 +39,7 @@ public class Store implements Serializable {
     private Double lat;
 
 
+
     public Store(String name) {
         this.name = name;
         this.orders = new ArrayList<Order>();

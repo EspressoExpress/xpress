@@ -26,11 +26,14 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.MenuActivity;
+import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
@@ -42,7 +45,7 @@ public class MapPickerActivity extends ActionBarActivity implements
          PagerFragment.PagerListener,
         StorePagerAdapter.PagerItemListener,
         GoogleApiClient.ConnectionCallbacks,
-        GoogleApiClient.OnConnectionFailedListener {
+        GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener {
     /*
      * Define a request code to send to Google Play services This code is
      * returned in Activity.onActivityResult
@@ -240,6 +243,7 @@ public class MapPickerActivity extends ActionBarActivity implements
                             if(map==null) {
                                 map = googleMap;
                                 populateMap();
+                                map.setOnMarkerClickListener(MapPickerActivity.this);
                             }
                             animateToStore(animate, index);
                         }
@@ -253,6 +257,8 @@ public class MapPickerActivity extends ActionBarActivity implements
         }
 
     }
+    private HashMap<Marker, Store> marker2Store = new HashMap<>();
+    private HashMap<Marker, Order> marker2Order = new HashMap<>();
 
     private void populateMap(){
         for (MarkedStore store : marked_stores) {
@@ -265,10 +271,8 @@ public class MapPickerActivity extends ActionBarActivity implements
                                             BitmapFactory.decodeResource(getResources(), store.getLogo())
                                             , 120, 120, true
                                     )))
-
-
-//                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
                             );
+            marker2Store.put(store.marker, store.store);
             for (MarkedOrder order : store.getMarkedOrders()) {
                 order.marker =map.addMarker(
                         new MarkerOptions()
@@ -280,10 +284,8 @@ public class MapPickerActivity extends ActionBarActivity implements
                                         BitmapDescriptorFactory
                                                 .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)
                                 )
-
-
                 );
-
+                marker2Order.put(order.marker, order.order);
             }
         }
 
@@ -292,10 +294,14 @@ public class MapPickerActivity extends ActionBarActivity implements
     }
 
     private void animateToStore(boolean animate, int index) {
-        LatLng latLng = stores.get(index).getLatLng();
+        animateToStore(animate, stores.get(index));
+    }
+
+    private void animateToStore(boolean animate, Store store) {
+        LatLng latLng = store.getLatLng();
         boolean visible;
         for(MarkedStore s : marked_stores){
-            if(s.store == stores.get(index)){
+            if(s.store == store){
                 s.marker.setAlpha(1);
                 for(MarkedOrder o : s.getMarkedOrders()){  o.marker.setVisible(true);  }
             }else{
@@ -327,6 +333,15 @@ public class MapPickerActivity extends ActionBarActivity implements
         i.putExtra("store", store);
         startActivity(i);
     }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        Store store =marker2Store.get(marker);
+        Order order = marker2Order.get(marker);
+//        if(store!=null) animateToStore(true, store);
+        return false;
+    }
+
 
     // Define a DialogFragment that displays the error dialog
     public static class ErrorDialogFragment extends DialogFragment {

@@ -18,7 +18,7 @@ public class MarkedOrder {
     public MarkedOrder(Order order){
         this.order = order;
     }
-    private Order order;
+    public Order order;
     public Marker marker;
 
 
