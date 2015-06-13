@@ -20,8 +20,8 @@ import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
 
 public class CartActivity extends AppCompatActivity implements
-        CartFragment.OnItemClickedListener,
-        AddressMapFragment.OnSelectAddressListener {
+        CartFragment.OnWidgetClickedListener,
+        AddressMapFragment.OnWidgetClickedListener {
 
     CartFragment cartFragment;
 
@@ -88,5 +88,13 @@ public class CartActivity extends AppCompatActivity implements
     @Override
     public void onSelectAddress(LatLng latLng, Address address) {
         cartFragment.saveAndShowAddress(latLng, address);
+    }
+
+    @Override
+    public void onSearchAddress(LatLng latLng, Address address) {
+        //Toast.makeText(this, latLng.latitude + ", " + latLng.longitude, Toast.LENGTH_SHORT).show();
+        FragmentManager fm = getSupportFragmentManager();
+        AddressListFragment addressListFragment = AddressListFragment.newInstance(latLng.latitude, latLng.longitude);
+        addressListFragment.show(fm, "address_list");
     }
 }

@@ -2,6 +2,7 @@ package us.ridiculousbakery.espressoexpress.Checkout;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -9,7 +10,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,9 +52,6 @@ public class AddressMapFragment extends DialogFragment implements
         GoogleMap.OnCameraChangeListener
 {
 
-    public interface OnSelectAddressListener {
-        void onSelectAddress(LatLng latLng, Address address);
-    }
     private SupportMapFragment mapFragment;
     private GoogleMap map;
     private GoogleApiClient mGoogleApiClient;
@@ -62,6 +62,12 @@ public class AddressMapFragment extends DialogFragment implements
     private TextView tvAddress;
     private LatLng addressLatLng;
     private Address address;
+    OnWidgetClickedListener listener;
+
+    public interface OnWidgetClickedListener {
+        void onSelectAddress(LatLng latLng, Address address);
+        void onSearchAddress(LatLng latLng, Address address);
+    }
 
     public AddressMapFragment() {
 
@@ -71,6 +77,23 @@ public class AddressMapFragment extends DialogFragment implements
         AddressMapFragment addressMapFragment = new AddressMapFragment();
         addressMapFragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
         return addressMapFragment;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // safety check
+        if (getDialog() == null) {
+            return;
+        }
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+        DisplayMetrics displayMetrics  = new DisplayMetrics();
+        display.getMetrics(displayMetrics);
+        //float density = getResources().getDisplayMetrics().density;
+        float dialogWidth = displayMetrics.widthPixels - 56; // specify a value here
+        float dialogHeight = displayMetrics.heightPixels - 56; // specify a value here
+        //Toast.makeText(getActivity(), "width: " + Math.round(dialogWidth) + ", height: " + Math.round(dialogHeight), Toast.LENGTH_LONG).show();
+        getDialog().getWindow().setLayout(Math.round(dialogWidth), Math.round(dialogHeight));
     }
 
     //inflation logic
@@ -84,12 +107,13 @@ public class AddressMapFragment extends DialogFragment implements
         }
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.add(R.id.addressMapView, mapFragment).commit();
+        listener = (OnWidgetClickedListener) getActivity();
+
         btSelectAddress = (Button) v.findViewById(R.id.btSelectAddress);
         btSelectAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OnSelectAddressListener onSelectAddressListener = (OnSelectAddressListener) getActivity();
-                onSelectAddressListener.onSelectAddress(addressLatLng, address);
+                listener.onSelectAddress(addressLatLng, address);
                 dismiss();
             }
         });
@@ -100,6 +124,14 @@ public class AddressMapFragment extends DialogFragment implements
         ivMarker.setImageBitmap(marker);
 
         tvAddress = (TextView) v.findViewById(R.id.tvAddress);
+        tvAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvAddress.setTextColor(Color.LTGRAY);
+                listener.onSearchAddress(addressLatLng, address);
+                dismiss();
+            }
+        });
         return v;
     }
 
@@ -140,7 +172,7 @@ public class AddressMapFragment extends DialogFragment implements
         if (location != null) {
             Toast.makeText(getActivity(), "GPS location was found!", Toast.LENGTH_SHORT).show();
             addressLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(addressLatLng, 13);
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(addressLatLng, 17);
             map.animateCamera(cameraUpdate);
             updateAddress(addressLatLng);
             //updateMarker(latLng);
@@ -153,6 +185,7 @@ public class AddressMapFragment extends DialogFragment implements
     private void updateAddress(LatLng latLng) {
         if (latLng != null) {
             Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+            addressLatLng = latLng;
             try {
                 List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
                 if (!addresses.isEmpty()) {
@@ -188,10 +221,10 @@ public class AddressMapFragment extends DialogFragment implements
 
     }
 
-    //have moveable marker effect but jerky
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
-        Toast.makeText(getActivity(), "on cam change", Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getActivity(), "on cam change", Toast.LENGTH_SHORT).show();
+        updateAddress(cameraPosition.target);
         /*if(locationMarker != null) {
             locationMarker.remove();
         }

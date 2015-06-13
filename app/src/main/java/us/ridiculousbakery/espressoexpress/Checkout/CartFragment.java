@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -35,9 +34,9 @@ public class CartFragment extends Fragment {
     protected Button btPayment;
     protected Button btCheckout;
     private Order order;
-    private OnItemClickedListener listener;
+    private OnWidgetClickedListener listener;
 
-    public interface OnItemClickedListener {
+    public interface OnWidgetClickedListener {
         public void launchAddressMap();
         public void launchCCForm();
     }
@@ -77,8 +76,8 @@ public class CartFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        if (activity instanceof OnItemClickedListener) {
-            listener = (OnItemClickedListener) activity;
+        if (activity instanceof OnWidgetClickedListener) {
+            listener = (OnWidgetClickedListener) activity;
         } else {
             throw new ClassCastException(activity.toString()
                     + " must implement MyListFragment.OnItemSelectedListener");
@@ -96,7 +95,7 @@ public class CartFragment extends Fragment {
         lvOrderItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getActivity(), "launch item option fragment", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getActivity(), "launch item option fragment", Toast.LENGTH_SHORT).show();
             }
         });
         btPayment.setOnClickListener(new View.OnClickListener() {

@@ -49,11 +49,6 @@
             android:layout_gravity="center"
 
             />
-        <!--<us.ridiculousbakery.espressoexpress.Checkout.CenterMarkerView
-            android:id="@+id/addressMapOverlay"
-            android:background="@android:color/transparent"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />-->
     </FrameLayout>
 
 
