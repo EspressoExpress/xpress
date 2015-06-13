@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -70,7 +72,7 @@ public class MapPickerActivity extends ActionBarActivity implements
         marked_stores = MarkedStore.decorateList(stores);
         position =getIntent().getIntExtra("position", 0);
 
-        setContentView(R.layout.activity_store_picker);
+        setContentView(R.layout.activity_map_picker);
         final FragmentManager fm = getSupportFragmentManager();
 
         if (savedInstanceState == null) {
@@ -97,7 +99,6 @@ public class MapPickerActivity extends ActionBarActivity implements
     private MapFragment getMapStoreFragment() {
         if (fgMapStoreFragment != null) return fgMapStoreFragment;
         fgMapStoreFragment = new MapFragment();
-//        fgMapStoreFragment.getMapAsync(this);
         return fgMapStoreFragment;
     }
 
@@ -111,8 +112,8 @@ public class MapPickerActivity extends ActionBarActivity implements
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         fgMapStoreFragment = new MapFragment();
         fgMapStoreFragment.setMenuVisibility(true);
-        ft.replace(R.id.flContainer, fgMapStoreFragment);
-        ft.add(R.id.flContainer, getPagerFragment());
+        ft.replace(R.id.flMapContainer, fgMapStoreFragment);
+        ft.add(R.id.flPagerContainer, getPagerFragment());
         ft.commit();
     }
 
@@ -255,19 +256,34 @@ public class MapPickerActivity extends ActionBarActivity implements
 
     private void populateMap(){
         for (MarkedStore store : marked_stores) {
-            map.addMarker(
-                    new MarkerOptions()
+            store.marker= map.addMarker(
+                   new MarkerOptions()
                             .position(store.getLatLng())
                             .title(store.getName())
-                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
-            );
+                            .icon(BitmapDescriptorFactory.fromBitmap(
+                                    Bitmap.createScaledBitmap(
+                                            BitmapFactory.decodeResource(getResources(), store.getLogo())
+                                            , 120, 120, true
+                                    )))
+
+
+//                            .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
+                            );
             for (MarkedOrder order : store.getMarkedOrders()) {
-                map.addMarker(
+                order.marker =map.addMarker(
                         new MarkerOptions()
                                 .position(order.getLatLng())
                                 .title(order.getName())
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA))
+                                .alpha(0.5f)
+                                .visible(false)
+                                .icon(
+                                        BitmapDescriptorFactory
+                                                .defaultMarker(BitmapDescriptorFactory.HUE_MAGENTA)
+                                )
+
+
                 );
+
             }
         }
 
@@ -277,6 +293,18 @@ public class MapPickerActivity extends ActionBarActivity implements
 
     private void animateToStore(boolean animate, int index) {
         LatLng latLng = stores.get(index).getLatLng();
+        boolean visible;
+        for(MarkedStore s : marked_stores){
+            if(s.store == stores.get(index)){
+                s.marker.setAlpha(1);
+                for(MarkedOrder o : s.getMarkedOrders()){  o.marker.setVisible(true);  }
+            }else{
+                s.marker.setAlpha(0.4f);
+                for(MarkedOrder o : s.getMarkedOrders()){  o.marker.setVisible(false);  }
+            }
+
+        }
+
 //        unHighlightStoreMarkers();
 //        highlightStoreMarker();
 //        dropOrderMarkers();
@@ -286,7 +314,7 @@ public class MapPickerActivity extends ActionBarActivity implements
     }
 
     private void moveCamera(boolean animate, LatLng latLng) {
-        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 17);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
         if(animate==true)    map.animateCamera(cameraUpdate);
         else map.moveCamera(cameraUpdate);
     }

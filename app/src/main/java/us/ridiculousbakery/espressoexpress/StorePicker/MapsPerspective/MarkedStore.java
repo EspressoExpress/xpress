@@ -31,14 +31,19 @@ public class MarkedStore {
         return getStore().getLatLng();
     }
 
-    private Store store;
-    private Marker marker;
+    public int getLogo() {
+        return getStore().getLogo();
+    }
+
+    public Store store;
+    public Marker marker;
     private ArrayList<MarkedOrder> markedOrders;
 
 
     public Store getStore() {
         return store;
     }
+
 
     public void setStore(Store store) {
         this.store = store;
