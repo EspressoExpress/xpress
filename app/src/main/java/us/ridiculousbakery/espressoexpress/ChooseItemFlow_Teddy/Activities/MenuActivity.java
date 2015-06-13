@@ -1,13 +1,15 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities;
 
-import android.support.v4.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
+import us.ridiculousbakery.espressoexpress.Checkout.CartActivity;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.MenuFragment;
+import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
 
 
@@ -43,6 +45,8 @@ public class MenuActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent i = new Intent(this, CartActivity.class);
+            startActivity(i);
             return true;
         }
 

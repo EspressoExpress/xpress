@@ -39,6 +39,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.MenuActivity;
+import us.ridiculousbakery.espressoexpress.InProgress.Delivering.DeliveringActivity;
 import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
@@ -366,7 +367,10 @@ public class MapPickerActivity extends ActionBarActivity implements
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+
                         Log.i("ZZZZZZZ",  "order for "+ order.getUser().getName() + " accepted");
+                        Intent i = new Intent(MapPickerActivity.this, DeliveringActivity.class);
+                        startActivity(i);
                         // Define color of marker icon
 //                        BitmapDescriptor defaultMarker =
 //                                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);

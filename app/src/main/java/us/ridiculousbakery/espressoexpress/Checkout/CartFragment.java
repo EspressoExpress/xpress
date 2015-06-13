@@ -1,6 +1,7 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,6 +18,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 
+import us.ridiculousbakery.espressoexpress.InProgress.Receiving.ReceivingActivity;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.R;
@@ -102,6 +104,13 @@ public class CartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 listener.launchCCForm();
+            }
+        });
+        btCheckout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getActivity(), ReceivingActivity.class);
+                startActivity(i);
             }
         });
 
