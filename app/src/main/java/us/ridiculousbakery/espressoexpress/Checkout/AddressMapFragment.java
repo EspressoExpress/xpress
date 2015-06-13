@@ -2,17 +2,21 @@ package us.ridiculousbakery.espressoexpress.Checkout;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -29,6 +33,10 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
 import us.ridiculousbakery.espressoexpress.R;
 
@@ -48,6 +56,8 @@ public class AddressMapFragment extends DialogFragment implements
     private Marker locationMarker;
     private Button btSelectAddress;
     private ImageView ivMarker;
+    private TextView tvAddress;
+    private LatLng addressLatLng;
 
     public AddressMapFragment() {
 
@@ -79,9 +89,11 @@ public class AddressMapFragment extends DialogFragment implements
         });
 
         ivMarker = (ImageView) v.findViewById(R.id.ivMarker);
-        Bitmap temp = BitmapFactory.decodeResource(getResources(), R.drawable.sbux_twit_logo);
-        Bitmap marker = Bitmap.createScaledBitmap(temp, 16, 16, true);
+        Bitmap temp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delivery_address);
+        Bitmap marker = Bitmap.createScaledBitmap(temp, 128, 128, true);
         ivMarker.setImageBitmap(marker);
+
+        tvAddress = (TextView) v.findViewById(R.id.tvAddress);
         return v;
     }
 
@@ -121,14 +133,33 @@ public class AddressMapFragment extends DialogFragment implements
         Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
         if (location != null) {
             Toast.makeText(getActivity(), "GPS location was found!", Toast.LENGTH_SHORT).show();
-            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 13);
+            addressLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(addressLatLng, 13);
             map.animateCamera(cameraUpdate);
-            updateMarker(latLng);
+            updateAddress(addressLatLng);
+            //updateMarker(latLng);
             //startLocationUpdates();
         } else {
             Toast.makeText(getActivity(), "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void updateAddress(LatLng latLng) {
+        if (latLng != null) {
+            Geocoder geocoder = new Geocoder(getActivity(), Locale.getDefault());
+            try {
+                List<Address> addresses = geocoder.getFromLocation(latLng.latitude, latLng.longitude, 1);
+                if (!addresses.isEmpty()) {
+                    tvAddress.setText(addressToString(addresses.get(0)));
+                }
+            } catch (IOException e) {
+                Log.d("updateAddress: ", "can't get address from geocoder", e);
+            }
+        }
+    }
+
+    private String addressToString(Address address) {
+        return address.getAddressLine(0);
     }
 
 
@@ -158,51 +189,14 @@ public class AddressMapFragment extends DialogFragment implements
     //have moveable marker effect but jerky
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
-            Toast.makeText(getActivity(), "on cam change", Toast.LENGTH_SHORT).show();
-        if(locationMarker != null) {
+        Toast.makeText(getActivity(), "on cam change", Toast.LENGTH_SHORT).show();
+        /*if(locationMarker != null) {
             locationMarker.remove();
         }
         locationMarker = null;
-        updateMarker(cameraPosition.target);
+        updateMarker(cameraPosition.target);*/
     }
 
-
-    /*public void animateMarker(final Marker marker, final LatLng toPosition,
-                              final boolean hideMarker) {
-        final Handler handler = new Handler();
-        final long start = SystemClock.uptimeMillis();
-        Projection proj = mGoogleMapObject.getProjection();
-        Point startPoint = proj.toScreenLocation(marker.getPosition());
-        final LatLng startLatLng = proj.fromScreenLocation(startPoint);
-        final long duration = 500;
-
-        final Interpolator interpolator = new LinearInterpolator();
-
-        handler.post(new Runnable() {
-            @Override
-            public void run() {
-                long elapsed = SystemClock.uptimeMillis() - start;
-                float t = interpolator.getInterpolation((float) elapsed
-                        / duration);
-                double lng = t * toPosition.longitude + (1 - t)
-                        * startLatLng.longitude;
-                double lat = t * toPosition.latitude + (1 - t)
-                        * startLatLng.latitude;
-                marker.setPosition(new LatLng(lat, lng));
-
-                if (t < 1.0) {
-                    // Post again 16ms later.
-                    handler.postDelayed(this, 16);
-                } else {
-                    if (hideMarker) {
-                        marker.setVisible(false);
-                    } else {
-                        marker.setVisible(true);
-                    }
-                }
-            }
-        });
-    }*/
 
 
 }

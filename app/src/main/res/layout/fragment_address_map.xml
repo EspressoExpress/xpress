@@ -7,14 +7,26 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <org.droidparts.widget.ClearableEditText
+        android:orientation="horizontal"
+        android:background="@android:color/white">
+        <!--<org.droidparts.widget.ClearableEditText
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:id="@+id/etAddress"
             android:singleLine="true"
             android:hint="Enter Location"
             android:layout_weight="1"
+            />-->
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:id="@+id/tvAddress"
+            android:singleLine="true"
+            android:hint="Enter Location"
+            android:layout_weight="1"
+            android:background="@android:color/white"
+            android:gravity="left|center"
+            android:textSize="18sp"
             />
         <Button
             android:layout_width="wrap_content"
@@ -31,10 +43,11 @@
             android:layout_height="match_parent">
         </FrameLayout>
         <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/ivMarker"
             android:layout_gravity="center"
+
             />
         <!--<us.ridiculousbakery.espressoexpress.Checkout.CenterMarkerView
             android:id="@+id/addressMapOverlay"
