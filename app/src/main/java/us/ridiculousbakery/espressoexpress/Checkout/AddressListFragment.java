@@ -14,14 +14,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -32,6 +35,9 @@ import us.ridiculousbakery.espressoexpress.R;
  */
 public class AddressListFragment extends DialogFragment {
 
+    protected ArrayList<Address> listAddresses;
+    protected ArrayAdapter<Address> aListAddresses;
+    protected ListView lvAddresses;
     private EditText etAddress;
     private Button btCancelAddress;
     private LatLng anchorLatLng;
@@ -72,6 +78,8 @@ public class AddressListFragment extends DialogFragment {
                 dismiss();
             }
         });
+        lvAddresses = (ListView) v.findViewById(R.id.lvAddresses);
+        lvAddresses.setAdapter(aListAddresses);
         return v;
     }
 
@@ -79,6 +87,8 @@ public class AddressListFragment extends DialogFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         anchorLatLng = new LatLng(getArguments().getDouble("lat"), getArguments().getDouble("lng"));
+        listAddresses = new ArrayList<>();
+        aListAddresses = new ArrayAdapter<Address>(getActivity(), android.R.layout.simple_list_item_1, listAddresses);
     }
 
     @Override
@@ -140,7 +150,8 @@ public class AddressListFragment extends DialogFragment {
                 Toast.makeText(getActivity(), "Location could not be found", Toast.LENGTH_LONG).show();
             }
             else {
-
+                aListAddresses.clear();
+                aListAddresses.addAll(addresses);
             }
             //progressItem.setVisible(false);
         }
