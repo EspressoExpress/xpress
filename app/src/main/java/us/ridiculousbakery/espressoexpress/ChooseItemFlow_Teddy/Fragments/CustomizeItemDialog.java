@@ -94,7 +94,6 @@ public class CustomizeItemDialog extends DialogFragment {
         gvOptions.setAdapter(aOptions);
         btnAdd = (Button) view.findViewById(R.id.btnAdd);
 
-
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -112,7 +111,6 @@ public class CustomizeItemDialog extends DialogFragment {
                 addOptionAtIndex(position);
                 aOptions.removeOption(op);
                 setButtonVisability();
-                Log.d("DEBUG", position + "");
             }
         });
         return view;
@@ -148,16 +146,13 @@ public class CustomizeItemDialog extends DialogFragment {
                 public void onClick(View v) {
                     // Add Back what was clicked
                     SelectedOption opToDelete = (SelectedOption) v.getTag();
-                    Log.d("DEBUG Delete", opToDelete.getName());
                     chosenOptions.remove(opToDelete);
+                    aOptions.addOption(opToDelete.getName(), item.getOptions().get(opToDelete.getCategory()));
+                    setButtonVisability();
                     syncViewWithChosenOptions();
-
                     // Put back into Adapter
                     // Get General Key From Value
-                    String key = "Size";
-                    aOptions.addOption(opToDelete.getName(), item.getOptions().get(opToDelete.getCategory()));
 
-                    setButtonVisability();
                 }
             });
             trOptions.addView(view);

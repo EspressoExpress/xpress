@@ -25,6 +25,10 @@ public class StoreMenu implements Serializable {
         //normal actions performed by class, it's still a normal object!
     }
 
+    public void setCategories(TreeMap<String, ArrayList<Item>> categories) {
+        this.categories = categories;
+    }
+
     public StoreMenu(boolean largeFakeData) {
 
         categories = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);

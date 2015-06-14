@@ -20,6 +20,7 @@ import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.Checkout.CartActivity;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.MenuAdapter;
+import us.ridiculousbakery.espressoexpress.Model.FakeDataSource;
 import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
@@ -57,7 +58,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         storeMenu = (StoreMenu) getArguments().getSerializable("menu");
-        storeMenu = new StoreMenu(true);
+        storeMenu = FakeDataSource.fakeMenu();
         aMenu = new MenuAdapter(getActivity(), storeMenu);
         lineItems = new ArrayList<>();
     }
