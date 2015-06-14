@@ -25,12 +25,28 @@
         android:layout_height="150dp"
         android:id="@+id/imageView3"
         android:layout_gravity="center"
-        android:src="@android:drawable/ic_input_add"/>
+        android:src="@drawable/cafe_24_2x"/>
 
-    <GridView
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/gvOptions"
-        android:numColumns="3"/>
+        android:layout_height="wrap_content">
+
+        <GridView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/gvOptions"
+            android:numColumns="3"
+            />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/add_cup"
+            android:id="@+id/btnAdd" />
+
+    </FrameLayout>
+
+
 
 </LinearLayout>

@@ -1,17 +1,24 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 
+import java.util.ArrayList;
+
+import us.ridiculousbakery.espressoexpress.Checkout.CartActivity;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.MenuAdapter;
 import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
@@ -26,6 +33,9 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     private MenuAdapter aMenu;
     private StoreMenu storeMenu;
     private ExpandableListView elvMenu;
+    private Button btnCart;
+    private ArrayList<LineItem> lineItems;
+    private CustomizeItemDialog customizeDialog;
 
     //================================================================================
     // Constructors
@@ -49,6 +59,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
         storeMenu = (StoreMenu) getArguments().getSerializable("menu");
         storeMenu = new StoreMenu(true);
         aMenu = new MenuAdapter(getActivity(), storeMenu);
+        lineItems = new ArrayList<>();
     }
 
     @Override
@@ -69,6 +80,20 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
             elvMenu.expandGroup(i);
         }
 
+        btnCart = (Button) v.findViewById(R.id.btnCart);
+        setCartButtonHeight();
+        btnCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Launch Intent!
+                if (lineItems.size() > 0) {
+                    Intent i = new Intent(getActivity(), CartActivity.class);
+                    startActivity(i);
+                    Log.d("DEBUG", "NEW INTENT");
+                }
+            }
+        });
+
         View header = inflater.inflate(R.layout.menu_header, container, false);
 
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
@@ -80,6 +105,16 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
         return v;
     }
 
+    private void setCartButtonHeight() {
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnCart.getLayoutParams();
+        if (lineItems.size() > 0) {
+            params.height = 150;
+        } else {
+            params.height = 0;
+        }
+        btnCart.setLayoutParams(params);
+    }
+
 
 
     //================================================================================
@@ -88,7 +123,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
 
     public void showCustomizeItemDialog(Item item) {
         FragmentManager fm = getChildFragmentManager();
-        CustomizeItemDialog customizeDialog = CustomizeItemDialog.newInstance(item);
+        customizeDialog = CustomizeItemDialog.newInstance(item);
         customizeDialog.show(fm, "fragment_customize_item");
     }
 
@@ -99,6 +134,9 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
 
     @Override
     public void onFinishCustomizingLineItem(LineItem lineItem) {
-
+        // Fire Intent!
+        customizeDialog.dismiss();
+        lineItems.add(lineItem);
+        setCartButtonHeight();
     }
 }

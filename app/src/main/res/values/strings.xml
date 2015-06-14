@@ -18,4 +18,6 @@
         to bring %s his/her order from %s within 45 minutes. (You get your coffee for free!)</string>
     <string name="title_activity_delivering">DeliveringActivity</string>
     <string name="title_activity_receiving">ReceivingActivity</string>
+    <string name="add_cup">Add Cup</string>
+    <string name="cart_text">View Cart</string>
 </resources>

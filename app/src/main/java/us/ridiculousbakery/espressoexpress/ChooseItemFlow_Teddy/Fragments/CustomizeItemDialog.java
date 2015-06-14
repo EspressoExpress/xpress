@@ -1,5 +1,6 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -54,6 +56,7 @@ public class CustomizeItemDialog extends DialogFragment {
     private TableRow trOptions;
     private OptionsAdapter aOptions;
     private LineItem lineItem;
+    private Button btnAdd;
 
     public static CustomizeItemDialog newInstance(Item item) {
         CustomizeItemDialog dialog = new CustomizeItemDialog();
@@ -77,12 +80,23 @@ public class CustomizeItemDialog extends DialogFragment {
         trOptions = (TableRow) view.findViewById(R.id.trOptions);
         aOptions = new OptionsAdapter(getActivity(), lineItem.getItemOption());
         gvOptions.setAdapter(aOptions);
+        btnAdd = (Button) view.findViewById(R.id.btnAdd);
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onFinishCustomizingLineItem(lineItem);
+            }
+        });
+
+        setButtonVisability();
 
         gvOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ItemOption.Options option = aOptions.optionForPosition(position);
                 aOptions.removeOption(option);
+                setButtonVisability();
                 addOptionAtIndex(0, null);
                 Log.d("DEBUG", position + "");
             }
@@ -91,9 +105,24 @@ public class CustomizeItemDialog extends DialogFragment {
     }
 
     private void addOptionAtIndex(int pos, ItemOption.Options option) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.option_item, null);
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.chosen_option, null);
+        Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setButtonVisability();
+            }
+        });
         trOptions.addView(view);
 //        tlChosen.addView(view);
+    }
+
+    private void setButtonVisability() {
+        if (aOptions.getCount() > 0) {
+            btnAdd.setVisibility(Button.INVISIBLE);
+        } else {
+            btnAdd.setVisibility(Button.VISIBLE);
+        }
     }
 
     @Override
@@ -108,7 +137,15 @@ public class CustomizeItemDialog extends DialogFragment {
         super.onStart();
         Dialog dialog = getDialog();
         if (dialog != null) {
-            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+            DisplayMetrics metrics = getResources().getDisplayMetrics();
+            int heiPx = metrics.heightPixels;
+            int widPx = metrics.widthPixels;
+            ViewGroup.LayoutParams params = new ActionBar.LayoutParams((int)(widPx*0.85), (int)(heiPx*0.85));
+            dialog.getWindow().setLayout(params.width, params.height);
+
+//            int width = (int) ViewGroup.LayoutParams.MATCH_PARENT * 0.8;
+//            int height = (int) ViewGroup.LayoutParams.MATCH_PARENT * 0.8;
+//            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
             //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
     }
