@@ -37,5 +37,6 @@ dependencies {
     compile 'org.droidparts:droidparts:2.7.4'
     compile 'com.github.dbachelder:CreditCardEntry:v1.3.0'
     compile 'com.makeramen:roundedimageview:2.0.1'
+    compile 'com.squareup.picasso:picasso:2.5.2'
 
 }

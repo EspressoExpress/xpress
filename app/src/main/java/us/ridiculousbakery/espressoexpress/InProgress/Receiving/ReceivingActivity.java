@@ -1,18 +1,26 @@
 package us.ridiculousbakery.espressoexpress.InProgress.Receiving;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import us.ridiculousbakery.espressoexpress.InProgress.Fragments.ChatFragment;
 import us.ridiculousbakery.espressoexpress.R;
 
 public class ReceivingActivity extends ActionBarActivity {
+
+    private ChatFragment chatFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiving);
+        chatFragment = new ChatFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.flChatContainer, chatFragment);
+        ft.commit();
     }
 
     @Override

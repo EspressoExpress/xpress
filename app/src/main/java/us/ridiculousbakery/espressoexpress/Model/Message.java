@@ -12,17 +12,22 @@ public class Message extends ParseObject {
     public String getUserId() {
         return getString("userId");
     }
-
     public String getText() {
         return getString("text");
     }
+    public String getFromUserI() { return getString("fromUserId"); }
+
 
     public void setUserId(String userId) {
         put("userId", userId);
     }
-
     public void setText(String text) {
         put("text", text);
     }
+    public void setFromUserId(String userId) { put("fromUserId", userId); }
 
+    @Override
+    public String toString() {
+        return getUserId() + ":" + getText();
+    }
 }
