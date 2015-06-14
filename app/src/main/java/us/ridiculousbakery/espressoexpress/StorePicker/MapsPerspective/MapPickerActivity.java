@@ -12,10 +12,8 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,9 +44,10 @@ import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
 import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.StorePager.PagerFragment;
 import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.StorePager.StorePagerAdapter;
+import us.ridiculousbakery.espressoexpress.StorePicker.NavDrawerBaseActivity;
 
 
-public class MapPickerActivity extends ActionBarActivity implements
+public class MapPickerActivity extends NavDrawerBaseActivity implements
          PagerFragment.PagerListener,
         StorePagerAdapter.PagerItemListener,
         GoogleApiClient.ConnectionCallbacks,
@@ -97,14 +96,14 @@ public class MapPickerActivity extends ActionBarActivity implements
     }
 
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == R.id.action_store_pick_list) {
-          finish();
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        int id = item.getItemId();
+//        if (id == R.id.action_store_pick_list) {
+//          finish();
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     private MapFragment getMapStoreFragment() {
         if (fgMapStoreFragment != null) return fgMapStoreFragment;

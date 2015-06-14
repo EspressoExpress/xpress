@@ -8,7 +8,6 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -27,9 +26,10 @@ import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
 import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.MapPickerActivity;
+import us.ridiculousbakery.espressoexpress.StorePicker.NavDrawerBaseActivity;
 
 
-public class ListPickerActivity extends ActionBarActivity implements
+public class ListPickerActivity extends NavDrawerBaseActivity implements
         StoreListAdapter.ListItemListener,
         ListFragment.ListListener,
         GoogleApiClient.ConnectionCallbacks,
@@ -49,6 +49,7 @@ public class ListPickerActivity extends ActionBarActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_store_picker);
 
             mGoogleApiClient = new GoogleApiClient.Builder(this)

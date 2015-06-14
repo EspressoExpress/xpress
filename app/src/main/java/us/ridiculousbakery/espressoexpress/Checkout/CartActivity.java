@@ -5,7 +5,6 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -18,8 +17,9 @@ import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.NavDrawerBaseActivity;
 
-public class CartActivity extends AppCompatActivity implements
+public class CartActivity extends NavDrawerBaseActivity implements
         CartFragment.OnWidgetClickedListener,
         AddressMapFragment.OnWidgetClickedListener,
         AddressListFragment.OnWidgetClickedListener{
