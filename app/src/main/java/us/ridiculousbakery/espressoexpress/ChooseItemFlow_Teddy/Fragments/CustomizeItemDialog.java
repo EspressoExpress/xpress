@@ -23,6 +23,7 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.OptionsAdapter;
@@ -50,6 +51,7 @@ public class CustomizeItemDialog extends DialogFragment {
 
     private GridView gvOptions;
     private TableLayout tlChosen;
+    private TableRow trOptions;
     private OptionsAdapter aOptions;
     private LineItem lineItem;
 
@@ -72,6 +74,7 @@ public class CustomizeItemDialog extends DialogFragment {
         View view = inflater.inflate(R.layout.fragment_customize_item, container);
         gvOptions = (GridView) view.findViewById(R.id.gvOptions);
         tlChosen = (TableLayout) view.findViewById(R.id.tlChosen);
+        trOptions = (TableRow) view.findViewById(R.id.trOptions);
         aOptions = new OptionsAdapter(getActivity(), lineItem.getItemOption());
         gvOptions.setAdapter(aOptions);
 
@@ -80,11 +83,17 @@ public class CustomizeItemDialog extends DialogFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 ItemOption.Options option = aOptions.optionForPosition(position);
                 aOptions.removeOption(option);
+                addOptionAtIndex(0, null);
                 Log.d("DEBUG", position + "");
             }
         });
-
         return view;
+    }
+
+    private void addOptionAtIndex(int pos, ItemOption.Options option) {
+        View view = LayoutInflater.from(getActivity()).inflate(R.layout.option_item, null);
+        trOptions.addView(view);
+//        tlChosen.addView(view);
     }
 
     @Override

@@ -9,7 +9,16 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:id="@+id/tlChosen"
-        android:orientation="horizontal"/>
+        android:orientation="horizontal">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_column="0"
+                android:id="@+id/trOptions">
+
+            </TableRow>
+    </TableLayout>
 
     <ImageView
         android:layout_width="150dp"
