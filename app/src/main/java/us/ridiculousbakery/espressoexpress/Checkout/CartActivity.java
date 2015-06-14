@@ -35,8 +35,8 @@ public class CartActivity extends AppCompatActivity implements
         Order order = new Order();
         order.setStore(new Store("Starbucks"));
         ArrayList<LineItem> orderItems = new ArrayList<>();
-        orderItems.add(new LineItem(new Item("Latte")));
-        orderItems.add(new LineItem(new Item("Frapp")));
+        orderItems.add(new LineItem(new Item("Latte"), null));
+        orderItems.add(new LineItem(new Item("Frapp"), null));
         order.setLineItems(orderItems);
         (new Intent()).putExtra("order", order);
         if (savedInstanceState == null) {

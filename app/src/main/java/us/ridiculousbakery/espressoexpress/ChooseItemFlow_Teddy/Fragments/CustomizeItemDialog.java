@@ -27,6 +27,7 @@ import android.widget.TextView;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.OptionsAdapter;
 import us.ridiculousbakery.espressoexpress.Model.Item;
+import us.ridiculousbakery.espressoexpress.Model.ItemOption;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.User;
 import us.ridiculousbakery.espressoexpress.R;
@@ -77,6 +78,8 @@ public class CustomizeItemDialog extends DialogFragment {
         gvOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ItemOption.Options option = aOptions.optionForPosition(position);
+                aOptions.removeOption(option);
                 Log.d("DEBUG", position + "");
             }
         });
@@ -88,7 +91,7 @@ public class CustomizeItemDialog extends DialogFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Item item = getArguments().getParcelable("item");
-        lineItem = new LineItem(item);
+        lineItem = new LineItem(item, new ItemOption(null, null, null, true));
     }
 
     @Override

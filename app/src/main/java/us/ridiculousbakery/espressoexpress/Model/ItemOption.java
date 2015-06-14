@@ -1,6 +1,7 @@
 package us.ridiculousbakery.espressoexpress.Model;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -32,6 +33,13 @@ public class ItemOption {
         options.put(Options.SIZE_OPTION, sizes);
         options.put(Options.MILK_OPTION, milkAmounts);
         options.put(Options.SUGAR_OPTION, sugarAmounts);
+    }
+
+    public ItemOption(List<String> sizes, List<String> milkAmounts, List<String> sugarAmounts, boolean fauxData) {
+        options = new TreeMap<>();
+        options.put(Options.SIZE_OPTION, Arrays.asList("Small", "Medium", "Large"));
+        options.put(Options.MILK_OPTION, Arrays.asList("None", "Little", "Medium", "A lot"));
+        options.put(Options.SUGAR_OPTION, Arrays.asList("Small", "Little", "Medium", "A lot"));
     }
 
     private TreeMap<Options, List<String>> options;

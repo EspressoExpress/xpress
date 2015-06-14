@@ -6,6 +6,7 @@ import java.io.Serializable;
  * Created by bkuo on 6/3/15.
  */
 public class LineItem implements Serializable{
+
     private Item  item;
     private ItemOption itemOption;
 
@@ -17,8 +18,10 @@ public class LineItem implements Serializable{
         return itemOption;
     }
 
-    public  LineItem(Item item) {
+    public  LineItem(Item item, ItemOption itemOption) {
+
         this.item = item;
+        this.itemOption = itemOption;
     }
 
 }
