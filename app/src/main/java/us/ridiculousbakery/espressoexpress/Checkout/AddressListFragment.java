@@ -16,7 +16,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -37,7 +36,8 @@ import us.ridiculousbakery.espressoexpress.R;
 public class AddressListFragment extends DialogFragment {
 
     protected ArrayList<Address> listAddresses;
-    protected ArrayAdapter<Address> aListAddresses;
+    //protected ArrayAdapter<Address> aListAddresses;
+    protected AddressListAdapter aListAddresses;
     protected ListView lvAddresses;
     private EditText etAddress;
     private Button btCancelAddress;
@@ -46,6 +46,7 @@ public class AddressListFragment extends DialogFragment {
 
     public interface OnWidgetClickedListener {
         void onCancelSearch(LatLng latLng);
+        void onSelectedAddress(LatLng latLng);
     }
 
     public  AddressListFragment() {
@@ -82,7 +83,8 @@ public class AddressListFragment extends DialogFragment {
         super.onCreate(savedInstanceState);
         anchorLatLng = new LatLng(getArguments().getDouble("lat"), getArguments().getDouble("lng"));
         listAddresses = new ArrayList<>();
-        aListAddresses = new ArrayAdapter<Address>(getActivity(), android.R.layout.simple_list_item_1, listAddresses);
+        //aListAddresses = new ArrayAdapter<Address>(getActivity(), android.R.layout.simple_list_item_1, listAddresses);
+        aListAddresses = new AddressListAdapter(getActivity(), listAddresses);
     }
 
     @Override
@@ -131,14 +133,16 @@ public class AddressListFragment extends DialogFragment {
         lvAddresses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                Address selectedAddress = listAddresses.get(position);
+                listener.onSelectedAddress(new LatLng(selectedAddress.getLatitude(), selectedAddress.getLongitude()));
+                dismiss();
             }
         });
     }
 
     class LocationSearchTask extends AsyncTask<String, Void, List<Address>> {
         final static int MAX_RESULTS = 5;
-        final static double SEARCH_BOUNDARY = .5;
+        final static double SEARCH_BOUNDARY = .2;
         @Override
         protected void onPreExecute() {
             //progressItem.setVisible(true);
