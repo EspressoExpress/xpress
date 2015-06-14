@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -72,6 +73,14 @@ public class CustomizeItemDialog extends DialogFragment {
         tlChosen = (TableLayout) view.findViewById(R.id.tlChosen);
         aOptions = new OptionsAdapter(getActivity(), lineItem.getItemOption());
         gvOptions.setAdapter(aOptions);
+
+        gvOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.d("DEBUG", position + "");
+            }
+        });
+
         return view;
     }
 
