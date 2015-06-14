@@ -41,6 +41,8 @@ public class ChatFragment extends Fragment {
     private ChatListAdapter aMessages;
     private ArrayList<Message> messages;
     private String userID;
+    private String targetUserID;
+    private String chatID;
 
     private Handler handler = new Handler();
 
@@ -57,9 +59,11 @@ public class ChatFragment extends Fragment {
         } else {
             // Throw Error Here?
         }
-        // Run the runnable object defined every 100ms
-        handler.postDelayed(runnable, 100);
+        // Get this from an intent
+        targetUserID = "Hello";
+        chatID = "bajeezia";
 
+        handler.postDelayed(runnable, 100);
     }
 
     private Runnable runnable = new Runnable() {
@@ -93,6 +97,8 @@ public class ChatFragment extends Fragment {
                 Message message = new Message();
                 message.setText(text);
                 message.setUserId(userID);
+                message.setTargetUserId(targetUserID);
+                message.setChatId(chatID);
                 message.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
@@ -111,6 +117,7 @@ public class ChatFragment extends Fragment {
         ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
         query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
         query.orderByAscending("createdAt");
+        query.whereEqualTo("chatId", chatID);
         query.findInBackground(new FindCallback<Message>() {
             public void done(List<Message> messages, ParseException e) {
                 if (e == null) {

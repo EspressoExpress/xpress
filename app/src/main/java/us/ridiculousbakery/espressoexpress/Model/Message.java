@@ -15,7 +15,9 @@ public class Message extends ParseObject {
     public String getText() {
         return getString("text");
     }
-    public String getFromUserI() { return getString("fromUserId"); }
+    public String getTargetUserId() { return getString("targetUserId"); }
+
+    public String getChatId() { return getString("chatId"); }
 
 
     public void setUserId(String userId) {
@@ -24,7 +26,8 @@ public class Message extends ParseObject {
     public void setText(String text) {
         put("text", text);
     }
-    public void setFromUserId(String userId) { put("fromUserId", userId); }
+    public void setTargetUserId(String userId) { put("targetUserId", userId); }
+    public void setChatId(String chatId) { put("chatId", chatId); }
 
     @Override
     public String toString() {
