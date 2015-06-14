@@ -1,17 +1,21 @@
-package us.ridiculousbakery.espressoexpress.StorePicker;
+package us.ridiculousbakery.espressoexpress.NavDrawer;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewStub;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 
+import us.ridiculousbakery.espressoexpress.Checkout.CCFormFragment;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -35,14 +39,35 @@ public class NavDrawerBaseActivity extends AppCompatActivity {
         navDrawerItems = new ArrayList<>();
         mDrawerList = (ListView) findViewById(R.id.lvDrawer);
         navDrawerItems = new ArrayList<>();
-        navDrawerItems.add(new NavDrawerItem("Bob", R.drawable.philz_twit_logo));
+        navDrawerItems.add(new NavDrawerItem("Edit Payment Information", R.drawable.philz_twit_logo));
+        navDrawerItems.add(new NavDrawerItem("Edit User Profile", R.drawable.philz_twit_logo));
+//        navDrawerItems.add(new NavDrawerItem("Edit Usual Order", R.drawable.philz_twit_logo));
+
         NavDrawerListAdapter adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
         mDrawerList.setAdapter(adapter);
+        mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                switch(position){
+                    case 0:
+                        displayCCForm();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+    }
+
+    private void displayCCForm() {
+        FragmentManager fm = getSupportFragmentManager();
+        CCFormFragment ccFormFragment = CCFormFragment.newInstance();
+        ccFormFragment.show(fm, "cc_form");
     }
 
     @Override

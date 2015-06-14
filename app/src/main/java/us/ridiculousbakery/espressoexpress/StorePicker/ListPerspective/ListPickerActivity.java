@@ -26,7 +26,7 @@ import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
 import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.MapPickerActivity;
-import us.ridiculousbakery.espressoexpress.StorePicker.NavDrawerBaseActivity;
+import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 
 
 public class ListPickerActivity extends NavDrawerBaseActivity implements

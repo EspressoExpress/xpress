@@ -10,7 +10,7 @@ import us.ridiculousbakery.espressoexpress.Checkout.CartActivity;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.MenuFragment;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.StorePicker.NavDrawerBaseActivity;
+import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 
 
 public class MenuActivity extends NavDrawerBaseActivity {

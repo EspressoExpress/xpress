@@ -1,4 +1,4 @@
-package us.ridiculousbakery.espressoexpress.StorePicker;
+package us.ridiculousbakery.espressoexpress.NavDrawer;
 
 /**
  * Created by bkuo on 5/28/15.

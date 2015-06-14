@@ -1,4 +1,4 @@
-package us.ridiculousbakery.espressoexpress.StorePicker;
+package us.ridiculousbakery.espressoexpress.NavDrawer;
 
 import android.content.Context;
 import android.view.LayoutInflater;

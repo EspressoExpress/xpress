@@ -10,7 +10,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,10 +40,10 @@ import us.ridiculousbakery.espressoexpress.InProgress.Delivering.DeliveringActiv
 import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
+import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 import us.ridiculousbakery.espressoexpress.R;
 import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.StorePager.PagerFragment;
 import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.StorePager.StorePagerAdapter;
-import us.ridiculousbakery.espressoexpress.StorePicker.NavDrawerBaseActivity;
 
 
 public class MapPickerActivity extends NavDrawerBaseActivity implements
@@ -82,7 +81,6 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
         position =getIntent().getIntExtra("position", 0);
 
         setContentView(R.layout.activity_map_picker);
-        final FragmentManager fm = getSupportFragmentManager();
 
         if (savedInstanceState == null) {
             mGoogleApiClient = new GoogleApiClient.Builder(this)
@@ -342,6 +340,9 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
         Order order = marker2Order.get(marker);
 //        if(store!=null) animateToStore(true, store);
         if(order!=null) showOrderAcceptDialog(order);
+        if(store!=null ){
+            getPagerFragment().setPageIndex(stores.indexOf(store));
+        }
         return false;
     }
 

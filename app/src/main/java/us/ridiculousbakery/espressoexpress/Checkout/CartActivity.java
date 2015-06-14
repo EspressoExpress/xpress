@@ -17,7 +17,7 @@ import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.StorePicker.NavDrawerBaseActivity;
+import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 
 public class CartActivity extends NavDrawerBaseActivity implements
         CartFragment.OnWidgetClickedListener,
