@@ -6,19 +6,20 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -41,6 +42,11 @@ public class AddressListFragment extends DialogFragment {
     private EditText etAddress;
     private Button btCancelAddress;
     private LatLng anchorLatLng;
+    OnWidgetClickedListener listener;
+
+    public interface OnWidgetClickedListener {
+        void onCancelSearch(LatLng latLng);
+    }
 
     public  AddressListFragment() {
 
@@ -59,27 +65,15 @@ public class AddressListFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_address_list, container, false);
+        listener = (OnWidgetClickedListener) getActivity();
         etAddress = (EditText) v.findViewById(R.id.etAddress);
         etAddress.requestFocus();
         getDialog().getWindow().setSoftInputMode(
                 WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
-        etAddress.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                //Toast.makeText(getActivity(), etAddress.getText().toString(), Toast.LENGTH_SHORT).show();
-                new UpdateEventLocationTask().execute(etAddress.getText().toString());
-                return false;
-            }
-        });
         btCancelAddress = (Button) v.findViewById(R.id.btCancelAddress);
-        btCancelAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
         lvAddresses = (ListView) v.findViewById(R.id.lvAddresses);
         lvAddresses.setAdapter(aListAddresses);
+        setupListeners();
         return v;
     }
 
@@ -108,10 +102,43 @@ public class AddressListFragment extends DialogFragment {
         getDialog().getWindow().setLayout(Math.round(dialogWidth), Math.round(dialogHeight));
     }
 
-    class UpdateEventLocationTask extends AsyncTask<String, Void, List<Address>> {
-        final static double SEARCH_BOUNDS_PRECISION = .3;
-        final static int MAX_RESULTS = 7;
+    private void setupListeners() {
+        etAddress.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                (new LocationSearchTask()).execute(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        btCancelAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onCancelSearch(anchorLatLng);
+                dismiss();
+            }
+        });
+
+        lvAddresses.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
+    }
+
+    class LocationSearchTask extends AsyncTask<String, Void, List<Address>> {
+        final static int MAX_RESULTS = 5;
+        final static double SEARCH_BOUNDARY = .5;
         @Override
         protected void onPreExecute() {
             //progressItem.setVisible(true);
@@ -125,10 +152,10 @@ public class AddressListFragment extends DialogFragment {
                 List<Address> addresses = null;
                 if (anchorLatLng != null) {
                     addresses = geocoder.getFromLocationName(locationName, MAX_RESULTS,
-                            anchorLatLng.latitude - SEARCH_BOUNDS_PRECISION,
-                            anchorLatLng.longitude - SEARCH_BOUNDS_PRECISION,
-                            anchorLatLng.latitude + SEARCH_BOUNDS_PRECISION,
-                            anchorLatLng.longitude + SEARCH_BOUNDS_PRECISION);
+                            anchorLatLng.latitude - SEARCH_BOUNDARY ,
+                            anchorLatLng.longitude - SEARCH_BOUNDARY ,
+                            anchorLatLng.latitude + SEARCH_BOUNDARY ,
+                            anchorLatLng.longitude + SEARCH_BOUNDARY);
                 } else {
                     addresses = geocoder.getFromLocationName(locationName, 1);
                 }
@@ -146,7 +173,7 @@ public class AddressListFragment extends DialogFragment {
 
         @Override
         protected void onPostExecute(List<Address> addresses) {
-            if (addresses.isEmpty()) {
+            if (addresses == null) {
                 Toast.makeText(getActivity(), "Location could not be found", Toast.LENGTH_LONG).show();
             }
             else {

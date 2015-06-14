@@ -79,6 +79,16 @@ public class AddressMapFragment extends DialogFragment implements
         return addressMapFragment;
     }
 
+    public static AddressMapFragment newInstance(Double lat, Double lng) {
+        AddressMapFragment addressMapFragment = new AddressMapFragment();
+        addressMapFragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
+        Bundle args = new Bundle();
+        args.putDouble("lat", lat);
+        args.putDouble("lng", lng);
+        addressMapFragment.setArguments(args);
+        return addressMapFragment;
+    }
+
     @Override
     public void onStart() {
         super.onStart();
@@ -108,36 +118,24 @@ public class AddressMapFragment extends DialogFragment implements
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.add(R.id.addressMapView, mapFragment).commit();
         listener = (OnWidgetClickedListener) getActivity();
-
-        btSelectAddress = (Button) v.findViewById(R.id.btSelectAddress);
-        btSelectAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onSelectAddress(addressLatLng, address);
-                dismiss();
-            }
-        });
-
         ivMarker = (ImageView) v.findViewById(R.id.ivMarker);
         Bitmap temp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_delivery_address);
         Bitmap marker = Bitmap.createScaledBitmap(temp, 128, 128, true);
         ivMarker.setImageBitmap(marker);
 
         tvAddress = (TextView) v.findViewById(R.id.tvAddress);
-        tvAddress.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvAddress.setTextColor(Color.LTGRAY);
-                listener.onSearchAddress(addressLatLng, address);
-                dismiss();
-            }
-        });
+        btSelectAddress = (Button) v.findViewById(R.id.btSelectAddress);
+        setupListeners();
         return v;
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Bundle args = getArguments();
+        if (args != null) {
+            addressLatLng = new LatLng(args.getDouble("lat"), args.getDouble("lng"));
+        }
         mapFragment = new SupportMapFragment();
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -151,7 +149,7 @@ public class AddressMapFragment extends DialogFragment implements
     protected void loadMap(GoogleMap googleMap) {
         map = googleMap;
         if (map != null) {
-            Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
             map.setMyLocationEnabled(true);
             map.setOnCameraChangeListener(this);
             // Now that map has loaded, let's get our location!
@@ -167,19 +165,21 @@ public class AddressMapFragment extends DialogFragment implements
 
     @Override
     public void onConnected(Bundle bundle) {
-        // Display the connection status
-        Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (location != null) {
-            Toast.makeText(getActivity(), "GPS location was found!", Toast.LENGTH_SHORT).show();
-            addressLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-            CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(addressLatLng, 17);
-            map.animateCamera(cameraUpdate);
-            updateAddress(addressLatLng);
-            //updateMarker(latLng);
-            //startLocationUpdates();
-        } else {
-            Toast.makeText(getActivity(), "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
+        if (addressLatLng == null) {
+            Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+            if (location != null) {
+                //Toast.makeText(getActivity(), "GPS location was found!", Toast.LENGTH_SHORT).show();
+                addressLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+            } else {
+                Toast.makeText(getActivity(), "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
+            }
         }
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(addressLatLng, 17);
+        map.animateCamera(cameraUpdate);
+        updateAddress(addressLatLng);
+        //updateMarker(latLng);
+        //startLocationUpdates();
+
     }
 
     private void updateAddress(LatLng latLng) {
@@ -223,7 +223,6 @@ public class AddressMapFragment extends DialogFragment implements
 
     @Override
     public void onCameraChange(CameraPosition cameraPosition) {
-        //Toast.makeText(getActivity(), "on cam change", Toast.LENGTH_SHORT).show();
         updateAddress(cameraPosition.target);
         /*if(locationMarker != null) {
             locationMarker.remove();
@@ -232,6 +231,25 @@ public class AddressMapFragment extends DialogFragment implements
         updateMarker(cameraPosition.target);*/
     }
 
+    private void setupListeners() {
+        btSelectAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onSelectAddress(addressLatLng, address);
+                dismiss();
+            }
+        });
+
+
+        tvAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvAddress.setTextColor(Color.LTGRAY);
+                listener.onSearchAddress(addressLatLng, address);
+                dismiss();
+            }
+        });
+    }
 
 
 }

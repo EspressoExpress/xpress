@@ -21,7 +21,8 @@ import us.ridiculousbakery.espressoexpress.R;
 
 public class CartActivity extends AppCompatActivity implements
         CartFragment.OnWidgetClickedListener,
-        AddressMapFragment.OnWidgetClickedListener {
+        AddressMapFragment.OnWidgetClickedListener,
+        AddressListFragment.OnWidgetClickedListener{
 
     CartFragment cartFragment;
 
@@ -96,5 +97,12 @@ public class CartActivity extends AppCompatActivity implements
         FragmentManager fm = getSupportFragmentManager();
         AddressListFragment addressListFragment = AddressListFragment.newInstance(latLng.latitude, latLng.longitude);
         addressListFragment.show(fm, "address_list");
+    }
+
+    @Override
+    public void onCancelSearch(LatLng latLng) {
+        FragmentManager fm = getSupportFragmentManager();
+        AddressMapFragment addressMapFragment = AddressMapFragment.newInstance(latLng.latitude, latLng.longitude);
+        addressMapFragment.show(fm, "address_map");
     }
 }
