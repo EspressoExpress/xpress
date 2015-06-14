@@ -29,11 +29,14 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.TreeMap;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.OptionsAdapter;
 import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.ItemOption;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
+import us.ridiculousbakery.espressoexpress.Model.SelectedOption;
 import us.ridiculousbakery.espressoexpress.Model.User;
 import us.ridiculousbakery.espressoexpress.R;
 
@@ -47,11 +50,7 @@ public class CustomizeItemDialog extends DialogFragment {
         void onFinishCustomizingLineItem(LineItem lineItem);
     }
 
-
     private CustomizeItemDialogListener listener;
-
-//    private CupSizeFragment cupSizeFragment;
-//    private MilkFragment milkFragment;
 
     private GridView gvOptions;
     private TableLayout tlChosen;
@@ -60,7 +59,7 @@ public class CustomizeItemDialog extends DialogFragment {
     private Item item;
     private Button btnAdd;
 
-    private ArrayList<String> chosenOptions;
+    private ArrayList<SelectedOption> chosenOptions;
 
     public static CustomizeItemDialog newInstance(Item item) {
         CustomizeItemDialog dialog = new CustomizeItemDialog();
@@ -83,16 +82,18 @@ public class CustomizeItemDialog extends DialogFragment {
 
     @Nullable
     @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_customize_item, container);
         gvOptions = (GridView) view.findViewById(R.id.gvOptions);
         tlChosen = (TableLayout) view.findViewById(R.id.tlChosen);
         trOptions = (TableRow) view.findViewById(R.id.trOptions);
-        aOptions = new OptionsAdapter(getActivity(), item.getOptions());
-        chosenOptions = new ArrayList<String>();
-//        aOptions = new OptionsAdapter(getActivity(), lineItem.getItemOption());
+        TreeMap<String, ArrayList<String>> optionsCopy = (TreeMap) item.getOptions().clone();
+        aOptions = new OptionsAdapter(getActivity(), optionsCopy);
+        chosenOptions = new ArrayList<>();
         gvOptions.setAdapter(aOptions);
         btnAdd = (Button) view.findViewById(R.id.btnAdd);
+
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,19 +119,11 @@ public class CustomizeItemDialog extends DialogFragment {
     }
 
     private void addOptionAtIndex(int pos) {
-        View view = LayoutInflater.from(getActivity()).inflate(R.layout.chosen_option, null);
         String op = (String) aOptions.getItem(pos);
-        TextView tvName = (TextView) view.findViewById(R.id.tvName);
-        tvName.setText(op);
-        Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
-        btnCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setButtonVisability();
-            }
-        });
-        trOptions.addView(view);
-        chosenOptions.add(op);
+        String cat = (String) aOptions.optionNameForPosition(pos);
+        SelectedOption chosenOption = new SelectedOption(op, cat);
+        chosenOptions.add(chosenOption);
+        syncViewWithChosenOptions();
     }
 
     private void setButtonVisability() {
@@ -140,6 +133,37 @@ public class CustomizeItemDialog extends DialogFragment {
             btnAdd.setVisibility(Button.VISIBLE);
         }
     }
+
+    private void syncViewWithChosenOptions() {
+        trOptions.removeAllViews();
+        for (int i=0; i<chosenOptions.size(); i++) {
+            SelectedOption op = chosenOptions.get(i);
+            View view = LayoutInflater.from(getActivity()).inflate(R.layout.chosen_option, null);
+            TextView tvName = (TextView) view.findViewById(R.id.tvName);
+            tvName.setText(op.getName());
+            Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+            btnCancel.setTag(op);
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // Add Back what was clicked
+                    SelectedOption opToDelete = (SelectedOption) v.getTag();
+                    Log.d("DEBUG Delete", opToDelete.getName());
+                    chosenOptions.remove(opToDelete);
+                    syncViewWithChosenOptions();
+
+                    // Put back into Adapter
+                    // Get General Key From Value
+                    String key = "Size";
+                    aOptions.addOption(opToDelete.getName(), item.getOptions().get(opToDelete.getCategory()));
+
+                    setButtonVisability();
+                }
+            });
+            trOptions.addView(view);
+        }
+    }
+
 
     @Override
     public void onStart() {
