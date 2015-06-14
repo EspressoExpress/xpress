@@ -105,4 +105,11 @@ public class CartActivity extends NavDrawerBaseActivity implements
         AddressMapFragment addressMapFragment = AddressMapFragment.newInstance(latLng.latitude, latLng.longitude);
         addressMapFragment.show(fm, "address_map");
     }
+
+    @Override
+    public void onSelectedAddress(LatLng latLng) {
+        FragmentManager fm = getSupportFragmentManager();
+        AddressMapFragment addressMapFragment = AddressMapFragment.newInstance(latLng.latitude, latLng.longitude);
+        addressMapFragment.show(fm, "address_map");
+    }
 }
