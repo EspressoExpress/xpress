@@ -20,4 +20,8 @@
     <string name="title_activity_receiving">ReceivingActivity</string>
     <string name="add_cup">Add Cup</string>
     <string name="cart_text">View Cart</string>
+    <string name="chat_hint">Say something to</string>
+    <string name="chat_send_label">Send</string>
+    <string name="chat_profile_other">Other Profile</string>
+    <string name="chat_profile_me">My Profile</string>
 </resources>

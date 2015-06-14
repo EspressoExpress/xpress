@@ -3,9 +3,11 @@ package us.ridiculousbakery.espressoexpress;
 import android.app.Application;
 
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
 
+import us.ridiculousbakery.espressoexpress.Model.Message;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 
 /**
@@ -21,6 +23,8 @@ public class EspressoApplication extends Application {
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
+        ParseObject.registerSubclass(Message.class);
+
 
 //        // Test Parse
 //        ParseObject testObject = new ParseObject("TestObject");
