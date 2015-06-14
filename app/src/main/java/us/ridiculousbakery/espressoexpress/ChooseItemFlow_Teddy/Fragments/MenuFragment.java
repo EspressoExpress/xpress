@@ -56,14 +56,18 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
         View v = inflater.inflate(R.layout.fragment_menu_list, container, false);
         elvMenu = (ExpandableListView) v.findViewById(R.id.elvMenu);
         elvMenu.setAdapter(aMenu);
-        elvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        elvMenu.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // Present Dialog Fragment
-                //Item item = (Item) aMenu.getItem(i);
-                //showCustomizeItemDialog(item);
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                Item item = (Item) aMenu.getChild(groupPosition, childPosition);
+                showCustomizeItemDialog(item);
+                return true;
             }
         });
+
+        for(int i=0; i < aMenu.getGroupCount(); i++) {
+            elvMenu.expandGroup(i);
+        }
 
         View header = inflater.inflate(R.layout.menu_header, container, false);
 

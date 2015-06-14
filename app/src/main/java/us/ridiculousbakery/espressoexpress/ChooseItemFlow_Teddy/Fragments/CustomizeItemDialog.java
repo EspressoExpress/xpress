@@ -18,10 +18,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TableLayout;
 import android.widget.TextView;
 
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.OptionsAdapter;
 import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.User;
@@ -40,9 +43,12 @@ public class CustomizeItemDialog extends DialogFragment {
 
     private CustomizeItemDialogListener listener;
 
-    private CupSizeFragment cupSizeFragment;
-    private MilkFragment milkFragment;
+//    private CupSizeFragment cupSizeFragment;
+//    private MilkFragment milkFragment;
 
+    private GridView gvOptions;
+    private TableLayout tlChosen;
+    private OptionsAdapter aOptions;
     private LineItem lineItem;
 
     public static CustomizeItemDialog newInstance(Item item) {
@@ -62,7 +68,10 @@ public class CustomizeItemDialog extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_customize_item, container);
-        //showCupSizeFragment(view);
+        gvOptions = (GridView) view.findViewById(R.id.gvOptions);
+        tlChosen = (TableLayout) view.findViewById(R.id.tlChosen);
+        aOptions = new OptionsAdapter(getActivity(), lineItem.getItemOption());
+        gvOptions.setAdapter(aOptions);
         return view;
     }
 
