@@ -75,6 +75,11 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
     @Override
     public void onPageScrollStateChanged(int state) {   }
 
+    public void setPageIndex(int i) {
+        viewPager.setCurrentItem(i);
+    }
+
+
     public interface PagerListener {
         public void onNewMapTargetRequest(int t, boolean animate);
 

@@ -24,4 +24,9 @@
     <string name="chat_send_label">Send</string>
     <string name="chat_profile_other">Other Profile</string>
     <string name="chat_profile_me">My Profile</string>
+
+
+
+    <string name="drawer_open">Open navigation drawer</string>
+    <string name="drawer_close">Close navigation drawer</string>
 </resources>
