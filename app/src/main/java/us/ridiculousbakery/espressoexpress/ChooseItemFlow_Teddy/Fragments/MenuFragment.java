@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.MenuAdapter;
@@ -24,7 +25,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
 
     private MenuAdapter aMenu;
     private StoreMenu storeMenu;
-    private ListView lvMenu;
+    private ExpandableListView elvMenu;
 
     //================================================================================
     // Constructors
@@ -53,14 +54,14 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_list, container, false);
-        lvMenu = (ListView) v.findViewById(R.id.lvMenu);
-        lvMenu.setAdapter(aMenu);
-        lvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        elvMenu = (ExpandableListView) v.findViewById(R.id.elvMenu);
+        elvMenu.setAdapter(aMenu);
+        elvMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 // Present Dialog Fragment
-                Item item = (Item) aMenu.getItem(i);
-                showCustomizeItemDialog(item);
+                //Item item = (Item) aMenu.getItem(i);
+                //showCustomizeItemDialog(item);
             }
         });
 
@@ -70,7 +71,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
         MenuHeaderFragment menuHeaderFragment = new MenuHeaderFragment();
         ft.replace(R.id.flContainer, menuHeaderFragment);
         ft.commit();
-        lvMenu.addHeaderView(header);
+        elvMenu.addHeaderView(header);
 
         return v;
     }

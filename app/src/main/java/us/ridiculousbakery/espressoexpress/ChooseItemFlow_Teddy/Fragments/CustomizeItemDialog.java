@@ -30,7 +30,7 @@ import us.ridiculousbakery.espressoexpress.R;
 /**
  * Created by teddywyly on 6/6/15.
  */
-public class CustomizeItemDialog extends DialogFragment implements CupSizeFragment.OnSizeSelectedListener, MilkFragment.OnPercentageChosenListener {
+public class CustomizeItemDialog extends DialogFragment {
 
 
     public interface CustomizeItemDialogListener {
@@ -62,7 +62,7 @@ public class CustomizeItemDialog extends DialogFragment implements CupSizeFragme
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_customize_item, container);
-        showCupSizeFragment(view);
+        //showCupSizeFragment(view);
         return view;
     }
 
@@ -108,25 +108,25 @@ public class CustomizeItemDialog extends DialogFragment implements CupSizeFragme
     // Fragment Switches
     //================================================================================
 
-    private void showCupSizeFragment(View view) {
-        if (cupSizeFragment == null) {
-            cupSizeFragment = new CupSizeFragment();
-        }
-        FrameLayout flContainer = (FrameLayout) view.findViewById(R.id.flContainer);
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        ft.replace(R.id.flContainer, cupSizeFragment);
-        ft.commit();
-    }
-
-    private void showMilkFragment(View view) {
-        if (milkFragment == null) {
-            milkFragment = new MilkFragment();
-        }
-        FrameLayout flContainer = (FrameLayout) view.findViewById(R.id.flContainer);
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        ft.replace(R.id.flContainer, milkFragment);
-        ft.commit();
-    }
+//    private void showCupSizeFragment(View view) {
+//        if (cupSizeFragment == null) {
+//            cupSizeFragment = new CupSizeFragment();
+//        }
+//        FrameLayout flContainer = (FrameLayout) view.findViewById(R.id.flContainer);
+//        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+//        ft.replace(R.id.flContainer, cupSizeFragment);
+//        ft.commit();
+//    }
+//
+//    private void showMilkFragment(View view) {
+//        if (milkFragment == null) {
+//            milkFragment = new MilkFragment();
+//        }
+//        FrameLayout flContainer = (FrameLayout) view.findViewById(R.id.flContainer);
+//        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+//        ft.replace(R.id.flContainer, milkFragment);
+//        ft.commit();
+//    }
 
     //================================================================================
     // Animation
@@ -143,20 +143,20 @@ public class CustomizeItemDialog extends DialogFragment implements CupSizeFragme
     // OnSizeSelectedListener
     //================================================================================
 
-    @Override
-    public void onCupSizeSelected() {
-        // Store Size in Options and show next fragment
-        showMilkFragment(getView());
-    }
+//    @Override
+//    public void onCupSizeSelected() {
+//        // Store Size in Options and show next fragment
+//        showMilkFragment(getView());
+//    }
 
     //================================================================================
     // OnPercentageChosenListener
     //================================================================================
 
-    @Override
-    public void onMilkPercentageChosen() {
-        listener.onFinishCustomizingLineItem(lineItem);
-        dismiss();
-    }
+//    @Override
+//    public void onMilkPercentageChosen() {
+//        listener.onFinishCustomizingLineItem(lineItem);
+//        dismiss();
+//    }
 
 }
