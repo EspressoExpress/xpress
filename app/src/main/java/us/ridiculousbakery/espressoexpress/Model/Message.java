@@ -16,7 +16,6 @@ public class Message extends ParseObject {
         return getString("text");
     }
     public String getTargetUserId() { return getString("targetUserId"); }
-
     public String getChatId() { return getString("chatId"); }
 
 

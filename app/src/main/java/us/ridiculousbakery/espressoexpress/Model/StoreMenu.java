@@ -32,7 +32,27 @@ public class StoreMenu implements Serializable {
         for (int i=0; i<4; i++) {
             ArrayList<Item> newItems = new ArrayList<Item>();
             for (int j=0; j<10; j++) {
-                Item item = new Item("Frapppppp");
+                TreeMap<String, ArrayList<String>> options = new TreeMap<>();
+                //1
+                ArrayList<String> size = new ArrayList<String>();
+                size.add("Small");
+                size.add("Medium");
+                size.add("Large");
+                options.put("Size", size);
+                //2
+                ArrayList<String> milk = new ArrayList<String>();
+                milk.add("None");
+                milk.add("Splash");
+                milk.add("Medium");
+                milk.add("A lot");
+                options.put("Milk", milk);
+                //3
+                ArrayList<String> sugar = new ArrayList<String>();
+                sugar.add("None");
+                sugar.add("Little");
+                sugar.add("A lot");
+                options.put("Sugar", sugar);
+                Item item = new Item("Frap", options);
                 newItems.add(item);
             }
             categories.put("a", newItems);

@@ -28,6 +28,8 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.OptionsAdapter;
 import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.ItemOption;
@@ -55,14 +57,16 @@ public class CustomizeItemDialog extends DialogFragment {
     private TableLayout tlChosen;
     private TableRow trOptions;
     private OptionsAdapter aOptions;
-    private LineItem lineItem;
+    private Item item;
     private Button btnAdd;
+
+    private ArrayList<String> chosenOptions;
 
     public static CustomizeItemDialog newInstance(Item item) {
         CustomizeItemDialog dialog = new CustomizeItemDialog();
         dialog.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
         Bundle args = new Bundle();
-        args.putParcelable("item", item);
+        args.putSerializable("item", item);
         dialog.setArguments(args);
         return dialog;
     }
@@ -71,6 +75,12 @@ public class CustomizeItemDialog extends DialogFragment {
     // Lifecycle
     //================================================================================
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        item = (Item) getArguments().getSerializable("item");
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -78,13 +88,16 @@ public class CustomizeItemDialog extends DialogFragment {
         gvOptions = (GridView) view.findViewById(R.id.gvOptions);
         tlChosen = (TableLayout) view.findViewById(R.id.tlChosen);
         trOptions = (TableRow) view.findViewById(R.id.trOptions);
-        aOptions = new OptionsAdapter(getActivity(), lineItem.getItemOption());
+        aOptions = new OptionsAdapter(getActivity(), item.getOptions());
+        chosenOptions = new ArrayList<String>();
+//        aOptions = new OptionsAdapter(getActivity(), lineItem.getItemOption());
         gvOptions.setAdapter(aOptions);
         btnAdd = (Button) view.findViewById(R.id.btnAdd);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                LineItem lineItem = new LineItem(item, chosenOptions);
                 listener.onFinishCustomizingLineItem(lineItem);
             }
         });
@@ -94,18 +107,21 @@ public class CustomizeItemDialog extends DialogFragment {
         gvOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ItemOption.Options option = aOptions.optionForPosition(position);
-                aOptions.removeOption(option);
+                String op = aOptions.optionNameForPosition(position);
+                addOptionAtIndex(position);
+                aOptions.removeOption(op);
                 setButtonVisability();
-                addOptionAtIndex(0, null);
                 Log.d("DEBUG", position + "");
             }
         });
         return view;
     }
 
-    private void addOptionAtIndex(int pos, ItemOption.Options option) {
+    private void addOptionAtIndex(int pos) {
         View view = LayoutInflater.from(getActivity()).inflate(R.layout.chosen_option, null);
+        String op = (String) aOptions.getItem(pos);
+        TextView tvName = (TextView) view.findViewById(R.id.tvName);
+        tvName.setText(op);
         Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +130,7 @@ public class CustomizeItemDialog extends DialogFragment {
             }
         });
         trOptions.addView(view);
-//        tlChosen.addView(view);
+        chosenOptions.add(op);
     }
 
     private void setButtonVisability() {
@@ -123,13 +139,6 @@ public class CustomizeItemDialog extends DialogFragment {
         } else {
             btnAdd.setVisibility(Button.VISIBLE);
         }
-    }
-
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        Item item = getArguments().getParcelable("item");
-        lineItem = new LineItem(item, new ItemOption(null, null, null, true));
     }
 
     @Override
@@ -142,11 +151,6 @@ public class CustomizeItemDialog extends DialogFragment {
             int widPx = metrics.widthPixels;
             ViewGroup.LayoutParams params = new ActionBar.LayoutParams((int)(widPx*0.85), (int)(heiPx*0.85));
             dialog.getWindow().setLayout(params.width, params.height);
-
-//            int width = (int) ViewGroup.LayoutParams.MATCH_PARENT * 0.8;
-//            int height = (int) ViewGroup.LayoutParams.MATCH_PARENT * 0.8;
-//            dialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-            //dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         }
     }
 

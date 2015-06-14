@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.ItemOption;
@@ -28,15 +29,17 @@ import us.ridiculousbakery.espressoexpress.R;
 public class OptionsAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
-    private ItemOption options;
+    private TreeMap<String, ArrayList<String>> options;
+    //private ItemOption options;
 
     private class ViewHolder {
         public TextView name;
     }
 
-    private ArrayList<String> getInternalOptions() {
+
+    private ArrayList<String> sortedOptionValues() {
         ArrayList<String> internalOptions = new ArrayList<>();
-        for(Map.Entry<ItemOption.Options, List<String>> entry : options.getOptions().entrySet()) {
+        for(Map.Entry<String, ArrayList<String>> entry : options.entrySet()) {
             List<String> strings = entry.getValue();
             for (int i=0; i<strings.size(); i++) {
                 internalOptions.add(strings.get(i));
@@ -45,25 +48,26 @@ public class OptionsAdapter extends BaseAdapter {
         return internalOptions;
     }
 
-    public OptionsAdapter(Context context, ItemOption options) {
+    public OptionsAdapter(Context context, TreeMap<String, ArrayList<String>> options) {
         this.inflater = LayoutInflater.from(context);
         this.options = options;
 
     }
 
-    public void removeOption(ItemOption.Options option) {
-        options.getOptions().remove(option);
+    public void removeOption(String name) {
+        options.remove(name);
+//        options.getOptions().remove(option);
         notifyDataSetChanged();
     }
 
-    public void addOption(ItemOption.Options option) {
-        options.getOptions().put(option, Arrays.asList("Small", "Medium", "Large"));
+    public void addOption(String name, ArrayList<String> choices) {
+        options.put(name, choices);
         notifyDataSetChanged();
     }
 
-    public ItemOption.Options optionForPosition(int position) {
+    public String optionNameForPosition(int position) {
         int pos = position;
-        for(Map.Entry<ItemOption.Options, List<String>> entry : options.getOptions().entrySet()) {
+        for(Map.Entry<String, ArrayList<String>> entry : options.entrySet()) {
             List<String> strings = entry.getValue();
             for (int i=0; i<strings.size(); i++) {
                 if (pos == 0) {
@@ -92,6 +96,15 @@ public class OptionsAdapter extends BaseAdapter {
         }
 
         viewHolder.name.setText(op);
+
+
+        ArrayList<String> firstGroup = options.get(options.firstKey());
+        if (position < firstGroup.size()) {
+            convertView.setAlpha(1.0f);
+        } else {
+            convertView.setAlpha(0.5f);
+        }
+
         return convertView;
 
     }
@@ -100,12 +113,12 @@ public class OptionsAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return getInternalOptions().size();
+        return sortedOptionValues().size();
     }
 
     @Override
     public Object getItem(int position) {
-        return getInternalOptions().get(position);
+        return sortedOptionValues().get(position);
     }
 
     @Override

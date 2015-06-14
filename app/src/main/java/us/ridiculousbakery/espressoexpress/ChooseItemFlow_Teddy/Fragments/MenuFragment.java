@@ -131,7 +131,6 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     // CustomizeItemDialogListener
     //================================================================================
 
-
     @Override
     public void onFinishCustomizingLineItem(LineItem lineItem) {
         // Fire Intent!
@@ -139,4 +138,5 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
         lineItems.add(lineItem);
         setCartButtonHeight();
     }
+
 }
