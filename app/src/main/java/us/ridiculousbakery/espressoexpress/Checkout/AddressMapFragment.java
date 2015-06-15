@@ -82,10 +82,12 @@ public class AddressMapFragment extends DialogFragment implements
     public static AddressMapFragment newInstance(Double lat, Double lng) {
         AddressMapFragment addressMapFragment = new AddressMapFragment();
         addressMapFragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
-        Bundle args = new Bundle();
-        args.putDouble("lat", lat);
-        args.putDouble("lng", lng);
-        addressMapFragment.setArguments(args);
+        if (lat != null && lng != null) {
+            Bundle args = new Bundle();
+            args.putDouble("lat", lat);
+            args.putDouble("lng", lng);
+            addressMapFragment.setArguments(args);
+        }
         return addressMapFragment;
     }
 

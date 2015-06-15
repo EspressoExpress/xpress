@@ -2,43 +2,90 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvHeader"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:text="Order Summary"
-        android:textSize="24sp"
-        android:gravity="center"/>
+        android:gravity="center_vertical|center"
+        android:id="@+id/llOrderHeader">
 
-    <TextView
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvHeader"
+            android:text="Order Summary"
+            android:textSize="24sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvStoreName"
+            android:text="store name"
+            android:textSize="16sp"
+            />
+
+        </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/tvStoreName"
+        android:layout_below="@+id/llOrderHeader"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tvHeader"
-        android:text="store name"
-        android:textSize="16sp"
-        android:gravity="center"/>
+        android:id="@+id/rlDeliveryAddress"
+        android:visibility="gone"
+        android:padding="16dp"
+        android:background="@android:color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/tvAddress"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/tvStoreName"
-        android:text="Delievery adress here"
-        android:textSize="24sp"
-        android:textColor="#d3d3d3"
-        android:background="@color/material_blue_grey_900"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvAddress"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/tvChangeAddress"
+            android:layout_alignParentTop="true"
+            android:text="Delievery adress here"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvAddressLine2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/tvChangeAddress"
+            android:layout_below="@+id/tvAddress"
+            android:text="City, State"
+            android:textSize="20sp"
+            android:layout_marginBottom="16sp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvChangeAddress"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/tvAddress"
+            android:text="change"
+            android:textColor="@color/wallet_holo_blue_light"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_below="@+id/tvAddressLine2"/>
+
+    </RelativeLayout>
+
 
     <ListView
         android:layout_width="wrap_content"
@@ -50,7 +97,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/tvAddress"/>
+        android:layout_below="@+id/rlDeliveryAddress"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -64,12 +111,23 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Add Delivery Address"
+        android:id="@+id/btAddress"
+        android:layout_above="@+id/btCheckout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:text="Enter Payment"
         android:id="@+id/btPayment"
         android:layout_above="@+id/btCheckout"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"/>
+        android:layout_alignParentRight="true"
+        android:visibility="gone"
+        />
 
     <Button
         android:layout_width="wrap_content"
@@ -79,7 +137,8 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:enabled="false"/>
+        android:enabled="false"
+        />
 
 
 

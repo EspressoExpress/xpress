@@ -19,7 +19,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 
@@ -46,19 +45,20 @@ public class AddressListFragment extends DialogFragment {
 
     public interface OnWidgetClickedListener {
         void onCancelSearch(LatLng latLng);
-        void onSelectedAddress(LatLng latLng);
+        void onSelectSearchResult(LatLng latLng);
     }
 
     public  AddressListFragment() {
 
     }
 
-    public static AddressListFragment newInstance(Double lat, Double lng) {
+    public static AddressListFragment newInstance(Double lat, Double lng, Address address) {
         AddressListFragment addressListFragment = new AddressListFragment();
         addressListFragment.setStyle(DialogFragment.STYLE_NO_TITLE, 0);
         Bundle args = new Bundle();
         args.putDouble("lat", lat);
         args.putDouble("lng", lng);
+        args.putParcelable("address", address);
         addressListFragment.setArguments(args);
         return addressListFragment;
     }
@@ -68,9 +68,9 @@ public class AddressListFragment extends DialogFragment {
         View v = inflater.inflate(R.layout.fragment_address_list, container, false);
         listener = (OnWidgetClickedListener) getActivity();
         etAddress = (EditText) v.findViewById(R.id.etAddress);
+        etAddress.setText(StringHelper.addressToString((Address) getArguments().getParcelable("address")));
+        etAddress.setSelection(etAddress.getText().length());
         etAddress.requestFocus();
-        getDialog().getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         btCancelAddress = (Button) v.findViewById(R.id.btCancelAddress);
         lvAddresses = (ListView) v.findViewById(R.id.lvAddresses);
         lvAddresses.setAdapter(aListAddresses);
@@ -85,6 +85,13 @@ public class AddressListFragment extends DialogFragment {
         listAddresses = new ArrayList<>();
         //aListAddresses = new ArrayAdapter<Address>(getActivity(), android.R.layout.simple_list_item_1, listAddresses);
         aListAddresses = new AddressListAdapter(getActivity(), listAddresses);
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        //still doesn't show soft ketboard
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
     @Override
@@ -113,7 +120,14 @@ public class AddressListFragment extends DialogFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                (new LocationSearchTask()).execute(s.toString());
+                //Toast.makeText(getActivity(), s.toString(), Toast.LENGTH_LONG).show();
+                if (s.toString().isEmpty()) {
+                    listAddresses.clear();
+                    aListAddresses.notifyDataSetChanged();
+                } else {
+                    (new LocationSearchTask()).execute(s.toString());
+                }
+
             }
 
             @Override
@@ -134,7 +148,7 @@ public class AddressListFragment extends DialogFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Address selectedAddress = listAddresses.get(position);
-                listener.onSelectedAddress(new LatLng(selectedAddress.getLatitude(), selectedAddress.getLongitude()));
+                listener.onSelectSearchResult(new LatLng(selectedAddress.getLatitude(), selectedAddress.getLongitude()));
                 dismiss();
             }
         });
@@ -178,7 +192,7 @@ public class AddressListFragment extends DialogFragment {
         @Override
         protected void onPostExecute(List<Address> addresses) {
             if (addresses == null) {
-                Toast.makeText(getActivity(), "Location could not be found", Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(), "Location could not be found", Toast.LENGTH_LONG).show();
             }
             else {
                 aListAddresses.clear();

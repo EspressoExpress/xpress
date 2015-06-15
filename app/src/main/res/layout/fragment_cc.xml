@@ -3,18 +3,33 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    android:gravity="top|center">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Enter Payment Info"
-        android:id="@+id/textView" />
+        android:id="@+id/textView"
+        android:textSize="24sp"
+        android:layout_marginBottom="16dp"/>
+
     <com.devmarvel.creditcardentry.library.CreditCardForm
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="16dp"
         android:id="@+id/credit_card_form"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:include_helper="false"
         app:include_zip="false"/>
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:text="Back to Checkout"
+        android:id="@+id/btSavePayment"
+        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>
