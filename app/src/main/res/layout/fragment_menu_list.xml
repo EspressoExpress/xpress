@@ -18,7 +18,7 @@
         android:layout_height="16dp"
         android:id="@+id/elvMenu"
         android:layout_above="@+id/btnCart"
-        android:layout_alignParentTop="true" />
+        android:layout_below="@+id/toolbar" />
 
     <Button
         android:layout_width="match_parent"

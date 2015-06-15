@@ -1,27 +1,50 @@
 package us.ridiculousbakery.espressoexpress.InProgress.Receiving;
 
+import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import us.ridiculousbakery.espressoexpress.InProgress.Fragments.ChatFragment;
+import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderInProgressFragment;
+import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderPlacedFragment;
 import us.ridiculousbakery.espressoexpress.R;
 
 public class ReceivingActivity extends ActionBarActivity {
 
-    private ChatFragment chatFragment;
+    private OrderPlacedFragment orderPlacedFragment;
+    private OrderInProgressFragment orderInProgressFragment;
+   // private ChatFragment chatFragment;
+
+    private Handler handler = new Handler();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiving);
-        chatFragment = new ChatFragment();
-        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-        ft.replace(R.id.flChatContainer, chatFragment);
-        ft.commit();
+        if (savedInstanceState == null) {
+            orderPlacedFragment = new OrderPlacedFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.flContainer, orderPlacedFragment);
+            ft.commit();
+        }
+
+        handler.postDelayed(runnable, 10000);
+
     }
+
+    private Runnable runnable = new Runnable() {
+        @Override
+        public void run() {
+            Log.d("Runnable", "Running");
+            switchToPickupConfirmed();
+            //handler.postDelayed(this, 100);
+        }
+    };
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -43,5 +66,14 @@ public class ReceivingActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void switchToPickupConfirmed() {
+        Log.d("Replace", "Replace");
+        //chatFragment = new ChatFragment();
+        orderInProgressFragment = new OrderInProgressFragment();
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.flContainer, orderInProgressFragment);
+        ft.commit();
     }
 }

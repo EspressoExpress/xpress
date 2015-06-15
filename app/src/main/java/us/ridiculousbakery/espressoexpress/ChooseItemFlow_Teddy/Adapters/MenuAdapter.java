@@ -6,10 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.ProfileImageHelper;
 import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
@@ -22,6 +26,8 @@ public class MenuAdapter extends BaseExpandableListAdapter {
 
     private class ViewHolder {
         TextView name;
+        TextView price;
+        ImageView image;
     }
 
     private class GroupViewHolder {
@@ -29,7 +35,12 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     }
 
     private LayoutInflater inflater;
+    private Context context;
     private StoreMenu storeMenu;
+
+    public Context getContext() {
+        return context;
+    }
 
     //================================================================================
     // Constructors
@@ -67,12 +78,21 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             viewHolder = new ViewHolder();
             convertView = inflater.inflate(R.layout.menu_item, parent, false);
             viewHolder.name = (TextView) convertView.findViewById(R.id.tvName);
+            viewHolder.price = (TextView) convertView.findViewById(R.id.tvPrice);
+            viewHolder.image = (ImageView) convertView.findViewById(R.id.ivImage);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        viewHolder.image.setImageResource(0);
+        viewHolder.price.setText("$4-6");
         viewHolder.name.setText(item.getName());
+
+        if (item.getImageURL() != null) {
+            Picasso.with(getContext()).load(item.getImageURL()).fit().transform(ProfileImageHelper.roundTransformation()).into(viewHolder.image);
+        }
+
         return convertView;
     }
 
@@ -131,39 +151,4 @@ public class MenuAdapter extends BaseExpandableListAdapter {
     }
 
 
-
-//    @Override
-//    public View getView(int i, View view, ViewGroup viewGroup) {
-//
-//        ViewHolder viewHolder;
-//        Item item = storeMenu.getItems().get(i);
-//
-//        if (view == null) {
-//            viewHolder = new ViewHolder();
-//            view = inflater.inflate(R.layout.menu_item, viewGroup, false);
-//            viewHolder.name = (TextView) view.findViewById(R.id.tvName);
-//            view.setTag(viewHolder);
-//        } else {
-//            viewHolder = (ViewHolder) view.getTag();
-//        }
-//
-//        viewHolder.name.setText(item.getName());
-//
-//        return view;
-//    }
-
-//    @Override
-//    public Object getItem(int i) {
-//        return storeMenu.getItems().get(i);
-//    }
-//
-//    @Override
-//    public int getCount() {
-//        return storeMenu.getItems().size();
-//    }
-//
-//    @Override
-//    public long getItemId(int i) {
-//        return i;
-//    }
 }

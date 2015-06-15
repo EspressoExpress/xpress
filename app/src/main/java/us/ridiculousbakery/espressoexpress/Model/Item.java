@@ -16,6 +16,7 @@ public class Item implements Serializable {
 
     private static final long serialVersionUID = 4455604316807152635L;
     private String name;
+    private String imageURL;
     private TreeMap <String, ArrayList<String>> options;
 
     //================================================================================
@@ -36,6 +37,10 @@ public class Item implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public String getImageURL() {
+        return imageURL;
     }
 
     public TreeMap<String, ArrayList<String>> getOptions() {

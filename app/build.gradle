@@ -41,7 +41,14 @@ dependencies {
     compile 'com.parse.bolts:bolts-android:1.+'
     compile fileTree(dir: 'libs', include: 'Parse-*.jar')
 
+    //Updating Library
     compile 'com.android.support:appcompat-v7:22.1.1'
+
+    // We need to update to these
+//    compile 'com.android.support:appcompat-v7:22.2.0'
+//    compile 'com.android.support:support-v4:22.2.0'
+//    compile 'com.android.support:design:22.2.0'
+
     compile 'com.google.android.gms:play-services:6.5.+'
     compile 'org.droidparts:droidparts:2.7.4'
     compile 'com.github.dbachelder:CreditCardEntry:v1.3.0'
@@ -51,5 +58,6 @@ dependencies {
     compile 'com.github.markushi:circlebutton:1.1'
     compile 'com.android.support:cardview-v7:21.0.2'
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.3'
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 
 }

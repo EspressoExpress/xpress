@@ -31,4 +31,7 @@
     <string name="drawer_close">Close navigation drawer</string>
     <string name="app_title_text">Espresso Express</string>
     <string name="tutorial_get_started_label">I want coffee</string>
+    <string name="order_placed_text">Order Placed</string>
+    <string name="order_placed_detail">Please wait while someone confirms to pick up your order</string>
+    <string name="cancel_order_label">Cancel Order</string>
 </resources>
