@@ -14,9 +14,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.ProfileImageHelper;
+import us.ridiculousbakery.espressoexpress.Model.PickupPhase;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -44,6 +46,8 @@ public class DeliveringHeaderFragment extends Fragment {
     private Handler handler = new Handler();
     private String username;
     private long targetTimestamp;
+    private ArrayList<PickupPhase> phases;
+    private int currentPhaseIndex;
 
     private TextView tvStatus;
     private Button btnCompleted;
@@ -61,29 +65,55 @@ public class DeliveringHeaderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_delivering_header, container, false);
 
+        String url = getArguments().getString("profileURL", "");
+        username = getArguments().getString("username", "");
+
         btnCompleted = (Button) v.findViewById(R.id.btnCompleted);
         ImageView ivReceiving = (ImageView) v.findViewById(R.id.ivReceiving);
         tvStatus = (TextView) v.findViewById(R.id.tvStatus);
 
-        btnCompleted.setText("Picked Up");
+        setupPickupPhases();
 
-        String url = getArguments().getString("profileURL", "");
-        username = getArguments().getString("username", "");
+        btnCompleted.setText("Picked Up");
+        btnCompleted.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startNextPhaseOfPickup();
+            }
+        });
 
         targetTimestamp = (new Date().getTime() + 150000)/1000;
 
         if (url != null) {
             Picasso.with(getActivity()).load(url).fit().transform(ProfileImageHelper.roundTransformation()).into(ivReceiving);
         }
-
         handler.postDelayed(runnable, 0);
 
         return v;
     }
 
-    private String currentText() {
+    private void setupPickupPhases() {
+        phases = new ArrayList<>();
+        PickupPhase first = new PickupPhase(150, "pickup coffee for " + username, "Completed Pickup");
+        phases.add(first);
+        PickupPhase second = new PickupPhase(150, "deliver Coffee to " + username, "Completed Delivery");
+        phases.add(second);
+    }
 
-        return "You have " + ((targetTimestamp-currentTime())) + " to pickup " + "Sam's " + "coffee";
+    private void startNextPhaseOfPickup() {
+        currentPhaseIndex++;
+        if (currentPhaseIndex < phases.size()) {
+            PickupPhase next = phases.get(currentPhaseIndex);
+            targetTimestamp = currentTime() + next.getTargetTime();
+            btnCompleted.setText(next.getActionTask());
+            tvStatus.setText(currentText(next));
+        } else {
+            presentRatingDialog();
+        }
+    }
+
+    private String currentText(PickupPhase phase) {
+        return "You have " + ((targetTimestamp-currentTime())) + " to " + phase.getTask();
     }
 
     private long currentTime() {
@@ -92,7 +122,10 @@ public class DeliveringHeaderFragment extends Fragment {
 
     private void updateStatusText() {
         if (username != null) {
-            tvStatus.setText(currentText());
+            if (currentPhaseIndex < phases.size()) {
+                PickupPhase phase = phases.get(currentPhaseIndex);
+                tvStatus.setText(currentText(phase));
+            }
         }
     }
 
@@ -103,4 +136,8 @@ public class DeliveringHeaderFragment extends Fragment {
             handler.postDelayed(this, 1000);
         }
     };
+
+    private void presentRatingDialog() {
+
+    }
 }
