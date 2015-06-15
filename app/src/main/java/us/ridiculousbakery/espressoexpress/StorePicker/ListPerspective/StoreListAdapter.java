@@ -21,7 +21,7 @@ public class StoreListAdapter extends ArrayAdapter<Store> {
     private ListItemListener listListener;
 
     public StoreListAdapter(Context context, ArrayList<Store> stores, ListItemListener listener){
-        super(context, R.layout.store_item, stores);
+        super(context, R.layout.standard_store_item, stores);
         listListener =listener;
     }
     @Override

@@ -48,7 +48,7 @@ public class StorePagerAdapter extends PagerAdapter {
     public StorePagerAdapter(Context context) {
         mCtx = context;
         mInflator = LayoutInflater.from(context);
-        mResourceId = R.layout.store_item;
+        mResourceId = R.layout.standard_store_item;
     }
     public StorePagerAdapter(Context context, ArrayList<Store> list, PagerItemListener listener) {
         this(context);

@@ -2,6 +2,7 @@ package us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
@@ -13,6 +14,7 @@ import us.ridiculousbakery.espressoexpress.R;
 public class FancyItemLayout extends ItemStoreLayout {
 
     private TextView tvName;
+    private ImageView ivBg;
 
     public FancyItemLayout(Context context) {
         super(context);
@@ -29,8 +31,11 @@ public class FancyItemLayout extends ItemStoreLayout {
 
     public void setContent(Store store, StoreListAdapter.ListItemListener l){
         if(tvName==null) tvName = (TextView) findViewById(R.id.tvName);
+        if(ivBg==null) ivBg = (ImageView) findViewById(R.id.ivBackground);
+
         tvName.setText(store.getName());
-        setBackground(getResources().getDrawable(store.getBackground()));
+        ivBg.setImageResource(store.getBackground());
+//        setBackground(getResources().getDrawable(store.getBackground()));
         //        viewholder.ivLogo.setImageDrawable(getContext().getResources().getDrawable(store.getLogo()));
 
     }
