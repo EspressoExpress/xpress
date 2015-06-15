@@ -30,4 +30,5 @@
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
     <string name="app_title_text">Espresso Express</string>
+    <string name="tutorial_get_started_label">I want coffee</string>
 </resources>

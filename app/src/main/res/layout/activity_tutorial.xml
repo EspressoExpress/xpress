@@ -29,7 +29,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="@string/tutorial_get_started_label"
         android:id="@+id/button"
         android:onClick="OnStartPressed"
         android:layout_alignParentBottom="true"

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import com.parse.ParseUser;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.LoginActivity;
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.TutorialActivity;
 import us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.ListPickerActivity;
 
 public class EntryActivity extends ActionBarActivity {
@@ -24,7 +25,7 @@ public class EntryActivity extends ActionBarActivity {
             launchActivity = Class.forName(className);
         }
         catch (ClassNotFoundException e) {
-            launchActivity = LoginActivity.class;
+            launchActivity = TutorialActivity.class;
         }
         launchIntent.setClass(getApplicationContext(), launchActivity);
         startActivity(launchIntent);
@@ -42,7 +43,7 @@ public class EntryActivity extends ActionBarActivity {
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser == null) {
-            String activity = LoginActivity.class.getName();
+            String activity = TutorialActivity.class.getName();
             return activity;
         } else {
             String activity = ListPickerActivity.class.getName();

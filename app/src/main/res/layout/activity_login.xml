@@ -1,6 +1,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin"
@@ -17,20 +20,23 @@
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/ivLogo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/flContainer"
-        android:layout_above="@+id/btnSwithLogin"></FrameLayout>
+        android:id="@+id/flContainer">
 
-    <Button
-        android:layout_width="wrap_content"
+    </FrameLayout>
+
+    <com.dd.processbutton.iml.ActionProcessButton
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/flContainer"
         android:text="New Button"
-        android:id="@+id/btnSwithLogin"
-        android:onClick="onSwitchLogin"
-        android:layout_alignParentBottom="true"
+        android:id="@+id/btnAuthenticate"
+        android:onClick="onAuthenticate"
+        custom:pb_textComplete="Success"
+        custom:pb_textProgress="Loading"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -38,8 +44,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Button"
-        android:id="@+id/btnAuthenticate"
-        android:onClick="onAuthenticate"
+        android:id="@+id/btnSwithLogin"
+        android:onClick="onSwitchLogin"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
@@ -51,4 +57,5 @@
         android:layout_alignBottom="@+id/btnAuthenticate"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
 </RelativeLayout>

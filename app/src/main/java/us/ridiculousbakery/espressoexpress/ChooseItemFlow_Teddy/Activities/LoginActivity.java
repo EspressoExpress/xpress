@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import com.dd.processbutton.iml.ActionProcessButton;
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
@@ -29,7 +30,7 @@ public class LoginActivity extends ActionBarActivity {
     private boolean isShowingLogin;
 
     private Button btnSwitchLogin;
-    private Button btnAuthenticate;
+    private ActionProcessButton btnAuthenticate;
 
     private ProgressBar pbLogin;
 
@@ -39,8 +40,10 @@ public class LoginActivity extends ActionBarActivity {
         setContentView(R.layout.activity_login);
 
         btnSwitchLogin = (Button) findViewById(R.id.btnSwithLogin);
-        btnAuthenticate = (Button) findViewById(R.id.btnAuthenticate);
+        btnAuthenticate = (ActionProcessButton) findViewById(R.id.btnAuthenticate);
         pbLogin = (ProgressBar) findViewById(R.id.pbLogin);
+
+        btnAuthenticate.setMode(ActionProcessButton.Mode.ENDLESS);
 
         if (savedInstanceState == null) {
             signUpFragment = new SignUpFragment();
@@ -130,6 +133,8 @@ public class LoginActivity extends ActionBarActivity {
         EditText etPassword = (EditText) findViewById(R.id.etPassword);
         EditText etUsername = (EditText) findViewById(R.id.etUsername);
 
+        btnAuthenticate.setProgress(1);
+
 
         if (isShowingLogin) {
 
@@ -145,6 +150,7 @@ public class LoginActivity extends ActionBarActivity {
                     } else {
                         Log.d("DEBUG", e.toString());
                     }
+                    btnAuthenticate.setProgress(0);
                 }
             });
         } else {
@@ -165,6 +171,7 @@ public class LoginActivity extends ActionBarActivity {
                     } else {
                         Log.d("DEBUG", e.toString());
                     }
+                    btnAuthenticate.setProgress(0);
                 }
             });
         }
