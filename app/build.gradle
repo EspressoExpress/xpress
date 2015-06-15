@@ -47,5 +47,5 @@ dependencies {
     compile 'com.github.dbachelder:CreditCardEntry:v1.3.0'
     compile 'com.makeramen:roundedimageview:2.0.1'
     compile 'com.squareup.picasso:picasso:2.5.2'
-
+    compile 'com.etsy.android.grid:library:1.0.5'
 }

@@ -28,6 +28,10 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
+import com.etsy.android.grid.StaggeredGridView;
+
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
@@ -52,12 +56,14 @@ public class CustomizeItemDialog extends DialogFragment {
 
     private CustomizeItemDialogListener listener;
 
-    private GridView gvOptions;
+//    private GridView gvOptions;
+    private StaggeredGridView gvOptions;
     private TableLayout tlChosen;
     private TableRow trOptions;
     private OptionsAdapter aOptions;
     private Item item;
     private Button btnAdd;
+    private TextView tvChoicePrompt;
 
     private ArrayList<SelectedOption> chosenOptions;
 
@@ -85,7 +91,7 @@ public class CustomizeItemDialog extends DialogFragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_customize_item, container);
-        gvOptions = (GridView) view.findViewById(R.id.gvOptions);
+        gvOptions = (StaggeredGridView) view.findViewById(R.id.gvOptions);
         tlChosen = (TableLayout) view.findViewById(R.id.tlChosen);
         trOptions = (TableRow) view.findViewById(R.id.trOptions);
         TreeMap<String, ArrayList<String>> optionsCopy = (TreeMap) item.getOptions().clone();
@@ -93,6 +99,7 @@ public class CustomizeItemDialog extends DialogFragment {
         chosenOptions = new ArrayList<>();
         gvOptions.setAdapter(aOptions);
         btnAdd = (Button) view.findViewById(R.id.btnAdd);
+        tvChoicePrompt = (TextView) view.findViewById(R.id.tvChoicePrompt);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,10 +114,13 @@ public class CustomizeItemDialog extends DialogFragment {
         gvOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String op = aOptions.optionNameForPosition(position);
-                addOptionAtIndex(position);
-                aOptions.removeOption(op);
-                setButtonVisability();
+                if (aOptions.positionIsInFirstGroup(position)) {
+                    String op = aOptions.optionNameForPosition(position);
+                    addOptionAtIndex(position);
+                    aOptions.removeOption(op);
+                    setButtonVisability();
+                }
+
             }
         });
         return view;
@@ -158,7 +168,6 @@ public class CustomizeItemDialog extends DialogFragment {
             trOptions.addView(view);
         }
     }
-
 
     @Override
     public void onStart() {

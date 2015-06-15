@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -27,16 +28,23 @@
         android:layout_gravity="center"
         android:src="@drawable/cafe_24_2x"/>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/sample_text"
+        android:gravity="center"
+        android:id="@+id/tvChoicePrompt" />
+
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <GridView
-            android:layout_width="match_parent"
+        <com.etsy.android.grid.StaggeredGridView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/gvOptions"
-            android:numColumns="3"
-            />
+            app:item_margin="10dp"
+            app:column_count="3" />
 
         <Button
             android:layout_width="wrap_content"

@@ -98,14 +98,25 @@ public class OptionsAdapter extends BaseAdapter {
         viewHolder.name.setText(op);
 
 
-        ArrayList<String> firstGroup = options.get(options.firstKey());
-        if (position < firstGroup.size()) {
+        if (positionIsInFirstGroup(position)) {
             convertView.setAlpha(1.0f);
+            convertView.setEnabled(true);
         } else {
             convertView.setAlpha(0.5f);
+            convertView.setEnabled(false);
         }
 
         return convertView;
+
+    }
+
+    public boolean positionIsInFirstGroup(int pos) {
+        ArrayList<String> firstGroup = options.get(options.firstKey());
+        if (pos < firstGroup.size()) {
+            return true;
+        } else {
+            return false;
+        }
 
     }
 
