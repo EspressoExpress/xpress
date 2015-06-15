@@ -13,6 +13,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -94,14 +95,14 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
     }
 
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        int id = item.getItemId();
-//        if (id == R.id.action_store_pick_list) {
-//          finish();
-//        }
-//        return super.onOptionsItemSelected(item);
-//    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_store_pick_list) {
+          finish();
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private MapFragment getMapStoreFragment() {
         if (fgMapStoreFragment != null) return fgMapStoreFragment;

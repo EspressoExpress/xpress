@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Switch;
 
 import java.util.ArrayList;
 
@@ -28,6 +29,7 @@ public class ListFragment extends Fragment {
     private StoreListAdapter aaStores;
     private ArrayList<Store> stores;
     private ListListener listListener;
+    private Switch swMode;
 
 
     @Override
@@ -50,9 +52,23 @@ public class ListFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_stores_list, container, false);
         setMenuVisibility(true);
         lv = (ListView) v.findViewById(R.id.lvStores);
+        swMode =(Switch) v.findViewById(R.id.swActionMode);
+
         if (savedInstanceState == null) {
+            swMode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Switch b=(Switch)v;
+                    if(b.isChecked()){
+                        b.setText("Schlep for Coffee");
+                    }else{
+                        b.setText("Pay for Coffee");
+                    }
+                }
+            });
             Log.i("ZZZZZZZ", "aaStores " + aaStores.toString());
             lv.setAdapter(aaStores);
+//            lv.addHeaderView(inflater.inflate(R.layout.list_header, container, false));
             lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:id="@+id/vgStoreItem"         android:descendantFocusability="blocksDescendants"
+<us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.StandardItemLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/vgStoreItem"
+    android:descendantFocusability="blocksDescendants"
     >
 
 
@@ -44,4 +47,4 @@
         android:layout_toRightOf="@+id/btnDeliver"
         android:layout_toEndOf="@+id/btnDeliver" />
 
-</RelativeLayout>
+</us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.StandardItemLayout>

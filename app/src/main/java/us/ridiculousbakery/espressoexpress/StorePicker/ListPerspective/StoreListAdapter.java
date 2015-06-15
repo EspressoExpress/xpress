@@ -29,29 +29,29 @@ public class StoreListAdapter extends ArrayAdapter<Store> {
         final ViewHolder viewholder;
         final Store  store = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.store_item, parent, false);
-            viewholder = new ViewHolder();
-            viewholder.ivLogo = (ImageView) convertView.findViewById(R.id.ivLogo);
-            viewholder.tvName = (TextView) convertView.findViewById(R.id.tvName);
-            viewholder.btnRequest = (Button) convertView.findViewById(R.id.btnRequest);
-            viewholder.btnDeliver = (Button) convertView.findViewById(R.id.btnDeliver);
-            viewholder.vgStoreItem = (ViewGroup) convertView.findViewById(R.id.vgStoreItem);
-            convertView.setTag(viewholder);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.store_item_fancy, parent, false);
+
+//            viewholder = new ViewHolder();
+//            viewholder.ivLogo = (ImageView) convertView.findViewById(R.id.ivLogo);
+//            viewholder.tvName = (TextView) convertView.findViewById(R.id.tvName);
+//            viewholder.btnRequest = (Button) convertView.findViewById(R.id.btnRequest);
+//            viewholder.btnDeliver = (Button) convertView.findViewById(R.id.btnDeliver);
+//            viewholder.vgStoreItem = (ViewGroup) convertView.findViewById(R.id.vgStoreItem);
+//            convertView.setTag(viewholder);
 
 
         } else {
-            viewholder = (ViewHolder) convertView.getTag();
+//            viewholder = (ViewHolder) convertView.getTag();
         }
-
-        viewholder.tvName.setText(store.getName());
-        viewholder.ivLogo.setImageDrawable(getContext().getResources().getDrawable(store.getLogo()));
-
-        viewholder.btnRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listListener.gotoMenu(store);
-            }
-        });
+//        viewholder.tvName.setText(store.getName());
+//        viewholder.ivLogo.setImageDrawable(getContext().getResources().getDrawable(store.getLogo()));
+        ((ItemStoreLayout)convertView).setContent(store, listListener);
+//        viewholder.btnRequest.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                listListener.gotoMenu(store);
+//            }
+//        });
 
 
 //        Picasso.with(getContext()).load(tweet.getUser().getProfileImageUrl()).into(viewholder.ivProfileImage);
