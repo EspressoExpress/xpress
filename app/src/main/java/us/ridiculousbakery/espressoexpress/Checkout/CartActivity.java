@@ -80,6 +80,11 @@ public class CartActivity extends NavDrawerBaseActivity implements
     }
 
     @Override
+    public void launchAddressMap(LatLng latLng) {
+        launchAddressMapfromActivity(latLng);
+    }
+
+    @Override
     public void launchCCForm() {
         FragmentManager fm = getSupportFragmentManager();
         CCFormFragment ccFormFragment = CCFormFragment.newInstance();
@@ -95,19 +100,21 @@ public class CartActivity extends NavDrawerBaseActivity implements
     public void onSearchAddress(LatLng latLng, Address address) {
         //Toast.makeText(this, latLng.latitude + ", " + latLng.longitude, Toast.LENGTH_SHORT).show();
         FragmentManager fm = getSupportFragmentManager();
-        AddressListFragment addressListFragment = AddressListFragment.newInstance(latLng.latitude, latLng.longitude);
+        AddressListFragment addressListFragment = AddressListFragment.newInstance(latLng.latitude, latLng.longitude, address);
         addressListFragment.show(fm, "address_list");
     }
 
     @Override
     public void onCancelSearch(LatLng latLng) {
-        FragmentManager fm = getSupportFragmentManager();
-        AddressMapFragment addressMapFragment = AddressMapFragment.newInstance(latLng.latitude, latLng.longitude);
-        addressMapFragment.show(fm, "address_map");
+        launchAddressMapfromActivity(latLng);
     }
 
     @Override
-    public void onSelectedAddress(LatLng latLng) {
+    public void onSelectSearchResult(LatLng latLng) {
+        launchAddressMapfromActivity(latLng);
+    }
+
+    private void launchAddressMapfromActivity(LatLng latLng) {
         FragmentManager fm = getSupportFragmentManager();
         AddressMapFragment addressMapFragment = AddressMapFragment.newInstance(latLng.latitude, latLng.longitude);
         addressMapFragment.show(fm, "address_map");

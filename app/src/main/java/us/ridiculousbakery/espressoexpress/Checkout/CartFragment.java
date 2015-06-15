@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.maps.model.LatLng;
@@ -30,9 +31,13 @@ public class CartFragment extends Fragment {
 
     protected ArrayList<LineItem> lineItems;
     protected CartItemAdapter alineItems;
+    protected RelativeLayout rlDeliveryAddress;
     protected ListView lvOrderItems;
     protected TextView tvAddress;
+    protected TextView tvAddressLine2;
+    protected TextView tvChangeAddress;
     protected TextView tvStoreName;
+    protected Button btAddress;
     protected Button btPayment;
     protected Button btCheckout;
     private Order order;
@@ -40,7 +45,9 @@ public class CartFragment extends Fragment {
 
     public interface OnWidgetClickedListener {
         public void launchAddressMap();
+        public void launchAddressMap(LatLng latLng);
         public void launchCCForm();
+
     }
 
     public static CartFragment newInstance(Order order) {
@@ -57,10 +64,13 @@ public class CartFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_cart, container,false);
         tvStoreName = (TextView) v.findViewById(R.id.tvStoreName);
         tvStoreName.setText(order.getStore().getName());
-
+        rlDeliveryAddress = (RelativeLayout) v.findViewById(R.id.rlDeliveryAddress);
+        btAddress = (Button) v.findViewById(R.id.btAddress);
         btCheckout = (Button) v.findViewById(R.id.btCheckout);
         btPayment = (Button) v.findViewById(R.id.btPayment);
         tvAddress = (TextView) v.findViewById(R.id.tvAddress);
+        tvAddressLine2 = (TextView) v.findViewById(R.id.tvAddressLine2);
+        tvChangeAddress = (TextView) v.findViewById(R.id.tvChangeAddress);
         lvOrderItems = (ListView) v.findViewById(R.id.lvOrderItems);
         lvOrderItems.setAdapter(alineItems);
         setupListeners();
@@ -87,17 +97,24 @@ public class CartFragment extends Fragment {
     }
 
     private void setupListeners() {
-        tvAddress.setOnClickListener(new View.OnClickListener() {
+        tvChangeAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //Toast.makeText(getActivity(), "launch map to pick Address", Toast.LENGTH_SHORT).show();
-                listener.launchAddressMap();
+                listener.launchAddressMap(order.getLatLng());
             }
         });
         lvOrderItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //Toast.makeText(getActivity(), "launch item option fragment", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btAddress.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.launchAddressMap();
             }
         });
         btPayment.setOnClickListener(new View.OnClickListener() {
@@ -121,6 +138,15 @@ public class CartFragment extends Fragment {
             order.setLat(latLng.latitude);
             order.setLon(latLng.longitude);
             tvAddress.setText(address.getAddressLine(0));
+            tvAddressLine2.setText(address.getLocality() + ", " + address.getAdminArea());
+            //animation doesn't work
+            /*tvAddress.animate().translationY(tvAddress.getHeight())
+                    .alpha(1.0f)
+                    .setDuration(2000);*/
+            rlDeliveryAddress.setVisibility(View.VISIBLE);
+
+            btAddress.setVisibility(View.GONE);
+            btPayment.setVisibility(View.VISIBLE);
         }
     }
 }

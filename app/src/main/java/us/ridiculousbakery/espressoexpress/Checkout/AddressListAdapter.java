@@ -40,16 +40,9 @@ public class AddressListAdapter extends ArrayAdapter<Address> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.tvAddressName.setText(address.getAddressLine(0));
-        viewHolder.tvAddressDetail.setText(addressToString(address));
+        viewHolder.tvAddressDetail.setText(StringHelper.addressToString(address));
         return  convertView;
     }
 
-    private String addressToString(Address address) {
-        StringBuilder addressStringBuilder = new StringBuilder();
-        String divider = ", ";
-        for (int i = 0; i < address.getMaxAddressLineIndex(); i++) {
-            addressStringBuilder.append(divider).append(address.getAddressLine(i));
-        }
-        return addressStringBuilder.toString().substring(divider.length());
-    }
+
 }
