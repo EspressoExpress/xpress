@@ -9,18 +9,41 @@ import java.util.ArrayList;
  * Created by bkuo on 6/3/15.
  */
 public class Store implements Serializable {
+    private final ArrayList<Order> orders;
+    private String name;
+    private Integer logo;
+    private Double lon;
+    private Double lat;
+    private Integer background;
+
+    public Integer getBackground() {
+        return background;
+    }
+
+    public Store(String name) {
+        this.name = name;
+        this.orders = new ArrayList<Order>();
+    }
+
+    Store(String name, LatLng latlng, Integer logo, Integer background, ArrayList<Order> orders) {
+        this.name = name;
+        this.background = background;
+        this.lon = latlng.longitude;
+        this.lat = latlng.latitude;
+        this.logo=logo;
+        this.orders = orders;
+        for(Order order : orders){order.setStore(this);}
+    }
+
     public ArrayList<Order> getOrders() {
         return orders;
     }
-
-    private final ArrayList<Order> orders;
-    private String name;
 
     public String getName() {
         return name;
     }
 
-    public int getLogo() {
+    public Integer getLogo() {
         return logo;
     }
 
@@ -31,27 +54,9 @@ public class Store implements Serializable {
     public Double getLat() {
         return lat;
     }
+
     public LatLng getLatLng() {
         return new LatLng(lat, lon);
-    }
-    private int logo;
-    private Double lon;
-    private Double lat;
-
-
-
-    public Store(String name) {
-        this.name = name;
-        this.orders = new ArrayList<Order>();
-    }
-
-    Store(String name, LatLng latlng, int logo, ArrayList<Order> orders) {
-        this.name = name;
-        this.lon = latlng.longitude;
-        this.lat = latlng.latitude;
-        this.logo=logo;
-        this.orders = orders;
-        for(Order order : orders){order.setStore(this);}
     }
 
 }

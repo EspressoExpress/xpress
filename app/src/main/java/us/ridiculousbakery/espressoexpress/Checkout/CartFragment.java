@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.devmarvel.creditcardentry.library.CreditCard;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -32,22 +33,26 @@ public class CartFragment extends Fragment {
     protected ArrayList<LineItem> lineItems;
     protected CartItemAdapter alineItems;
     protected RelativeLayout rlDeliveryAddress;
+    protected RelativeLayout rlCCInfo;
     protected ListView lvOrderItems;
     protected TextView tvAddress;
     protected TextView tvAddressLine2;
     protected TextView tvChangeAddress;
     protected TextView tvStoreName;
+    protected TextView tvCCInfo;
+    protected TextView tvChangeCCInfo;
     protected Button btAddress;
     protected Button btPayment;
     protected Button btCheckout;
     private Order order;
+    private CreditCard cc;
     private OnWidgetClickedListener listener;
+    static private boolean LOCK_VISIBILITY = false;
 
     public interface OnWidgetClickedListener {
         public void launchAddressMap();
         public void launchAddressMap(LatLng latLng);
         public void launchCCForm();
-
     }
 
     public static CartFragment newInstance(Order order) {
@@ -65,12 +70,15 @@ public class CartFragment extends Fragment {
         tvStoreName = (TextView) v.findViewById(R.id.tvStoreName);
         tvStoreName.setText(order.getStore().getName());
         rlDeliveryAddress = (RelativeLayout) v.findViewById(R.id.rlDeliveryAddress);
+        rlCCInfo = (RelativeLayout) v.findViewById(R.id.rlCCInfo);
         btAddress = (Button) v.findViewById(R.id.btAddress);
         btCheckout = (Button) v.findViewById(R.id.btCheckout);
         btPayment = (Button) v.findViewById(R.id.btPayment);
         tvAddress = (TextView) v.findViewById(R.id.tvAddress);
         tvAddressLine2 = (TextView) v.findViewById(R.id.tvAddressLine2);
         tvChangeAddress = (TextView) v.findViewById(R.id.tvChangeAddress);
+        tvCCInfo = (TextView) v.findViewById(R.id.tvCCInfo);
+        tvChangeCCInfo = (TextView) v.findViewById(R.id.tvChangeCCInfo);
         lvOrderItems = (ListView) v.findViewById(R.id.lvOrderItems);
         lvOrderItems.setAdapter(alineItems);
         setupListeners();
@@ -100,8 +108,15 @@ public class CartFragment extends Fragment {
         tvChangeAddress.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(getActivity(), "launch map to pick Address", Toast.LENGTH_SHORT).show();
                 listener.launchAddressMap(order.getLatLng());
+                LOCK_VISIBILITY = true;
+            }
+        });
+        tvChangeCCInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.launchCCForm();
+                LOCK_VISIBILITY = true;
             }
         });
         lvOrderItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -115,12 +130,14 @@ public class CartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 listener.launchAddressMap();
+                LOCK_VISIBILITY = false;
             }
         });
         btPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.launchCCForm();
+                LOCK_VISIBILITY = false;
             }
         });
         btCheckout.setOnClickListener(new View.OnClickListener() {
@@ -143,10 +160,25 @@ public class CartFragment extends Fragment {
             /*tvAddress.animate().translationY(tvAddress.getHeight())
                     .alpha(1.0f)
                     .setDuration(2000);*/
-            rlDeliveryAddress.setVisibility(View.VISIBLE);
+            if (!LOCK_VISIBILITY) {
+                rlDeliveryAddress.setVisibility(View.VISIBLE);
+                btAddress.setVisibility(View.GONE);
+                btPayment.setVisibility(View.VISIBLE);
+            }
 
-            btAddress.setVisibility(View.GONE);
-            btPayment.setVisibility(View.VISIBLE);
         }
+    }
+
+    public void saveAndShowCCInfo(CreditCard cc) {
+        //save ccInfo to order object
+        this.cc = cc;
+        //
+        String ccNumber = cc.getCardNumber();
+        tvCCInfo.setText(cc.getCardType().toString() + " ending in " + ccNumber.substring(ccNumber.length() - 4, ccNumber.length()));
+        if (!LOCK_VISIBILITY) {
+            rlCCInfo.setVisibility(View.VISIBLE);
+            btPayment.setVisibility(View.GONE);
+        }
+        btCheckout.setEnabled(true);
     }
 }

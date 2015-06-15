@@ -19,11 +19,11 @@ public class FakeDataSource {
         Double lat = latlng.latitude;
         Double lon = latlng.longitude;
         ArrayList<Store> list = new ArrayList<Store>();
-        list.add(new Store("Starbucks", new LatLng(lat - 0.02, lon - 0.02), R.drawable.sbux_twit_logo, nearby_orders(new LatLng(lat - 0.02, lon - 0.02))));
-        list.add(new Store("Starbucks", new LatLng(lat - 0.02, lon + 0.02), R.drawable.sbux_twit_logo, nearby_orders(new LatLng(lat - 0.02, lon + 0.02))));
-        list.add(new Store("BlueBottle", new LatLng(lat + 0.02, lon - 0.02), R.drawable.blue_twit_logo, nearby_orders(new LatLng(lat + 0.02, lon - 0.02))));
-        list.add(new Store("Philz", new LatLng(lat + 0.02, lon + 0.02), R.drawable.philz_twit_logo, nearby_orders(new LatLng(lat + 0.02, lon + 0.02))));
-        list.add(new Store("Philz", new LatLng(lat + 0.01, lon + 0.01), R.drawable.philz_twit_logo, nearby_orders(new LatLng(lat + 0.01, lon + 0.01))));
+        list.add(new Store("Starbucks", new LatLng(lat - 0.02, lon - 0.02), R.drawable.sbux_twit_logo, R.drawable.starbucksbg,nearby_orders(new LatLng(lat - 0.02, lon - 0.02))));
+        list.add(new Store("Starbucks", new LatLng(lat - 0.02, lon + 0.02), R.drawable.sbux_twit_logo, R.drawable.starbucksbg,nearby_orders(new LatLng(lat - 0.02, lon + 0.02))));
+        list.add(new Store("BlueBottle", new LatLng(lat + 0.02, lon - 0.02), R.drawable.blue_twit_logo, R.drawable.bluebg,nearby_orders(new LatLng(lat + 0.02, lon - 0.02))));
+        list.add(new Store("Philz", new LatLng(lat + 0.02, lon + 0.02), R.drawable.philz_twit_logo, R.drawable.philzbg,nearby_orders(new LatLng(lat + 0.02, lon + 0.02))));
+        list.add(new Store("Philz", new LatLng(lat + 0.01, lon + 0.01), R.drawable.philz_twit_logo,  R.drawable.philzbg,nearby_orders(new LatLng(lat + 0.01, lon + 0.01))));
         return list;
     }
 
