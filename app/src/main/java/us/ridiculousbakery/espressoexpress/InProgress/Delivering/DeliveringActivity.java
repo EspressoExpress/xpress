@@ -1,18 +1,29 @@
 package us.ridiculousbakery.espressoexpress.InProgress.Delivering;
 
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderInProgressFragment;
+import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderPlacedFragment;
 import us.ridiculousbakery.espressoexpress.R;
 
 public class DeliveringActivity extends ActionBarActivity {
+
+    private OrderInProgressFragment orderInProgressFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivering);
+        if (savedInstanceState == null) {
+            orderInProgressFragment = new OrderInProgressFragment();
+            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+            ft.replace(R.id.flContainer, orderInProgressFragment);
+            ft.commit();
+        }
     }
 
     @Override

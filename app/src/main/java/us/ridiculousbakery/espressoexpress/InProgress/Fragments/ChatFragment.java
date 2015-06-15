@@ -63,7 +63,7 @@ public class ChatFragment extends Fragment {
         targetUserID = "Hello";
         chatID = "bajeezia";
 
-        handler.postDelayed(runnable, 100);
+        //handler.postDelayed(runnable, 100);
     }
 
     private Runnable runnable = new Runnable() {
