@@ -89,7 +89,6 @@ public class CustomizeItemDialog extends DialogFragment {
 
     @Nullable
     @Override
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_customize_item, container);
         gvOptions = (StaggeredGridView) view.findViewById(R.id.gvOptions);
@@ -110,21 +109,30 @@ public class CustomizeItemDialog extends DialogFragment {
             }
         });
 
-        setButtonVisability();
-
         gvOptions.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (aOptions.positionIsInFirstGroup(position)) {
-                    String op = aOptions.optionNameForPosition(position);
-                    addOptionAtIndex(position);
-                    aOptions.removeOption(op);
-                    setButtonVisability();
+                    removeGroupIncludingItemAtPostion(position);
+                    updateViewFromModel();
                 }
-
             }
         });
+
+        updateViewFromModel();
         return view;
+    }
+
+    private void removeGroupIncludingItemAtPostion(int position) {
+        String op = aOptions.optionNameForPosition(position);
+        addOptionAtIndex(position);
+        aOptions.removeOption(op);
+    }
+
+    private void updateViewFromModel() {
+        setButtonVisability();
+        syncViewWithChosenOptions();
+
     }
 
     private void addOptionAtIndex(int pos) {
@@ -132,7 +140,6 @@ public class CustomizeItemDialog extends DialogFragment {
         String cat = (String) aOptions.optionNameForPosition(pos);
         SelectedOption chosenOption = new SelectedOption(op, cat);
         chosenOptions.add(chosenOption);
-        syncViewWithChosenOptions();
     }
 
     private void setButtonVisability() {
@@ -149,7 +156,9 @@ public class CustomizeItemDialog extends DialogFragment {
             SelectedOption op = chosenOptions.get(i);
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.chosen_option, null);
             TextView tvName = (TextView) view.findViewById(R.id.tvName);
+            TextView tvCategory = (TextView) view.findViewById(R.id.tvCategory);
             tvName.setText(op.getName());
+            tvCategory.setText(op.getCategory());
             CircleButton btnCancel = (CircleButton) view.findViewById(R.id.btnCancel);
             btnCancel.setTag(op);
             btnCancel.setOnClickListener(new View.OnClickListener() {
@@ -158,17 +167,19 @@ public class CustomizeItemDialog extends DialogFragment {
                     // Add Back what was clicked
                     SelectedOption opToDelete = (SelectedOption) v.getTag();
                     chosenOptions.remove(opToDelete);
-                    aOptions.addOption(opToDelete.getName(), item.getOptions().get(opToDelete.getCategory()));
+                    aOptions.addOption(opToDelete.getCategory(), item.getOptions().get(opToDelete.getCategory()));
+                    //aOptions.addOption(opToDelete.getName(), item.getOptions().get(opToDelete.getCategory()));
                     setButtonVisability();
                     syncViewWithChosenOptions();
-                    // Put back into Adapter
-                    // Get General Key From Value
-
                 }
             });
             trOptions.addView(view);
         }
-        tvChoicePrompt.setText(aOptions.firstGroupKey());
+        if (aOptions.firstGroupKey() != null) {
+            tvChoicePrompt.setText(aOptions.firstGroupKey());
+        } else {
+            tvChoicePrompt.setText("");
+        }
     }
 
     @Override
@@ -205,59 +216,5 @@ public class CustomizeItemDialog extends DialogFragment {
         }
     }
 
-    //================================================================================
-    // Fragment Switches
-    //================================================================================
-
-//    private void showCupSizeFragment(View view) {
-//        if (cupSizeFragment == null) {
-//            cupSizeFragment = new CupSizeFragment();
-//        }
-//        FrameLayout flContainer = (FrameLayout) view.findViewById(R.id.flContainer);
-//        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-//        ft.replace(R.id.flContainer, cupSizeFragment);
-//        ft.commit();
-//    }
-//
-//    private void showMilkFragment(View view) {
-//        if (milkFragment == null) {
-//            milkFragment = new MilkFragment();
-//        }
-//        FrameLayout flContainer = (FrameLayout) view.findViewById(R.id.flContainer);
-//        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-//        ft.replace(R.id.flContainer, milkFragment);
-//        ft.commit();
-//    }
-
-    //================================================================================
-    // Animation
-    //================================================================================
-    private void slideInToTop(View v, boolean animated) {
-//        v.animate().
-//                translationY(0).
-//                alpha(1).
-//                setDuration(animated ? ANIMATION_DURATION : 0).
-//                setInterpolator(ANIMATION_INTERPOLATOR);
-    }
-
-    //================================================================================
-    // OnSizeSelectedListener
-    //================================================================================
-
-//    @Override
-//    public void onCupSizeSelected() {
-//        // Store Size in Options and show next fragment
-//        showMilkFragment(getView());
-//    }
-
-    //================================================================================
-    // OnPercentageChosenListener
-    //================================================================================
-
-//    @Override
-//    public void onMilkPercentageChosen() {
-//        listener.onFinishCustomizingLineItem(lineItem);
-//        dismiss();
-//    }
 
 }

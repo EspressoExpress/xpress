@@ -101,7 +101,7 @@ public class OptionsAdapter extends BaseAdapter {
             convertView.setAlpha(1.0f);
             convertView.setEnabled(true);
         } else {
-            convertView.setAlpha(0.5f);
+            convertView.setAlpha(0.3f);
             convertView.setEnabled(false);
         }
 
@@ -120,7 +120,11 @@ public class OptionsAdapter extends BaseAdapter {
     }
 
     public String firstGroupKey() {
-        return options.firstKey();
+        if (options.isEmpty()) {
+            return null;
+        } else {
+            return options.firstKey();
+        }
     }
 
 
