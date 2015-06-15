@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.devmarvel.creditcardentry.library.CreditCard;
 import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
@@ -22,7 +23,8 @@ import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 public class CartActivity extends NavDrawerBaseActivity implements
         CartFragment.OnWidgetClickedListener,
         AddressMapFragment.OnWidgetClickedListener,
-        AddressListFragment.OnWidgetClickedListener{
+        AddressListFragment.OnWidgetClickedListener,
+        CCFormFragment.OnWidgetClickedListener{
 
     CartFragment cartFragment;
 
@@ -118,5 +120,10 @@ public class CartActivity extends NavDrawerBaseActivity implements
         FragmentManager fm = getSupportFragmentManager();
         AddressMapFragment addressMapFragment = AddressMapFragment.newInstance(latLng.latitude, latLng.longitude);
         addressMapFragment.show(fm, "address_map");
+    }
+
+    @Override
+    public void onSaveCCInfo(CreditCard cc) {
+        cartFragment.saveAndShowCCInfo(cc);
     }
 }

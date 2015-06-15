@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.Button;
 
+import com.devmarvel.creditcardentry.library.CardValidCallback;
+import com.devmarvel.creditcardentry.library.CreditCard;
 import com.devmarvel.creditcardentry.library.CreditCardForm;
 
 import us.ridiculousbakery.espressoexpress.R;
@@ -22,6 +24,11 @@ public class CCFormFragment extends DialogFragment {
 
     protected CreditCardForm ccform;
     protected Button btSavePayment;
+    protected OnWidgetClickedListener listener;
+
+    public interface OnWidgetClickedListener {
+        public void onSaveCCInfo(CreditCard cc);
+    }
 
     public CCFormFragment() {
 
@@ -37,6 +44,7 @@ public class CCFormFragment extends DialogFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View  v = inflater.inflate(R.layout.fragment_cc, container, false);
+        listener = (OnWidgetClickedListener) getActivity();
         ccform = (CreditCardForm) v.findViewById(R.id.credit_card_form);
         ccform.requestFocus();
         //still doesn't show soft keyboard
@@ -70,7 +78,19 @@ public class CCFormFragment extends DialogFragment {
         btSavePayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ccform.isCreditCardValid()) {
+                    listener.onSaveCCInfo(ccform.getCreditCard());
+                }
                 dismiss();
+            }
+        });
+
+        ccform.setOnCardValidCallback(new CardValidCallback() {
+            @Override
+            public void cardValid(CreditCard creditCard) {
+                btSavePayment.setText("Save");
+                btSavePayment.setBackgroundColor(getResources().getColor(R.color.material_blue_grey_800));
+                btSavePayment.setTextColor(getResources().getColor(android.R.color.white));
             }
         });
     }

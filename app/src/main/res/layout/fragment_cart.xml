@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@android:color/white">
 
     <LinearLayout
         android:orientation="vertical"
@@ -11,6 +12,7 @@
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:gravity="center_vertical|center"
+        android:background="@color/background_material_light"
         android:id="@+id/llOrderHeader">
 
         <TextView
@@ -66,7 +68,7 @@
             android:layout_below="@+id/tvAddress"
             android:text="City, State"
             android:textSize="20sp"
-            android:layout_marginBottom="16sp"
+            android:layout_marginBottom="16dp"
             />
 
         <TextView
@@ -86,27 +88,98 @@
 
     </RelativeLayout>
 
-
-    <ListView
-        android:layout_width="wrap_content"
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/lvOrderItems"
-        android:background="@android:color/white"
-        android:divider="@android:color/darker_gray"
-        android:dividerHeight="1dp"
+        android:layout_below="@+id/rlDeliveryAddress"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_below="@+id/rlDeliveryAddress"/>
+        android:id="@+id/rlCCInfo"
+        android:visibility="gone"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:background="@android:color/white">
 
-    <TextView
-        android:layout_width="wrap_content"
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvCCInfo"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_toLeftOf="@+id/tvChangeCCInfo"
+            android:layout_alignParentTop="true"
+            android:text="CCInfo here"
+            android:layout_marginBottom="16dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvChangeCCInfo"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/tvCCInfo"
+            android:text="change"
+            android:textColor="@color/wallet_holo_blue_light"/>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_below="@+id/tvCCInfo"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="Estimated Total"
-        android:id="@+id/tv_est_total"
+        android:layout_below="@+id/rlCCInfo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/lvOrderItems"/>
+        android:layout_alignParentRight="true"
+        android:id="@+id/rlOrderItems"
+        android:visibility="visible"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="16dp"
+        android:background="@android:color/white">
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/lvOrderItems"
+            android:background="@android:color/white"
+            android:divider="@android:color/darker_gray"
+            android:dividerHeight="1dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Delivery"
+            android:id="@+id/tvDeliveryCharge"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/lvOrderItems"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total"
+            android:id="@+id/tvTotal"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/tvDeliveryCharge"
+            android:textSize="16sp"
+            android:layout_marginTop="16dp"/>
+
+    </RelativeLayout>
 
     <Button
         android:layout_width="wrap_content"
@@ -132,7 +205,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Check Out"
+        android:text="Get It Now"
         android:id="@+id/btCheckout"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
