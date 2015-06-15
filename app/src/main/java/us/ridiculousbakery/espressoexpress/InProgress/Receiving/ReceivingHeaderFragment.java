@@ -1,4 +1,4 @@
-package us.ridiculousbakery.espressoexpress.InProgress.Fragments;
+package us.ridiculousbakery.espressoexpress.InProgress.Receiving;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,12 +10,26 @@ import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import us.ridiculousbakery.espressoexpress.InProgress.Delivering.DeliveringHeaderFragment;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
  * Created by teddywyly on 6/15/15.
  */
-public class InProgressHeaderFragment extends Fragment {
+public class ReceivingHeaderFragment extends Fragment {
+
+    //================================================================================
+    // PublicAPI
+    //================================================================================
+
+    public static ReceivingHeaderFragment newInstance(String profileURL, String username) {
+        ReceivingHeaderFragment fragment = new ReceivingHeaderFragment();
+        Bundle args = new Bundle();
+        args.putString("username", username);
+        args.putString("profileURL", profileURL);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     //================================================================================
     // Lifecycle
@@ -29,6 +43,8 @@ public class InProgressHeaderFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_in_progress_header, container, false);
+        String url = getArguments().getString("profileURL", "");
+        String username = getArguments().getString("username", "");
         return v;
     }
 }

@@ -70,8 +70,7 @@ public class ReceivingActivity extends ActionBarActivity {
 
     private void switchToPickupConfirmed() {
         Log.d("Replace", "Replace");
-        //chatFragment = new ChatFragment();
-        orderInProgressFragment = new OrderInProgressFragment();
+        orderInProgressFragment = OrderInProgressFragment.newInstance(false);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.flContainer, orderInProgressFragment);
         ft.commit();

@@ -10,10 +10,13 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.parse.ParseUser;
 
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.DisplayHelper;
+import us.ridiculousbakery.espressoexpress.InProgress.Delivering.DeliveringHeaderFragment;
+import us.ridiculousbakery.espressoexpress.InProgress.Receiving.ReceivingHeaderFragment;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -21,8 +24,18 @@ import us.ridiculousbakery.espressoexpress.R;
  */
 public class OrderInProgressFragment extends Fragment {
 
-    private InProgressHeaderFragment headerFragment;
+    public static OrderInProgressFragment newInstance(boolean isDelivering) {
+        OrderInProgressFragment fragmentDemo = new OrderInProgressFragment();
+        Bundle args = new Bundle();
+        args.putBoolean("isDelivering", isDelivering);
+        fragmentDemo.setArguments(args);
+        return fragmentDemo;
+    }
 
+    private ReceivingHeaderFragment receivingHeaderFragment;
+    private DeliveringHeaderFragment deliveringHeaderFragment;
+
+    private ParseUser otherUser;
 
     //================================================================================
     // Lifecycle
@@ -36,10 +49,22 @@ public class OrderInProgressFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        headerFragment = new InProgressHeaderFragment();
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        ft.replace(R.id.flHeaderContainer, headerFragment);
-        ft.commit();
+        boolean isDelivering = getArguments().getBoolean("isDelivering");
+
+        // Get real user here
+        otherUser = ParseUser.getCurrentUser();
+
+        if (isDelivering) {
+            deliveringHeaderFragment = DeliveringHeaderFragment.newInstance(DisplayHelper.getProfileUrl(otherUser.getObjectId()), otherUser.getUsername());
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            ft.replace(R.id.flHeaderContainer, deliveringHeaderFragment);
+            ft.commit();
+        } else {
+            receivingHeaderFragment = ReceivingHeaderFragment.newInstance(DisplayHelper.getProfileUrl(otherUser.getObjectId()), otherUser.getUsername());
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            ft.replace(R.id.flHeaderContainer, receivingHeaderFragment);
+            ft.commit();
+        }
 
         View v = inflater.inflate(R.layout.fragment_order_in_progress, container, false);
         ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewpager);
