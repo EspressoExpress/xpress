@@ -30,7 +30,6 @@ public class OptionsAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
     private TreeMap<String, ArrayList<String>> options;
-    //private ItemOption options;
 
     private class ViewHolder {
         public TextView name;
@@ -118,6 +117,10 @@ public class OptionsAdapter extends BaseAdapter {
             return false;
         }
 
+    }
+
+    public String firstGroupKey() {
+        return options.firstKey();
     }
 
 

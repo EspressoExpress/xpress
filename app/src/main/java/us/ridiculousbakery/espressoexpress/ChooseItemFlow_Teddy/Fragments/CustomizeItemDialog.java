@@ -36,6 +36,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.TreeMap;
 
+import at.markushi.ui.CircleButton;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.OptionsAdapter;
 import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.ItemOption;
@@ -149,7 +150,7 @@ public class CustomizeItemDialog extends DialogFragment {
             View view = LayoutInflater.from(getActivity()).inflate(R.layout.chosen_option, null);
             TextView tvName = (TextView) view.findViewById(R.id.tvName);
             tvName.setText(op.getName());
-            Button btnCancel = (Button) view.findViewById(R.id.btnCancel);
+            CircleButton btnCancel = (CircleButton) view.findViewById(R.id.btnCancel);
             btnCancel.setTag(op);
             btnCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -167,6 +168,7 @@ public class CustomizeItemDialog extends DialogFragment {
             });
             trOptions.addView(view);
         }
+        tvChoicePrompt.setText(aOptions.firstGroupKey());
     }
 
     @Override
