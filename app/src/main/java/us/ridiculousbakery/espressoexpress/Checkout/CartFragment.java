@@ -45,13 +45,14 @@ public class CartFragment extends Fragment {
     protected Button btPayment;
     protected Button btCheckout;
     private Order order;
+    private CreditCard cc;
     private OnWidgetClickedListener listener;
+    static private boolean LOCK_VISIBILITY = false;
 
     public interface OnWidgetClickedListener {
         public void launchAddressMap();
         public void launchAddressMap(LatLng latLng);
         public void launchCCForm();
-
     }
 
     public static CartFragment newInstance(Order order) {
@@ -108,12 +109,14 @@ public class CartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 listener.launchAddressMap(order.getLatLng());
+                LOCK_VISIBILITY = true;
             }
         });
         tvChangeCCInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.launchCCForm();
+                LOCK_VISIBILITY = true;
             }
         });
         lvOrderItems.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -127,12 +130,14 @@ public class CartFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 listener.launchAddressMap();
+                LOCK_VISIBILITY = false;
             }
         });
         btPayment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listener.launchCCForm();
+                LOCK_VISIBILITY = false;
             }
         });
         btCheckout.setOnClickListener(new View.OnClickListener() {
@@ -155,19 +160,25 @@ public class CartFragment extends Fragment {
             /*tvAddress.animate().translationY(tvAddress.getHeight())
                     .alpha(1.0f)
                     .setDuration(2000);*/
-            rlDeliveryAddress.setVisibility(View.VISIBLE);
+            if (!LOCK_VISIBILITY) {
+                rlDeliveryAddress.setVisibility(View.VISIBLE);
+                btAddress.setVisibility(View.GONE);
+                btPayment.setVisibility(View.VISIBLE);
+            }
 
-            btAddress.setVisibility(View.GONE);
-            btPayment.setVisibility(View.VISIBLE);
         }
     }
 
     public void saveAndShowCCInfo(CreditCard cc) {
         //save ccInfo to order object
+        this.cc = cc;
+        //
         String ccNumber = cc.getCardNumber();
         tvCCInfo.setText(cc.getCardType().toString() + " ending in " + ccNumber.substring(ccNumber.length() - 4, ccNumber.length()));
-        rlCCInfo.setVisibility(View.VISIBLE);
-        btPayment.setVisibility(View.GONE);
+        if (!LOCK_VISIBILITY) {
+            rlCCInfo.setVisibility(View.VISIBLE);
+            btPayment.setVisibility(View.GONE);
+        }
         btCheckout.setEnabled(true);
     }
 }

@@ -99,7 +99,6 @@
         android:visibility="gone"
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingBottom="16dp"
         android:background="@android:color/white">
 
         <TextView
@@ -123,12 +122,12 @@
             android:text="change"
             android:textColor="@color/wallet_holo_blue_light"/>
 
-        <View
+        <!--<View
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@android:color/darker_gray"
             android:layout_below="@+id/tvCCInfo"/>
-
+            -->
     </RelativeLayout>
 
     <RelativeLayout
@@ -140,16 +139,14 @@
         android:layout_alignParentRight="true"
         android:id="@+id/rlOrderItems"
         android:visibility="visible"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingBottom="16dp"
+        android:padding="16dp"
         android:background="@android:color/white">
 
         <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/lvOrderItems"
-            android:background="@android:color/white"
+            android:background="@color/background_material_light"
             android:divider="@android:color/darker_gray"
             android:dividerHeight="1dp"
             android:layout_alignParentLeft="true"
