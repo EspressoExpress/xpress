@@ -1,10 +1,15 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Titanic;
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.TitanicTextView;
 import us.ridiculousbakery.espressoexpress.R;
 
 public class TutorialActivity extends ActionBarActivity {
@@ -13,6 +18,9 @@ public class TutorialActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
+        TitanicTextView tvTitle = (TitanicTextView) findViewById(R.id.tvTitle);
+        Titanic titanic = new Titanic();
+        titanic.start(tvTitle);
     }
 
     @Override
@@ -35,5 +43,10 @@ public class TutorialActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void OnStartPressed(View view) {
+        Intent i = new Intent(TutorialActivity.this, LoginActivity.class);
+        startActivity(i);
     }
 }

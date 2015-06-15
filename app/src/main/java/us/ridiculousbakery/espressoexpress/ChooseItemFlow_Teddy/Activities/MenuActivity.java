@@ -3,6 +3,7 @@ package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -13,7 +14,7 @@ import us.ridiculousbakery.espressoexpress.R;
 import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 
 
-public class MenuActivity extends NavDrawerBaseActivity {
+public class MenuActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

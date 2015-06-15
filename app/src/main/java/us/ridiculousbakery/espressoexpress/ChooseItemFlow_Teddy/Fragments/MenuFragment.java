@@ -18,6 +18,9 @@ import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+
 import us.ridiculousbakery.espressoexpress.Checkout.CartActivity;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.MenuAdapter;
 import us.ridiculousbakery.espressoexpress.Model.FakeDataSource;
@@ -66,6 +69,9 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_menu_list, container, false);
+        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+        AppCompatActivity activity = (AppCompatActivity) getActivity();
+        activity.setSupportActionBar(toolbar);
         elvMenu = (ExpandableListView) v.findViewById(R.id.elvMenu);
         elvMenu.setAdapter(aMenu);
         elvMenu.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
