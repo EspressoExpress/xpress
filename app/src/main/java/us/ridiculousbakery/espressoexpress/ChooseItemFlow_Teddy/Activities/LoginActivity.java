@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
 import com.parse.LogInCallback;
@@ -29,10 +30,10 @@ public class LoginActivity extends ActionBarActivity {
     private LoginFragment loginFragment;
     private boolean isShowingLogin;
 
+
     private Button btnSwitchLogin;
     private ActionProcessButton btnAuthenticate;
 
-    private ProgressBar pbLogin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,25 +42,49 @@ public class LoginActivity extends ActionBarActivity {
 
         btnSwitchLogin = (Button) findViewById(R.id.btnSwithLogin);
         btnAuthenticate = (ActionProcessButton) findViewById(R.id.btnAuthenticate);
-        pbLogin = (ProgressBar) findViewById(R.id.pbLogin);
 
         btnAuthenticate.setMode(ActionProcessButton.Mode.ENDLESS);
 
         if (savedInstanceState == null) {
             signUpFragment = new SignUpFragment();
+            signUpFragment.setListener(new SignUpFragment.SignUpFragmentListener() {
+                @Override
+                public void successfulSignup() {
+                    showInitialActivity();
+                    btnAuthenticate.setProgress(0);
+                }
+
+                @Override
+                public void errorSigningUp(String error) {
+                    showErrorToast(error);
+                    btnAuthenticate.setProgress(0);
+                }
+            });
             loginFragment = new LoginFragment();
+            loginFragment.setListener(new LoginFragment.LoginFragmentListener() {
+                @Override
+                public void successfulLogin() {
+                    showInitialActivity();
+                    btnAuthenticate.setProgress(0);
+                }
+
+                @Override
+                public void errorLoggingin(String error) {
+                    showErrorToast(error);
+                    btnAuthenticate.setProgress(0);
+                }
+            });
         }
 
         isShowingLogin = false;
 
         btnSwitchLogin.setText("Switch to Login");
-        btnAuthenticate.setText("Authenticate");
-
-        pbLogin.setVisibility(ProgressBar.INVISIBLE);
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.flContainer, signUpFragment);
         ft.commit();
+        btnAuthenticate.setText("Sign up");
+
     }
 
     @Override
@@ -88,10 +113,9 @@ public class LoginActivity extends ActionBarActivity {
 
         if (isShowingLogin) {
             showSignUp();
-            btnSwitchLogin.setText("Switch to Login");
         } else {
             showLogin();
-            btnSwitchLogin.setText("Switch to Sign Up");
+
         }
 
         isShowingLogin = !isShowingLogin;
@@ -99,6 +123,10 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     private void showLogin() {
+
+        btnSwitchLogin.setText("Switch to Sign Up");
+        btnAuthenticate.setText("Login");
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
         if (loginFragment.isAdded()) { // if the fragment is already in container
@@ -112,6 +140,9 @@ public class LoginActivity extends ActionBarActivity {
     }
 
     private void showSignUp() {
+        btnSwitchLogin.setText("Switch to Login");
+        btnAuthenticate.setText("Sign up");
+
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
         if (signUpFragment.isAdded()) { // if the fragment is already in container
@@ -135,50 +166,19 @@ public class LoginActivity extends ActionBarActivity {
 
         btnAuthenticate.setProgress(1);
 
-
         if (isShowingLogin) {
-
-            // Show spinner UI
-            pbLogin.setVisibility(ProgressBar.VISIBLE);
-            ParseUser.logInInBackground(etEmail.getText().toString(), etPassword.getText().toString(), new LogInCallback() {
-                @Override
-                public void done(ParseUser parseUser, ParseException e) {
-                    pbLogin.setVisibility(ProgressBar.INVISIBLE);
-                    if (parseUser != null) {
-                        Log.d("DEBUG", "LOGGEDIN");
-                        showInitialActivity();
-                    } else {
-                        Log.d("DEBUG", e.toString());
-                    }
-                    btnAuthenticate.setProgress(0);
-                }
-            });
+            loginFragment.login();
         } else {
-            ParseUser user = new ParseUser();
-            user.setEmail(etEmail.getText().toString());
-            user.setUsername(etEmail.getText().toString());
-            user.setPassword(etPassword.getText().toString());
-            user.put("displayName", etUsername.getText().toString());
-            // Show spinner UI
-            pbLogin.setVisibility(ProgressBar.VISIBLE);
-            user.signUpInBackground(new SignUpCallback() {
-                @Override
-                public void done(ParseException e) {
-                    pbLogin.setVisibility(ProgressBar.INVISIBLE);
-                    if (e == null) {
-                        Log.d("DEBUG", "LOGGEDIN");
-                        showInitialActivity();
-                    } else {
-                        Log.d("DEBUG", e.toString());
-                    }
-                    btnAuthenticate.setProgress(0);
-                }
-            });
+            signUpFragment.signup();
         }
     }
 
     private void showInitialActivity() {
         Intent i = new Intent(LoginActivity.this, ListPickerActivity.class);
         startActivity(i);
+    }
+
+    private void showErrorToast(String error) {
+        Toast.makeText(this, error, Toast.LENGTH_LONG).show();
     }
 }

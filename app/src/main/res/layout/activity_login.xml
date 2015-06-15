@@ -32,7 +32,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/flContainer"
-        android:text="New Button"
         android:id="@+id/btnAuthenticate"
         android:onClick="onAuthenticate"
         custom:pb_textComplete="Success"
