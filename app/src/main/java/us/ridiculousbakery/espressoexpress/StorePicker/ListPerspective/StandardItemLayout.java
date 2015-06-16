@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 /**
  * Created by bkuo on 6/14/15.
@@ -41,7 +42,7 @@ public class StandardItemLayout extends ItemStoreLayout{
 
 
     @Override
-    public void setContent(final Store store, final StoreListAdapter.ListItemListener listListener){
+    public void setContent(final Store store, final StoreElementListener listListener){
         if(ivLogo==null)ivLogo = (ImageView) findViewById(R.id.ivLogo);
         if(tvName==null)tvName = (TextView) findViewById(R.id.tvName);
         if(btnRequest==null)btnRequest = (Button) findViewById(R.id.btnRequest);

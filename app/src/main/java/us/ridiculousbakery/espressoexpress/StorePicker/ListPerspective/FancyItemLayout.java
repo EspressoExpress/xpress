@@ -7,6 +7,7 @@ import android.widget.TextView;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 /**
  * Created by bkuo on 6/14/15.
@@ -29,7 +30,7 @@ public class FancyItemLayout extends ItemStoreLayout {
     }
 
 
-    public void setContent(Store store, StoreListAdapter.ListItemListener l){
+    public void setContent(Store store, StoreElementListener l){
         if(tvName==null) tvName = (TextView) findViewById(R.id.tvName);
         if(ivBg==null) ivBg = (ImageView) findViewById(R.id.ivBackground);
 

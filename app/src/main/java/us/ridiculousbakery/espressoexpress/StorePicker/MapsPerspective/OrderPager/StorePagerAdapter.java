@@ -16,6 +16,7 @@ import java.util.List;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 
 /**
@@ -30,7 +31,7 @@ public class StorePagerAdapter extends PagerAdapter {
     private final LayoutInflater mInflator;
     private final int mResourceId;
     private final Context mCtx;
-    private PagerItemListener pagerListener;
+    private StoreElementListener pagerListener;
     private Button btnRequest;
     private Button btnDeliver;
 
@@ -50,7 +51,7 @@ public class StorePagerAdapter extends PagerAdapter {
         mInflator = LayoutInflater.from(context);
         mResourceId = R.layout.standard_store_item;
     }
-    public StorePagerAdapter(Context context, ArrayList<Store> list, PagerItemListener listener) {
+    public StorePagerAdapter(Context context, ArrayList<Store> list, StoreElementListener listener) {
         this(context);
         stores = list;
         pagerListener = listener;
@@ -100,7 +101,4 @@ public class StorePagerAdapter extends PagerAdapter {
         notifyDataSetChanged();
     }
 
-    public interface PagerItemListener {
-        public void gotoMenu(Store store);
-    }
 }

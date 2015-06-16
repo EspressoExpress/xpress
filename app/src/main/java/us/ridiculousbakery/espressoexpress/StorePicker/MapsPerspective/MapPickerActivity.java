@@ -44,12 +44,12 @@ import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 import us.ridiculousbakery.espressoexpress.R;
 import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.StorePager.PagerFragment;
-import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.StorePager.StorePagerAdapter;
+import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 
 public class MapPickerActivity extends NavDrawerBaseActivity implements
          PagerFragment.PagerListener,
-        StorePagerAdapter.PagerItemListener,
+        StoreElementListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener {
     /*

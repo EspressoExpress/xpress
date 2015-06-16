@@ -13,14 +13,15 @@ import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 /**
  * Created by bkuo on 6/8/15.
  */
 public class StoreListAdapter extends ArrayAdapter<Store> {
-    private ListItemListener listListener;
+    private StoreElementListener listListener;
 
-    public StoreListAdapter(Context context, ArrayList<Store> stores, ListItemListener listener){
+    public StoreListAdapter(Context context, ArrayList<Store> stores, StoreElementListener listener){
         super(context, R.layout.standard_store_item, stores);
         listListener =listener;
     }
@@ -66,10 +67,7 @@ public class StoreListAdapter extends ArrayAdapter<Store> {
         public Button btnDeliver;
         public Button btnRequest;
     }
-    public interface ListItemListener {
 
-        public void gotoMenu(Store store);
-    }
 
 
 }

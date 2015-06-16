@@ -8,14 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.ItemStoreLayout;
+import us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.StoreListAdapter;
 
 
 /**
@@ -30,7 +30,7 @@ public class StorePagerAdapter extends PagerAdapter {
     private final LayoutInflater mInflator;
     private final int mResourceId;
     private final Context mCtx;
-    private PagerItemListener pagerListener;
+    private StoreListAdapter.ListItemListener pagerListener;
     private Button btnRequest;
     private Button btnDeliver;
 
@@ -48,9 +48,9 @@ public class StorePagerAdapter extends PagerAdapter {
     public StorePagerAdapter(Context context) {
         mCtx = context;
         mInflator = LayoutInflater.from(context);
-        mResourceId = R.layout.standard_store_item;
+        mResourceId = R.layout.store_item_fancy;
     }
-    public StorePagerAdapter(Context context, ArrayList<Store> list, PagerItemListener listener) {
+    public StorePagerAdapter(Context context, ArrayList<Store> list, StoreListAdapter.ListItemListener listener) {
         this(context);
         stores = list;
         pagerListener = listener;
@@ -82,16 +82,18 @@ public class StorePagerAdapter extends PagerAdapter {
 
     private void initView(View v, final Store item, int position) {
         Log.i("ZZZZZZ", "initView: position:" + position + " store item " + item.getName());
-        ((TextView)v.findViewById(R.id.tvName)).setText(item.getName());
-        ((ImageView)v.findViewById(R.id.ivLogo)).setImageDrawable(mCtx.getResources().getDrawable(item.getLogo()));
-        btnRequest = (Button) v.findViewById(R.id.btnRequest);
-        btnDeliver = (Button) v.findViewById(R.id.btnDeliver);
-        btnRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                pagerListener.gotoMenu(item);
-            }
-        });
+        ItemStoreLayout vv = (ItemStoreLayout) v;
+        ((ItemStoreLayout) v).setContent(item, pagerListener );
+//                ((TextView) v.findViewById(R.id.tvName)).setText(item.getName());
+//        ((ImageView)v.findViewById(R.id.ivLogo)).setImageDrawable(mCtx.getResources().getDrawable(item.getLogo()));
+//        btnRequest = (Button) v.findViewById(R.id.btnRequest);
+//        btnDeliver = (Button) v.findViewById(R.id.btnDeliver);
+//        btnRequest.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                pagerListener.gotoMenu(item);
+//            }
+//        });
     }
 
 
