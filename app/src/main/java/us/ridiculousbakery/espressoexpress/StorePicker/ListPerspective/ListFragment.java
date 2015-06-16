@@ -18,6 +18,7 @@ import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 /**
  * Created by bkuo on 6/6/15.
@@ -37,7 +38,7 @@ public class ListFragment extends Fragment {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
         stores = (ArrayList<Store>) getArguments().getSerializable("stores");
-        aaStores = new StoreListAdapter(getActivity(), stores, (StoreListAdapter.ListItemListener) getActivity());
+        aaStores = new StoreListAdapter(getActivity(), stores, (StoreElementListener) getActivity());
     }
 
     @Override

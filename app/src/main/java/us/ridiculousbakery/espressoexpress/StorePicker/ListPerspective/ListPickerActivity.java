@@ -27,10 +27,11 @@ import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
 import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.MapPickerActivity;
 import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
+import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 
 public class ListPickerActivity extends NavDrawerBaseActivity implements
-        StoreListAdapter.ListItemListener,
+        StoreElementListener,
         ListFragment.ListListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
