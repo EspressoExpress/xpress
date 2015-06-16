@@ -100,8 +100,16 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
         int id = item.getItemId();
         if (id == R.id.action_store_pick_list) {
           finish();
+          overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
     private MapFragment getMapStoreFragment() {

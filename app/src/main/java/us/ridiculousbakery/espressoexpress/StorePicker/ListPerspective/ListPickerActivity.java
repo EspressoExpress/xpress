@@ -83,6 +83,8 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
         i.putExtra("position", position);
         i.putExtra("stores", stores);
         startActivity(i);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+
     }
 
     private void activate_list_fragment() {
