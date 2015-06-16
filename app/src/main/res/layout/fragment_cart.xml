@@ -217,7 +217,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:enabled="false"
+        android:enabled="true"
         />
 
 
