@@ -1,14 +1,13 @@
 package us.ridiculousbakery.espressoexpress.InProgress.Receiving;
 
+import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import us.ridiculousbakery.espressoexpress.InProgress.Fragments.ChatFragment;
 import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderInProgressFragment;
 import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderPlacedFragment;
 import us.ridiculousbakery.espressoexpress.R;
@@ -33,7 +32,7 @@ public class ReceivingActivity extends ActionBarActivity {
             ft.commit();
         }
 
-        handler.postDelayed(runnable, 10000);
+        handler.postDelayed(runnable, 5000);
 
     }
 

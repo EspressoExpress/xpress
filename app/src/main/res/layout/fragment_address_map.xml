@@ -9,14 +9,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:background="@android:color/white">
-        <!--<org.droidparts.widget.ClearableEditText
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/etAddress"
-            android:singleLine="true"
-            android:hint="Enter Location"
-            android:layout_weight="1"
-            />-->
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"

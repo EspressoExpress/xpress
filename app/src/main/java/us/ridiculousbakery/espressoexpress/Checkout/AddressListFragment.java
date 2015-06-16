@@ -71,6 +71,7 @@ public class AddressListFragment extends DialogFragment {
         etAddress.setText(StringHelper.addressToString((Address) getArguments().getParcelable("address")));
         etAddress.setSelection(etAddress.getText().length());
         etAddress.requestFocus();
+        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
         btCancelAddress = (Button) v.findViewById(R.id.btCancelAddress);
         lvAddresses = (ListView) v.findViewById(R.id.lvAddresses);
         lvAddresses.setAdapter(aListAddresses);
@@ -91,7 +92,7 @@ public class AddressListFragment extends DialogFragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //still doesn't show soft ketboard
-        getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+        //getDialog().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
     }
 
     @Override
