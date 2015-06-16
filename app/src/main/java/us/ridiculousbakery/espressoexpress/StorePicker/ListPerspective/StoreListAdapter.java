@@ -29,7 +29,7 @@ public class StoreListAdapter extends ArrayAdapter<Store> {
         final ViewHolder viewholder;
         final Store  store = getItem(position);
         if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.store_item_fancy, parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.fancy_store_item, parent, false);
 
 //            viewholder = new ViewHolder();
 //            viewholder.ivLogo = (ImageView) convertView.findViewById(R.id.ivLogo);

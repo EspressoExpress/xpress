@@ -36,11 +36,13 @@ public class NavDrawerBaseActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         mDrawerList = (ListView) findViewById(R.id.lvDrawer);
-        navDrawerItems = new ArrayList<>();
-        mDrawerList = (ListView) findViewById(R.id.lvDrawer);
+        mDrawerList.addHeaderView(getLayoutInflater().inflate(R.layout.nav_drawer_header, null));
+
         navDrawerItems = new ArrayList<>();
         navDrawerItems.add(new NavDrawerItem("Edit Payment Information", R.drawable.bank24));
         navDrawerItems.add(new NavDrawerItem("Edit User Profile", R.drawable.ic_user_profile));
+        navDrawerItems.add(new NavDrawerItem("Sign Out", R.drawable.ic_user_profile));
+
 //        navDrawerItems.add(new NavDrawerItem("Edit Usual Order", R.drawable.philz_twit_logo));
 
         NavDrawerListAdapter adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
