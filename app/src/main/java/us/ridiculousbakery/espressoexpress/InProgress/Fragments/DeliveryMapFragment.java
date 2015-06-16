@@ -277,14 +277,13 @@ public class DeliveryMapFragment extends Fragment implements
     private void animateMarker() {
         Handler handler = new Handler();
         for(int z = 0; z <= directionSteps.size()-1;z++){
-            LatLng src= directionSteps.get(z);
+            final LatLng src= directionSteps.get(z);
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    //startMarker.setPosition(src);
+                    startMarker.setPosition(src);
                 }
             }, 1000*z);
-            startMarker.setPosition(src);
         }
     }
 
