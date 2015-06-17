@@ -1,5 +1,6 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
+import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -31,13 +32,14 @@ public class CartActivity extends NavDrawerBaseActivity implements
         //create fake order
 
 
-         order = (Order) getIntent().getSerializableExtra("order");
-//        order.setStore(new Store("Starbucks"));
-//        ArrayList<LineItem> orderItems = new ArrayList<>();
-//        orderItems.add(new LineItem(new Item("Latte"), null));
-//        orderItems.add(new LineItem(new Item("Frapp"), null));
-//        order.setLineItems(orderItems);
-//        (new Intent()).putExtra("order", order);
+        order = (Order) getIntent().getSerializableExtra("order");
+        /*Order order = new Order();
+        order.setStore(new Store("Starbucks"));
+        ArrayList<LineItem> orderItems = new ArrayList<>();
+        orderItems.add(new LineItem(new Item("Latte"), null));
+        orderItems.add(new LineItem(new Item("Frapp"), null));
+        order.setLineItems(orderItems);*/
+        (new Intent()).putExtra("order", order);
         if (savedInstanceState == null) {
             // Create order fragment
             cartFragment = CartFragment.newInstance(order);
@@ -45,6 +47,7 @@ public class CartActivity extends NavDrawerBaseActivity implements
             ft.replace(R.id.flCart, cartFragment);
             ft.commit();
         }
+
     }
 
 

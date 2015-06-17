@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
 
+import us.ridiculousbakery.espressoexpress.Checkout.ParseQueryHelper;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -22,8 +23,8 @@ public class FakeDataSource {
         list.add(new Store("Starbucks", new LatLng(lat - 0.02, lon - 0.02), R.drawable.sbux_twit_logo, R.drawable.starbucksbg,nearby_orders(new LatLng(lat - 0.02, lon - 0.02)), fakeMenu()));
         list.add(new Store("Starbucks", new LatLng(lat - 0.02, lon + 0.02), R.drawable.sbux_twit_logo, R.drawable.starbucksbg,nearby_orders(new LatLng(lat - 0.02, lon + 0.02)), fakeMenu()));
         list.add(new Store("BlueBottle", new LatLng(lat + 0.02, lon - 0.02), R.drawable.blue_twit_logo, R.drawable.bluebg,nearby_orders(new LatLng(lat + 0.02, lon - 0.02)), fakeMenu()));
-        list.add(new Store("Philz", new LatLng(lat + 0.02, lon + 0.02), R.drawable.philz_twit_logo, R.drawable.philzbg,nearby_orders(new LatLng(lat + 0.02, lon + 0.02)), fakeMenu()));
-        list.add(new Store("Philz", new LatLng(lat + 0.01, lon + 0.01), R.drawable.philz_twit_logo,  R.drawable.philzbg,nearby_orders(new LatLng(lat + 0.01, lon + 0.01)), fakeMenu()));
+        list.add(new Store("Philz", new LatLng(lat + 0.02, lon + 0.02), R.drawable.philz_twit_logo, R.drawable.philzbg,nearby_orders(new LatLng(lat + 0.02, lon + 0.02)), ParseQueryHelper.getMenufromParse("Philz")));
+        list.add(new Store("Philz", new LatLng(lat + 0.01, lon + 0.01), R.drawable.philz_twit_logo,  R.drawable.philzbg,nearby_orders(new LatLng(lat + 0.01, lon + 0.01)), ParseQueryHelper.getMenufromParse("Philz")));
         return list;
     }
 

@@ -34,4 +34,5 @@
     <string name="order_placed_text">Order Placed</string>
     <string name="order_placed_detail">Please wait while someone confirms to pick up your order</string>
     <string name="cancel_order_label">Cancel Order</string>
+    <string name="title_activity_parse_upload">"Parse upload"</string>
 </resources>
