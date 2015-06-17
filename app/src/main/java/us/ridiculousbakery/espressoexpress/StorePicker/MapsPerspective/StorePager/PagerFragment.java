@@ -63,7 +63,7 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
                 @Override
                 public void onClick(View v) {
                     Log.i("ZZZZZZZ", "clicked!!!");
-                    storeElementListener.gotoMenu(stores.get(viewPager.getCurrentItem()));
+                    storeElementListener.onStoreElementClicked(stores.get(viewPager.getCurrentItem()));
                 }
             });
 

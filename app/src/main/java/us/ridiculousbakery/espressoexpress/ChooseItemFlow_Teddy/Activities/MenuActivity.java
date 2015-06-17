@@ -63,7 +63,7 @@ public class MenuActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
+        if (id == android.R.id.home) finish();
 //            Intent i = new Intent(this, CartActivity.class);
 //            startActivity(i);
 //            return true;

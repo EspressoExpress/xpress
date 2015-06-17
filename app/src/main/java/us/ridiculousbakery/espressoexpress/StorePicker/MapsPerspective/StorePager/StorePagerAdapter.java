@@ -91,16 +91,7 @@ public class StorePagerAdapter extends PagerAdapter {
                 storeElementListener.onStoreElementClicked(item);
             }
         });
-//                ((TextView) v.findViewById(R.id.tvName)).setText(item.getName());
-//        ((ImageView)v.findViewById(R.id.ivLogo)).setImageDrawable(mCtx.getResources().getDrawable(item.getLogo()));
-//        btnRequest = (Button) v.findViewById(R.id.btnRequest);
-//        btnDeliver = (Button) v.findViewById(R.id.btnDeliver);
-//        btnRequest.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
 
-//            }
-//        });
     }
 
 
