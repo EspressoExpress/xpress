@@ -29,10 +29,8 @@ public class CartActivity extends NavDrawerBaseActivity implements
         super.onCreate(savedInstanceState);
         getSupportActionBar().hide();
         setContentView(R.layout.activity_cart);
-        //create fake order
-
-
         order = (Order) getIntent().getSerializableExtra("order");
+        //create fake order
         /*Order order = new Order();
         order.setStore(new Store("Starbucks"));
         ArrayList<LineItem> orderItems = new ArrayList<>();

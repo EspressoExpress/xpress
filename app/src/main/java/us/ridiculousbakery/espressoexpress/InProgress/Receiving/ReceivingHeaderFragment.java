@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.parse.codec.binary.StringUtils;
 import com.squareup.picasso.Picasso;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.ProfileImageHelper;
@@ -30,6 +29,7 @@ import us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.ListPicke
  */
 public class ReceivingHeaderFragment extends Fragment implements RateExperienceDialogFragment.RateExperienceDialogFragmentListener {
 
+    private static int ANIMATED_DURATION = 5000;
     //================================================================================
     // PublicAPI
     //================================================================================
@@ -116,7 +116,7 @@ public class ReceivingHeaderFragment extends Fragment implements RateExperienceD
     private void animateProgressBar(float percentComplete) {
         int progress = (int)(percentComplete*pbDeliveryProgress.getMax());
         ObjectAnimator animation = ObjectAnimator.ofInt(pbDeliveryProgress, "progress", progress);
-        animation.setDuration(500); // 0.5 second
+        animation.setDuration(ANIMATED_DURATION);
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
     }

@@ -6,7 +6,6 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,14 +21,12 @@ import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
 import com.parse.ParseUser;
-import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.InProgress.Receiving.ReceivingActivity;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.Order;
-import us.ridiculousbakery.espressoexpress.Model.SelectedOption;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -150,56 +147,33 @@ public class CartFragment extends Fragment {
         btCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final ParseObject orderObj = new ParseObject("Order");
                 ParseUser user = ParseUser.getCurrentUser();
+                ParseObject orderObj = new ParseObject("Order");
                 orderObj.put("name", user.get("displayName"));
+                orderObj.put("store_name", order.getStore().getName());
                 orderObj.put("receiver_id", user.getObjectId());
                 orderObj.put("delivery_lat", order.getLatLng().latitude);
                 orderObj.put("delivery_lng", order.getLatLng().longitude);
-                orderObj.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e == null) {
-                            ParseRelation<ParseObject> relation = orderObj.getRelation("lineItems");
-                            //  Add price to line item later
-                            for (int i=0;i<order.getLineItems().size();i++) {
-                                LineItem lineItem = order.getLineItems().get(i);
-                                ParseObject lineItemObj = new ParseObject("LineItem");
-                                lineItemObj.put("name", lineItem.getItem().getName());
-                                ArrayList<String> des = new ArrayList<>();
-                                for (int j=0; j<lineItem.getChosenOptions().size(); j++) {
-                                    SelectedOption op = lineItem.getChosenOptions().get(j);
-                                    des.add(op.getCategory() + " - " + op.getName());
-                                }
-                                lineItemObj.put("descriptions", des);
-                                relation.add(lineItemObj);
-                            }
-                        }
-                        else {
-                            Log.d("Parse 1: ", e.toString());
-                        }
+                for (int i=0;i<order.getLineItems().size();i++) {
+                    //need price and selection later in line items but just get the name for now
+                    LineItem lineItem = order.getLineItems().get(i);
+                    ParseObject lineItemObj = new ParseObject("LineItem");
+                    lineItemObj.put("name", lineItem.getItem().getName());
+                    try {
+                        lineItemObj.save();
+                    } catch (ParseException e) {
+                        e.printStackTrace();
                     }
-                });
-
-                // Show progress Indicator
-                orderObj.saveInBackground(new SaveCallback() {
-                    @Override
-                    public void done(ParseException e) {
-                        if (e==null) {
-                            ParseUser user = ParseUser.getCurrentUser();
-                            user.put("currentOrderId", orderObj.getObjectId());
-                            try{user.save();}catch(ParseException ee){}
-                            Intent i = new Intent(getActivity(), ReceivingActivity.class);
-                            startActivity(i);
-                        }
-                        else {
-                            Log.d("Parse 2: ", e.toString());
-                        }
-
-                        // Stop progress indicator
-                    }
-                });
-
+                    ParseRelation<ParseObject> relation = orderObj.getRelation("lineItems");
+                    relation.add(lineItemObj);
+                }
+                try {
+                    orderObj.save();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                Intent i = new Intent(getActivity(), ReceivingActivity.class);
+                startActivity(i);
             }
         });
 
@@ -225,8 +199,7 @@ public class CartFragment extends Fragment {
     }
 
     public void saveAndShowCCInfo(CreditCard cc) {
-        //save ccInfo to order object
-        this.cc = cc;
+
         //
         String ccNumber = cc.getCardNumber();
         tvCCInfo.setText(cc.getCardType().toString() + " ending in " + ccNumber.substring(ccNumber.length() - 4, ccNumber.length()));

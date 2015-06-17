@@ -54,6 +54,7 @@ public class DeliveryMapFragment extends Fragment implements
     private LocationRequest mLocationRequest;
     private long UPDATE_INTERVAL = 60000;  /* 60 secs */
     private long FASTEST_INTERVAL = 5000; /* 5 secs */
+    private long MARKER_MOVE_INTERVAL = 2000;
     private static final LatLng DEFAULT_DELIVERY_ADDRESS = new LatLng(37.402794, -122.116398); //Box HQ
     private static final LatLng DEFAULT_COFFEE_SHOP_ADDRESS = new LatLng(37.403731, -122.112364); //StarBucks near Box HQ
     private Marker startMarker;
@@ -101,16 +102,7 @@ public class DeliveryMapFragment extends Fragment implements
             // Map is ready
             Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
             map.setMyLocationEnabled(true);
-            BitmapDescriptor startMarkerIcon =
-                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
-            startMarker = map.addMarker((new MarkerOptions()).position(DEFAULT_COFFEE_SHOP_ADDRESS).icon(startMarkerIcon));
-            startMarker.setPosition(DEFAULT_COFFEE_SHOP_ADDRESS);
-            BitmapDescriptor endMarkerIcon =
-                    BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-            endMarker = map.addMarker((new MarkerOptions()).position(DEFAULT_DELIVERY_ADDRESS).icon(endMarkerIcon));
-            endMarker.setPosition(DEFAULT_DELIVERY_ADDRESS);
-            getBestZoom(DEFAULT_COFFEE_SHOP_ADDRESS, DEFAULT_DELIVERY_ADDRESS);
-            (new connectAsyncTask()).execute(DEFAULT_COFFEE_SHOP_ADDRESS, DEFAULT_DELIVERY_ADDRESS);
+            mapAnimationStart();
 
 
             // Now that map has loaded, let's get our location!
@@ -124,6 +116,20 @@ public class DeliveryMapFragment extends Fragment implements
             Toast.makeText(getActivity(), "Error - Map was null!!", Toast.LENGTH_SHORT).show();
         }
     }
+
+    private void mapAnimationStart() {
+        BitmapDescriptor startMarkerIcon =
+                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+        startMarker = map.addMarker((new MarkerOptions()).position(DEFAULT_COFFEE_SHOP_ADDRESS).icon(startMarkerIcon));
+        startMarker.setPosition(DEFAULT_COFFEE_SHOP_ADDRESS);
+        BitmapDescriptor endMarkerIcon =
+                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
+        endMarker = map.addMarker((new MarkerOptions()).position(DEFAULT_DELIVERY_ADDRESS).icon(endMarkerIcon));
+        endMarker.setPosition(DEFAULT_DELIVERY_ADDRESS);
+        getBestZoom(DEFAULT_COFFEE_SHOP_ADDRESS, DEFAULT_DELIVERY_ADDRESS);
+        (new connectAsyncTask()).execute(DEFAULT_COFFEE_SHOP_ADDRESS, DEFAULT_DELIVERY_ADDRESS);
+    }
+
 
     @Override
     public void onConnected(Bundle bundle) {
@@ -283,7 +289,7 @@ public class DeliveryMapFragment extends Fragment implements
                 public void run() {
                     startMarker.setPosition(src);
                 }
-            }, 1000*z);
+            }, MARKER_MOVE_INTERVAL*z);
         }
     }
 
