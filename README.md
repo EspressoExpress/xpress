@@ -7,25 +7,26 @@ Coffee requesters will select a nearby cafe and place a standing order.  The ord
 
 ## Required User Stories
 
-* [ ] Coffee Requesting User can choose a store
-* [ ] Coffee Requesting User can customize a drink order
-* [ ] Coffee Requesting User can specify their location
-* [ ] Coffee Requesting User can enter payment information
-* [ ] Coffee Requesting User can view their order
-* [ ] Coffee Requesting User can place their order
-* [ ] Coffee Requesting User can view their order status
-* [ ] Coffee Delivering User can choose an order to fill
-* [ ] Coffee Requesting User can see the location of the delivering user after the order is accepted
+* [x] Coffee Requesting User can choose a store
+* [x] Coffee Requesting User can customize a drink order
+* [x] Coffee Requesting User can specify their location
+* [x] Coffee Requesting User can enter payment information
+* [x] Coffee Requesting User can view their order
+* [x] Coffee Requesting User can place their order
+* [x] Coffee Requesting User can view their order status
+* [x] Coffee Delivering User can choose an order to fill
+* [x] Coffee Requesting User can see the location of the delivering user after the order is accepted
 
 ## Optional User Stores
 
 * [ ] Users can do all of the above  **beautifully**
-* [ ] After order acceptance delivery user and requesting user can chat in realtime
+* [x] After order acceptance delivery user and requesting user can chat in realtime
 * [ ] User can store common orders / payment information in a user profile.
 * [ ] Stripe integration
 * [ ] Starbucks barcode integration
-* [ ] Users may rate their counterparties
+* [x] Users may rate their counterparties
 * [ ] Users may receive receipts / earnings advices through push notification.
 
 <img src='mockup.png' title='Mockup' width='' alt='Mockup' />
 <img src='xpress.gif' title='1st Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='xpress3.gif' title='1st Video Walkthrough' width='' alt='Video Walkthrough' />
