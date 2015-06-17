@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -255,10 +256,16 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
 //        activate_map_and_pager_fragments();
     }
     public void onStoreElementClicked(Store store){
-        Intent i = new Intent(this, MenuActivity.class);
-        i.putExtra("store", store);
-        i.putExtra("ParentClass", getClass());
-        startActivity(i);
+        Switch s = (Switch) findViewById(R.id.swActionMode);
+        if(s.isChecked()) {
+            activate_map_and_pager_fragments(stores.indexOf(store));
+        }else{
+            Intent i = new Intent(this, MenuActivity.class);
+            i.putExtra("store", store);
+            i.putExtra("ParentClass", getClass());
+            startActivity(i);
+
+        }
     }
 
     // Define a DialogFragment that displays the error dialog
