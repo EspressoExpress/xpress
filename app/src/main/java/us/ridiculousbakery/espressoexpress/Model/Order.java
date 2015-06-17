@@ -16,10 +16,13 @@ public class Order implements Serializable{
     private long created_at;
     private Store store;
     private User user;
+    private String receiverId;
 
-    public Order(String username, LatLng latlng){
+    public Order(String username, LatLng latlng, String receiverId){
         this.lon = latlng.longitude;
+
         this.lat = latlng.latitude;
+        this.receiverId = receiverId;
         this.user= new User(username);
     }
 

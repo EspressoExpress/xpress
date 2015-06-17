@@ -152,6 +152,7 @@ public class CartFragment extends Fragment {
             public void onClick(View v) {
                 final ParseObject orderObj = new ParseObject("Order");
                 ParseUser user = ParseUser.getCurrentUser();
+                orderObj.put("name", user.get("displayName"));
                 orderObj.put("receiver_id", user.getObjectId());
                 orderObj.put("delivery_lat", order.getLatLng().latitude);
                 orderObj.put("delivery_lng", order.getLatLng().longitude);
@@ -185,6 +186,9 @@ public class CartFragment extends Fragment {
                     @Override
                     public void done(ParseException e) {
                         if (e==null) {
+                            ParseUser user = ParseUser.getCurrentUser();
+                            user.put("currentOrderId", orderObj.getObjectId());
+                            try{user.save();}catch(ParseException ee){}
                             Intent i = new Intent(getActivity(), ReceivingActivity.class);
                             startActivity(i);
                         }
