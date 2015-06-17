@@ -7,6 +7,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class OrderInProgressFragment extends Fragment {
         OrderInProgressFragment fragmentDemo = new OrderInProgressFragment();
         Bundle args = new Bundle();
         args.putBoolean("isDelivering", isDelivering);
+        args.putString("userID", userID);
         fragmentDemo.setArguments(args);
         return fragmentDemo;
     }
@@ -55,11 +57,13 @@ public class OrderInProgressFragment extends Fragment {
         final boolean isDelivering = getArguments().getBoolean("isDelivering");
         String userID = getArguments().getString("userID");
 
-        ParseQuery<ParseUser> query = ParseQuery.getQuery("ParseUser");
+        ParseQuery<ParseUser> query =  ParseQuery.getQuery("_User");
+        query.whereEqualTo("objectID", userID);
         query.getInBackground(userID, new GetCallback<ParseUser>() {
             @Override
             public void done(ParseUser parseUser, ParseException e) {
                 if (e == null) {
+                    Log.d("DEBUG", "Got Parse User");
                     otherUser = parseUser;
 
                     if (isDelivering) {
@@ -73,6 +77,8 @@ public class OrderInProgressFragment extends Fragment {
                         ft.replace(R.id.flHeaderContainer, receivingHeaderFragment);
                         ft.commit();
                     }
+                } else {
+                    Log.d("DEBUG", e.getLocalizedMessage());
                 }
             }
         });

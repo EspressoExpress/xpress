@@ -49,7 +49,7 @@ public class ReceivingActivity extends ActionBarActivity {
         @Override
         public void run() {
             Log.d("Runnable", "Running");
-            switchToPickupConfirmed("");
+            switchToPickupConfirmed("saLdABgOFA");
             //handler.postDelayed(this, 100);
         }
     };
@@ -77,8 +77,7 @@ public class ReceivingActivity extends ActionBarActivity {
     }
 
     private void switchToPickupConfirmed(String fromUserID) {
-        Log.d("Replace", "Replace");
-        orderInProgressFragment = OrderInProgressFragment.newInstance(false, userID);
+        orderInProgressFragment = OrderInProgressFragment.newInstance(false, fromUserID);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.flContainer, orderInProgressFragment);
         ft.commit();
