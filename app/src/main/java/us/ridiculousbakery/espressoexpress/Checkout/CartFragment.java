@@ -151,6 +151,7 @@ public class CartFragment extends Fragment {
                 ParseObject orderObj = new ParseObject("Order");
                 orderObj.put("name", user.get("displayName"));
                 orderObj.put("store_name", order.getStore().getName());
+                orderObj.put("status", "order submitted");
                 orderObj.put("receiver_id", user.getObjectId());
                 orderObj.put("delivery_lat", order.getLatLng().latitude);
                 orderObj.put("delivery_lng", order.getLatLng().longitude);

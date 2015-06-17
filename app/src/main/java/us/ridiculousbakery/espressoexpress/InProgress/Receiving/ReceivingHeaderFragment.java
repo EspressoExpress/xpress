@@ -116,7 +116,7 @@ public class ReceivingHeaderFragment extends Fragment implements RateExperienceD
     private void animateProgressBar(float percentComplete) {
         int progress = (int)(percentComplete*pbDeliveryProgress.getMax());
         ObjectAnimator animation = ObjectAnimator.ofInt(pbDeliveryProgress, "progress", progress);
-        animation.setDuration(ANIMATED_DURATION);
+        animation.setDuration(500);
         animation.setInterpolator(new DecelerateInterpolator());
         animation.start();
     }
