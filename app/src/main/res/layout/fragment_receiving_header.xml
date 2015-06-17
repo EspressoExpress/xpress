@@ -26,7 +26,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/textView3"
+        android:id="@+id/tvProgress"
         android:layout_below="@+id/pbDeliveryProgress"
         android:layout_centerHorizontal="true" />
 
@@ -34,7 +34,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="New Text"
-        android:id="@+id/tvProgressDetails"
+        android:id="@+id/tvDeliverTo"
         android:layout_above="@+id/pbDeliveryProgress"
         android:layout_toRightOf="@+id/ivProfile"
         android:layout_toEndOf="@+id/ivProfile" />

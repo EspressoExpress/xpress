@@ -19,6 +19,8 @@
         android:layout_height="wrap_content"
         android:text="@string/order_placed_detail"
         android:id="@+id/textView4"
+        android:gravity="center_horizontal"
+        android:singleLine="false"
         android:layout_below="@+id/textView2"
         android:layout_centerHorizontal="true" />
 

@@ -5,14 +5,15 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
-import com.astuetz.PagerSlidingTabStrip;
+import com.squareup.picasso.Picasso;
 
-import us.ridiculousbakery.espressoexpress.InProgress.Delivering.DeliveringHeaderFragment;
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.DisplayHelper;
 import us.ridiculousbakery.espressoexpress.InProgress.RateExperienceDialogFragment;
 import us.ridiculousbakery.espressoexpress.R;
 import us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.ListPickerActivity;
@@ -46,9 +47,19 @@ public class ReceivingHeaderFragment extends Fragment implements RateExperienceD
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_in_progress_header, container, false);
+
+        View v = inflater.inflate(R.layout.fragment_receiving_header, container, false);
         String url = getArguments().getString("profileURL", "");
         String username = getArguments().getString("username", "");
+        TextView tvDeliverTo = (TextView) v.findViewById(R.id.tvDeliverTo);
+        TextView tvProgress = (TextView) v.findViewById(R.id.tvProgress);
+        ImageView ivProfile = (ImageView) v.findViewById(R.id.ivProfile);
+
+        tvDeliverTo.setText(username + " is bringing you your coffee");
+        tvProgress.setText("Step 1");
+        Picasso.with(getActivity()).load(DisplayHelper.getProfileUrl(url)).into(ivProfile);
+
+
         return v;
     }
 

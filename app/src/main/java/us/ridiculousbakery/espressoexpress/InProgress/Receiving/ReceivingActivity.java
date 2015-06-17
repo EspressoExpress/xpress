@@ -8,6 +8,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+import com.parse.ParseQuery;
+import com.parse.ParseUser;
+
 import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderInProgressFragment;
 import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderPlacedFragment;
 import us.ridiculousbakery.espressoexpress.R;
@@ -16,6 +21,7 @@ public class ReceivingActivity extends ActionBarActivity {
 
     private OrderPlacedFragment orderPlacedFragment;
     private OrderInProgressFragment orderInProgressFragment;
+    private String userID;
    // private ChatFragment chatFragment;
 
     private Handler handler = new Handler();
@@ -25,6 +31,9 @@ public class ReceivingActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiving);
+
+        userID = getIntent().getStringExtra("userID");
+
         if (savedInstanceState == null) {
             orderPlacedFragment = new OrderPlacedFragment();
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -40,7 +49,7 @@ public class ReceivingActivity extends ActionBarActivity {
         @Override
         public void run() {
             Log.d("Runnable", "Running");
-            switchToPickupConfirmed();
+            switchToPickupConfirmed("");
             //handler.postDelayed(this, 100);
         }
     };
@@ -67,9 +76,9 @@ public class ReceivingActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    private void switchToPickupConfirmed() {
+    private void switchToPickupConfirmed(String fromUserID) {
         Log.d("Replace", "Replace");
-        orderInProgressFragment = OrderInProgressFragment.newInstance(false);
+        orderInProgressFragment = OrderInProgressFragment.newInstance(false, userID);
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         ft.replace(R.id.flContainer, orderInProgressFragment);
         ft.commit();
