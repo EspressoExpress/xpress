@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
+import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,27 @@ import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.MarkedOrd
  * Created by mrozelle on 6/17/2015.
  */
 public class ParseQueryHelper {
+
+    //
+    public static void updateSubmittedOrdertoPickup(Order order) throws ParseException {
+        String receiverId = order.getReceiverId();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Order");
+        query.whereEqualTo("status", "order submitted");
+        query.whereEqualTo("receiver_id", receiverId);
+        ParseUser user = ParseUser.getCurrentUser();
+        List<ParseObject> results = null;
+        try {
+            results = query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        for (ParseObject submittedOrder_obj : results) { //should be only one order anyway
+            submittedOrder_obj.put("status", "order picked up");
+            submittedOrder_obj.put("deliverer_id", user.getObjectId());
+            submittedOrder_obj.put("deliverer_name", user.get("displayName"));
+            submittedOrder_obj.save();
+        }
+    }
 
     //get submitted order for the other side to pick up
     public static ArrayList<MarkedOrder> getSubmittedOrderfromParse(String store_name) {

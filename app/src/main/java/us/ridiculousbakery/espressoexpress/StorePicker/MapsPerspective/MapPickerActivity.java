@@ -32,6 +32,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.makeramen.roundedimageview.RoundedImageView;
+import com.parse.ParseException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -398,8 +399,13 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
-                        Log.i("ZZZZZZZ",  "order for "+ order.getUser().getName() + " accepted");
+                        // update this order on Parse
+                        try {
+                            ParseQueryHelper.updateSubmittedOrdertoPickup(order);
+                        } catch (ParseException e) {
+                            e.printStackTrace();
+                        }
+                        Log.i("ZZZZZZZ", "order for " + order.getUser().getName() + " accepted");
                         Intent i = new Intent(MapPickerActivity.this, DeliveringActivity.class);
                         startActivity(i);
                         // Define color of marker icon
