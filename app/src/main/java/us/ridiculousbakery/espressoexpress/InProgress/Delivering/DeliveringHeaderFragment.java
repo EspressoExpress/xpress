@@ -1,10 +1,13 @@
 package us.ridiculousbakery.espressoexpress.InProgress.Delivering;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.text.format.Time;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,13 +21,15 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.ProfileImageHelper;
+import us.ridiculousbakery.espressoexpress.InProgress.RateExperienceDialogFragment;
 import us.ridiculousbakery.espressoexpress.Model.PickupPhase;
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.ListPickerActivity;
 
 /**
  * Created by teddywyly on 6/15/15.
  */
-public class DeliveringHeaderFragment extends Fragment {
+public class DeliveringHeaderFragment extends Fragment implements RateExperienceDialogFragment.RateExperienceDialogFragmentListener {
 
     //================================================================================
     // PublicAPI
@@ -138,6 +143,16 @@ public class DeliveringHeaderFragment extends Fragment {
     };
 
     private void presentRatingDialog() {
+        FragmentManager fm = getChildFragmentManager();
+        RateExperienceDialogFragment editNameDialog = RateExperienceDialogFragment.newInstance("Teddy", "");
+        editNameDialog.setListener(this);
+        editNameDialog.show(fm, "fragment_edit_name");
 
+    }
+
+    @Override
+    public void dialogWillDismiss() {
+        Intent i = new Intent(getActivity(), ListPickerActivity.class);
+        startActivity(i);
     }
 }
