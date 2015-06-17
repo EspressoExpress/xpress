@@ -1,13 +1,13 @@
-package us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective;
+package us.ridiculousbakery.espressoexpress.StorePicker;
 
 import android.content.Context;
 import android.util.AttributeSet;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 /**
  * Created by bkuo on 6/14/15.
@@ -30,12 +30,19 @@ public class FancyItemLayout extends ItemStoreLayout {
     }
 
 
-    public void setContent(Store store, StoreElementListener l){
+    public void setContent(final Store store, final StoreElementListener listener){
         if(tvName==null) tvName = (TextView) findViewById(R.id.tvName);
         if(ivBg==null) ivBg = (ImageView) findViewById(R.id.ivBackground);
 
         tvName.setText(store.getName());
         ivBg.setImageResource(store.getBackground());
+
+        setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listener.onStoreElementClicked(store);
+            }
+        });
 //        setBackground(getResources().getDrawable(store.getBackground()));
         //        viewholder.ivLogo.setImageDrawable(getContext().getResources().getDrawable(store.getLogo()));
 

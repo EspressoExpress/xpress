@@ -1,11 +1,10 @@
-package us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective;
+package us.ridiculousbakery.espressoexpress.StorePicker;
 
 import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
-import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 /**
  * Created by bkuo on 6/14/15.

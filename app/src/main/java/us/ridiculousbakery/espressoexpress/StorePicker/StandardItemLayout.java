@@ -1,4 +1,4 @@
-package us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective;
+package us.ridiculousbakery.espressoexpress.StorePicker;
 
 import android.content.Context;
 import android.util.AttributeSet;
@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 /**
  * Created by bkuo on 6/14/15.
@@ -54,7 +53,7 @@ public class StandardItemLayout extends ItemStoreLayout{
         btnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                listListener.gotoMenu(store);
+                listListener.onStoreElementClicked(store);
             }
         });
     }

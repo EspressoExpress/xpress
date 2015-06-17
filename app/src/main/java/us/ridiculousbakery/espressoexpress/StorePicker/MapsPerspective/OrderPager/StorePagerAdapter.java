@@ -90,7 +90,7 @@ public class StorePagerAdapter extends PagerAdapter {
         btnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pagerListener.gotoMenu(item);
+                pagerListener.onStoreElementClicked(item);
             }
         });
     }

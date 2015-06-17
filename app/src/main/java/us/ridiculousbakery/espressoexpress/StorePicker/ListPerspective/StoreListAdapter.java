@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.ItemStoreLayout;
 import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 /**
