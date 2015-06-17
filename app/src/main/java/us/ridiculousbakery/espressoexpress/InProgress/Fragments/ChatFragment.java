@@ -42,10 +42,20 @@ public class ChatFragment extends Fragment {
     private ArrayList<Message> messages;
     private String userID;
     private String targetUserID;
+    private String otherUserEmail;
+
     private String chatID;
 
     private Handler handler = new Handler();
 
+    public static ChatFragment newInstance(String otherUserID, String otherUserEmail) {
+        ChatFragment fragmentDemo = new ChatFragment();
+        Bundle args = new Bundle();
+        args.putString("otherUserID", otherUserID);
+        args.putString("otherUserEmail", otherUserEmail);
+        fragmentDemo.setArguments(args);
+        return fragmentDemo;
+    }
 
     //================================================================================
     // Lifecycle
@@ -60,8 +70,12 @@ public class ChatFragment extends Fragment {
             // Throw Error Here?
         }
         // Get this from an intent
-        targetUserID = "Hello";
-        chatID = "bajeezia";
+        targetUserID = getArguments().getString("otherUserID");
+        otherUserEmail = getArguments().getString("otherUserEmail");
+        chatID = targetUserID + userID;
+
+        Log.d("DEBUG_TARGET", targetUserID);
+        Log.d("DEBUG_EMAIL", otherUserEmail);
 
         //handler.postDelayed(runnable, 100);
     }
@@ -98,6 +112,7 @@ public class ChatFragment extends Fragment {
                 message.setText(text);
                 message.setUserId(userID);
                 message.setTargetUserId(targetUserID);
+                message.setTargetUserEmail(otherUserEmail);
                 message.setChatId(chatID);
                 message.saveInBackground(new SaveCallback() {
                     @Override

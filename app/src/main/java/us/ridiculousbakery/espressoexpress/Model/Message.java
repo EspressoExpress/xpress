@@ -17,6 +17,7 @@ public class Message extends ParseObject {
     }
     public String getTargetUserId() { return getString("targetUserId"); }
     public String getChatId() { return getString("chatId"); }
+    public String getTargetUserEmail() { return getString("targetUserEmail"); }
 
 
     public void setUserId(String userId) {
@@ -27,6 +28,8 @@ public class Message extends ParseObject {
     }
     public void setTargetUserId(String userId) { put("targetUserId", userId); }
     public void setChatId(String chatId) { put("chatId", chatId); }
+    public void setTargetUserEmail(String chatId) { put("targetUserEmail", chatId); }
+
 
     @Override
     public String toString() {

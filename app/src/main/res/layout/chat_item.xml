@@ -10,6 +10,7 @@
         android:contentDescription="@string/chat_profile_other"
         android:layout_width="64dp"
         android:layout_height="64dp"
+        android:padding="5dp"
         android:src="@drawable/cafe_24_2x" />
     <TextView
         android:textSize="18sp"
@@ -24,6 +25,7 @@
         android:id="@+id/ivProfileRight"
         android:contentDescription="@string/chat_profile_me"
         android:layout_marginLeft="-64dp"
+        android:padding="5dp"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:src="@drawable/cafe_24_2x" />

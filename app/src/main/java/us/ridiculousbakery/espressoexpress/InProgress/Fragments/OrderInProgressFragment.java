@@ -18,7 +18,7 @@ import com.parse.ParseException;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.DisplayHelper;
+import us.ridiculousbakery.espressoexpress.DisplayHelper;
 import us.ridiculousbakery.espressoexpress.InProgress.Delivering.DeliveringHeaderFragment;
 import us.ridiculousbakery.espressoexpress.InProgress.Receiving.ReceivingHeaderFragment;
 import us.ridiculousbakery.espressoexpress.R;
@@ -54,8 +54,12 @@ public class OrderInProgressFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        final View v = inflater.inflate(R.layout.fragment_order_in_progress, container, false);
+
         final boolean isDelivering = getArguments().getBoolean("isDelivering");
         String userID = getArguments().getString("userID");
+
+        // SHOW LOADING UI
 
         ParseQuery<ParseUser> query =  ParseQuery.getQuery("_User");
         query.whereEqualTo("objectID", userID);
@@ -67,31 +71,28 @@ public class OrderInProgressFragment extends Fragment {
                     otherUser = parseUser;
 
                     if (isDelivering) {
-                        deliveringHeaderFragment = DeliveringHeaderFragment.newInstance(DisplayHelper.getProfileUrl(otherUser.getObjectId()), otherUser.getUsername());
+                        deliveringHeaderFragment = DeliveringHeaderFragment.newInstance(DisplayHelper.getProfileUrl(otherUser.getObjectId()), otherUser.getEmail());
                         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
                         ft.replace(R.id.flHeaderContainer, deliveringHeaderFragment);
                         ft.commit();
                     } else {
-                        receivingHeaderFragment = ReceivingHeaderFragment.newInstance(DisplayHelper.getProfileUrl(otherUser.getObjectId()), otherUser.getUsername());
+                        receivingHeaderFragment = ReceivingHeaderFragment.newInstance(DisplayHelper.getProfileUrl(otherUser.getObjectId()), otherUser.getString("displayName"));
                         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
                         ft.replace(R.id.flHeaderContainer, receivingHeaderFragment);
                         ft.commit();
                     }
+
+                    ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewpager);
+                    viewPager.setAdapter(new SampleFragmentPagerAdapter(getFragmentManager()));
+                    PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) v.findViewById(R.id.tabs);
+                    tabStrip.setViewPager(viewPager);
+
                 } else {
                     Log.d("DEBUG", e.getLocalizedMessage());
                 }
             }
         });
 
-        // Get real user here
-        //otherUser = ParseUser.getCurrentUser();
-
-
-        View v = inflater.inflate(R.layout.fragment_order_in_progress, container, false);
-        ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewpager);
-        viewPager.setAdapter(new SampleFragmentPagerAdapter(getFragmentManager()));
-        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) v.findViewById(R.id.tabs);
-        tabStrip.setViewPager(viewPager);
         return v;
     }
 
@@ -113,7 +114,9 @@ public class OrderInProgressFragment extends Fragment {
             if (position == 0) {
                 return new DeliveryMapFragment();
             } else {
-                return new ChatFragment();
+                //return ChatFragment.newInstance(otherUser.getObjectId());
+                return ChatFragment.newInstance(otherUser.getObjectId(), otherUser.getEmail());
+
             }
         }
 

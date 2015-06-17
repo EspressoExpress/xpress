@@ -11,16 +11,11 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import java.lang.reflect.Array;
-import java.math.BigInteger;
-import java.security.MessageDigest;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
 
-import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.DisplayHelper;
-import us.ridiculousbakery.espressoexpress.Model.ItemOption;
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.ProfileImageHelper;
+import us.ridiculousbakery.espressoexpress.DisplayHelper;
 import us.ridiculousbakery.espressoexpress.Model.Message;
 import us.ridiculousbakery.espressoexpress.R;
 
@@ -91,7 +86,9 @@ public class ChatListAdapter extends BaseAdapter {
         }
 
         final ImageView profileView = isMe ? viewHolder.imageRight : viewHolder.imageLeft;
-        Picasso.with(getContext()).load(DisplayHelper.getProfileUrl(message.getUserId())).into(profileView);
+
+        Picasso.with(getContext()).load(DisplayHelper.getProfileUrlFromEmail(message.getTargetUserEmail())).fit().transform(ProfileImageHelper.circleTransformation(67)).into(profileView);
+
 
         viewHolder.text.setText(message.getText());
         return convertView;

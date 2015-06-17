@@ -33,6 +33,7 @@ public class ReceivingActivity extends ActionBarActivity {
         setContentView(R.layout.activity_receiving);
 
         userID = getIntent().getStringExtra("userID");
+        userID = "HmR0es0hPp";
 
         if (savedInstanceState == null) {
             orderPlacedFragment = new OrderPlacedFragment();
@@ -49,7 +50,8 @@ public class ReceivingActivity extends ActionBarActivity {
         @Override
         public void run() {
             Log.d("Runnable", "Running");
-            switchToPickupConfirmed("saLdABgOFA");
+            //switchToPickupConfirmed("saLdABgOFA");
+            switchToPickupConfirmed(userID);
             //handler.postDelayed(this, 100);
         }
     };

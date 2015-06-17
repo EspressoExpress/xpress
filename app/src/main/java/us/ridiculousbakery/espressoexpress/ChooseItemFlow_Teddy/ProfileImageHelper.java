@@ -14,4 +14,11 @@ public class ProfileImageHelper {
                 .oval(false)
                 .build();
     }
+
+    public static Transformation circleTransformation(float width) {
+        return new RoundedTransformationBuilder()
+                .cornerRadiusDp(width/2)
+                .oval(false)
+                .build();
+    }
 }

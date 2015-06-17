@@ -17,6 +17,10 @@ import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.ProfileImageHelper;
+import us.ridiculousbakery.espressoexpress.DisplayHelper;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -40,11 +44,11 @@ public class RateExperienceDialogFragment extends DialogFragment {
         // Empty constructor required for DialogFragment
     }
 
-    public static RateExperienceDialogFragment newInstance(String username, String imageURL) {
+    public static RateExperienceDialogFragment newInstance(String email, String displayName) {
         RateExperienceDialogFragment frag = new RateExperienceDialogFragment();
         Bundle args = new Bundle();
-        args.putString("username", username);
-        args.putString("imageURL", imageURL);
+        args.putString("email", email);
+        args.putString("displayName", displayName);
         frag.setArguments(args);
         return frag;
     }
@@ -59,8 +63,8 @@ public class RateExperienceDialogFragment extends DialogFragment {
         RatingBar rbRate = (RatingBar) view.findViewById(R.id.rbRate);
         TextView tvTitle = (TextView) view.findViewById(R.id.tvTitle);
 
-        String name = getArguments().getString("username", "Teddy");
-        String url = getArguments().getString("imageURL", "");
+        String name = getArguments().getString("displayName", "Teddy");
+        String email = getArguments().getString("email", "");
 
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
 
@@ -68,6 +72,9 @@ public class RateExperienceDialogFragment extends DialogFragment {
 
         getDialog().setTitle("Rate " + name);
         tvTitle.setText("How was your experience with " + name + " ?");
+
+        String gravitarString = DisplayHelper.getProfileUrlFromEmail(email);
+        Picasso.with(getActivity()).load(gravitarString).fit().transform(ProfileImageHelper.circleTransformation(100)).into(ivRateProfile);
 
         btnRate.setOnClickListener(new View.OnClickListener() {
             @Override

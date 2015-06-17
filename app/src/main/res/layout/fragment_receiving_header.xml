@@ -5,8 +5,8 @@
     android:layout_height="match_parent">
 
     <ImageView
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
         android:id="@+id/ivProfile"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -17,9 +17,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/pbDeliveryProgress"
-        android:layout_alignBottom="@+id/ivProfile"
         android:progress="50"
-        android:layout_toRightOf="@+id/ivProfile" />
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_below="@+id/ivProfile"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -34,7 +37,11 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/tvDeliverTo"
-        android:layout_above="@+id/pbDeliveryProgress"
+        android:padding="10dp"
+        android:singleLine="false"
+        android:layout_alignTop="@id/ivProfile"
+        android:layout_alignBottom="@id/ivProfile"
+        android:gravity="center_vertical"
         android:layout_toRightOf="@+id/ivProfile"
         android:layout_toEndOf="@+id/ivProfile" />
 </RelativeLayout>
