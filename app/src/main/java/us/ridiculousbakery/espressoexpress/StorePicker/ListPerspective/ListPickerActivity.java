@@ -23,10 +23,9 @@ import java.util.ArrayList;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.MenuActivity;
 import us.ridiculousbakery.espressoexpress.Model.FakeDataSource;
 import us.ridiculousbakery.espressoexpress.Model.Store;
-import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
+import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 import us.ridiculousbakery.espressoexpress.R;
 import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.MapPickerActivity;
-import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 
@@ -257,8 +256,8 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
     }
     public void gotoMenu(Store store){
         Intent i = new Intent(this, MenuActivity.class);
-        i.putExtra("menu", new StoreMenu(true));
         i.putExtra("store", store);
+        i.putExtra("ParentClass", getClass());
         startActivity(i);
     }
 

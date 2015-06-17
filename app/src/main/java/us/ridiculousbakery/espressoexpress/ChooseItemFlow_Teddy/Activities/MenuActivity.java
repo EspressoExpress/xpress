@@ -2,19 +2,21 @@ package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import us.ridiculousbakery.espressoexpress.Checkout.CartActivity;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.MenuFragment;
-import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
+import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 
 
 public class MenuActivity extends AppCompatActivity {
+
+    private Store store;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,12 +24,28 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         if (savedInstanceState == null) {
             // Get Menu
-            StoreMenu storeMenu = (StoreMenu) getIntent().getSerializableExtra("menu");
-            MenuFragment fragmentMenu = MenuFragment.newInstance(storeMenu);
+            store = (Store) getIntent().getSerializableExtra("store");
+
+            MenuFragment fragmentMenu = MenuFragment.newInstance(store);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContainer, fragmentMenu);
             ft.commit();
         }
+    }
+
+
+    @Override
+    public void onCreateSupportNavigateUpTaskStack(TaskStackBuilder builder) {
+        super.onCreateSupportNavigateUpTaskStack(builder);
+    }
+
+    @Nullable
+    @Override
+    public Intent getSupportParentActivityIntent() {
+        Class<?> parentClass = (Class) getIntent().getSerializableExtra("ParentClass");
+        Intent i = new Intent(this, parentClass);
+        return i;
+
     }
 
     @Override
@@ -45,11 +63,11 @@ public class MenuActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            Intent i = new Intent(this, CartActivity.class);
-            startActivity(i);
-            return true;
-        }
+//        if (id == R.id.action_settings) {
+//            Intent i = new Intent(this, CartActivity.class);
+//            startActivity(i);
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

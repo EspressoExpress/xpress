@@ -16,6 +16,15 @@ public class Store implements Serializable {
     private Double lat;
     private Integer background;
 
+    public StoreMenu getStoreMenu() {
+        return storeMenu;
+    }
+
+    public void setStoreMenu(StoreMenu storeMenu) {
+        this.storeMenu = storeMenu;
+    }
+
+    private StoreMenu storeMenu;
     public Integer getBackground() {
         return background;
     }
@@ -25,12 +34,13 @@ public class Store implements Serializable {
         this.orders = new ArrayList<Order>();
     }
 
-    Store(String name, LatLng latlng, Integer logo, Integer background, ArrayList<Order> orders) {
+    Store(String name, LatLng latlng, Integer logo, Integer background, ArrayList<Order> orders, StoreMenu menu) {
         this.name = name;
         this.background = background;
         this.lon = latlng.longitude;
         this.lat = latlng.latitude;
         this.logo=logo;
+        this.storeMenu=menu;
         this.orders = orders;
         for(Order order : orders){order.setStore(this);}
     }

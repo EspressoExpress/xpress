@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,12 +29,14 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
     private View rootView;
     //    private ViewPager.OnPageChangeListener pageChangeListener;
     private PagerListener pagerListener;
+    private StoreElementListener storeElementListener;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         stores = (ArrayList<Store>) getArguments().getSerializable("stores");
+        storeElementListener =  (StoreElementListener) getActivity();
         paStores = new StorePagerAdapter(getActivity(), stores, (StoreElementListener) getActivity());
 
     }
@@ -56,7 +59,13 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
             viewPager.setOnPageChangeListener(this);
             viewPager.setCurrentItem(position);
             pagerListener.onNewMapTargetRequest(position, false);
-
+            viewPager.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Log.i("ZZZZZZZ", "clicked!!!");
+                    storeElementListener.gotoMenu(stores.get(viewPager.getCurrentItem()));
+                }
+            });
 
         }
 

@@ -40,7 +40,6 @@ import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.MenuA
 import us.ridiculousbakery.espressoexpress.InProgress.Delivering.DeliveringActivity;
 import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
-import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 import us.ridiculousbakery.espressoexpress.R;
 import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.StorePager.PagerFragment;
@@ -77,13 +76,14 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        stores = (ArrayList<Store>)getIntent().getSerializableExtra("stores");
-        marked_stores = MarkedStore.decorateList(stores);
-        position =getIntent().getIntExtra("position", 0);
+
 
         setContentView(R.layout.activity_map_picker);
 
         if (savedInstanceState == null) {
+            stores = (ArrayList<Store>)getIntent().getSerializableExtra("stores");
+            marked_stores = MarkedStore.decorateList(stores);
+            position =getIntent().getIntExtra("position", 0);
             mGoogleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(LocationServices.API)
                     .addConnectionCallbacks(this)
@@ -334,12 +334,12 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
         else map.moveCamera(cameraUpdate);
     }
 
-
     @Override
     public void gotoMenu(Store store){
         Intent i = new Intent(this, MenuActivity.class);
-        i.putExtra("menu", new StoreMenu(true));
         i.putExtra("store", store);
+        i.putExtra("ParentClass", getClass());
+
         startActivity(i);
     }
 

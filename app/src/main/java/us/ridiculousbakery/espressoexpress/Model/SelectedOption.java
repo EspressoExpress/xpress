@@ -1,9 +1,11 @@
 package us.ridiculousbakery.espressoexpress.Model;
 
+import java.io.Serializable;
+
 /**
  * Created by teddywyly on 6/14/15.
  */
-public class SelectedOption {
+public class SelectedOption implements Serializable {
     private String name;
     private String category;
 

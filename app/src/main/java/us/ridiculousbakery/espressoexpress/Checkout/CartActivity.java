@@ -1,6 +1,5 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
-import android.content.Intent;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -11,14 +10,9 @@ import android.view.MenuItem;
 import com.devmarvel.creditcardentry.library.CreditCard;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.ArrayList;
-
-import us.ridiculousbakery.espressoexpress.Model.Item;
-import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.Order;
-import us.ridiculousbakery.espressoexpress.Model.Store;
-import us.ridiculousbakery.espressoexpress.R;
 import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
+import us.ridiculousbakery.espressoexpress.R;
 
 public class CartActivity extends NavDrawerBaseActivity implements
         CartFragment.OnWidgetClickedListener,
@@ -27,6 +21,7 @@ public class CartActivity extends NavDrawerBaseActivity implements
         CCFormFragment.OnWidgetClickedListener{
 
     CartFragment cartFragment;
+    private Order order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,13 +30,14 @@ public class CartActivity extends NavDrawerBaseActivity implements
         setContentView(R.layout.activity_cart);
         //create fake order
 
-        Order order = new Order();
-        order.setStore(new Store("Starbucks"));
-        ArrayList<LineItem> orderItems = new ArrayList<>();
-        orderItems.add(new LineItem(new Item("Latte"), null));
-        orderItems.add(new LineItem(new Item("Frapp"), null));
-        order.setLineItems(orderItems);
-        (new Intent()).putExtra("order", order);
+
+         order = (Order) getIntent().getSerializableExtra("order");
+//        order.setStore(new Store("Starbucks"));
+//        ArrayList<LineItem> orderItems = new ArrayList<>();
+//        orderItems.add(new LineItem(new Item("Latte"), null));
+//        orderItems.add(new LineItem(new Item("Frapp"), null));
+//        order.setLineItems(orderItems);
+//        (new Intent()).putExtra("order", order);
         if (savedInstanceState == null) {
             // Create order fragment
             cartFragment = CartFragment.newInstance(order);

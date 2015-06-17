@@ -6,26 +6,24 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import java.util.ArrayList;
 
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-
 import us.ridiculousbakery.espressoexpress.Checkout.CartActivity;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.MenuAdapter;
-import us.ridiculousbakery.espressoexpress.Model.FakeDataSource;
 import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
+import us.ridiculousbakery.espressoexpress.Model.Order;
+import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
 
@@ -40,15 +38,16 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     private Button btnCart;
     private ArrayList<LineItem> lineItems;
     private CustomizeItemDialog customizeDialog;
+    private Store store;
 
     //================================================================================
     // Constructors
     //================================================================================
 
-    public static MenuFragment newInstance(StoreMenu storeMenu) {
+    public static MenuFragment newInstance(Store store) {
         MenuFragment fragment = new MenuFragment();
         Bundle args = new Bundle();
-        args.putSerializable("menu", storeMenu);
+        args.putSerializable("store", store);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,8 +59,8 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        storeMenu = (StoreMenu) getArguments().getSerializable("menu");
-        storeMenu = FakeDataSource.fakeMenu();
+        store = (Store) getArguments().getSerializable("store");
+        storeMenu = store.getStoreMenu();
         aMenu = new MenuAdapter(getActivity(), storeMenu);
         lineItems = new ArrayList<>();
     }
@@ -72,6 +71,8 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         elvMenu = (ExpandableListView) v.findViewById(R.id.elvMenu);
         elvMenu.setAdapter(aMenu);
         elvMenu.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
@@ -95,6 +96,10 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
                 // Launch Intent!
                 if (lineItems.size() > 0) {
                     Intent i = new Intent(getActivity(), CartActivity.class);
+                    Order order = new Order();
+                    order.setStore(store);
+                    order.setLineItems(lineItems);
+                    i.putExtra("order", order);
                     startActivity(i);
                     Log.d("DEBUG", "NEW INTENT");
                 }

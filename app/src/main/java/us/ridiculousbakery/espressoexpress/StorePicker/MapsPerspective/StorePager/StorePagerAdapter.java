@@ -30,7 +30,7 @@ public class StorePagerAdapter extends PagerAdapter {
     private final LayoutInflater mInflator;
     private final int mResourceId;
     private final Context mCtx;
-    private StoreElementListener pagerListener;
+    private StoreElementListener storeElementListener;
     private Button btnRequest;
     private Button btnDeliver;
 
@@ -53,7 +53,7 @@ public class StorePagerAdapter extends PagerAdapter {
     public StorePagerAdapter(Context context, ArrayList<Store> list, StoreElementListener listener) {
         this(context);
         stores = list;
-        pagerListener = listener;
+        storeElementListener = listener;
     }
 
     @Override
@@ -83,7 +83,14 @@ public class StorePagerAdapter extends PagerAdapter {
     private void initView(View v, final Store item, int position) {
         Log.i("ZZZZZZ", "initView: position:" + position + " store item " + item.getName());
         ItemStoreLayout vv = (ItemStoreLayout) v;
-        ((ItemStoreLayout) v).setContent(item, pagerListener );
+        ((ItemStoreLayout) v).setContent(item, storeElementListener);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("ZZZZZZZ", "clicked!!!");
+                storeElementListener.gotoMenu(item);
+            }
+        });
 //                ((TextView) v.findViewById(R.id.tvName)).setText(item.getName());
 //        ((ImageView)v.findViewById(R.id.ivLogo)).setImageDrawable(mCtx.getResources().getDrawable(item.getLogo()));
 //        btnRequest = (Button) v.findViewById(R.id.btnRequest);
@@ -91,7 +98,7 @@ public class StorePagerAdapter extends PagerAdapter {
 //        btnRequest.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                pagerListener.gotoMenu(item);
+//                storeElementListener.gotoMenu(item);
 //            }
 //        });
     }
