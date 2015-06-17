@@ -67,7 +67,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_menu_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_menu_list, null, false);
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
@@ -106,7 +106,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
             }
         });
 
-        View header = inflater.inflate(R.layout.menu_header, container, false);
+        View header = inflater.inflate(R.layout.menu_header, null, false);
 
         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
         MenuHeaderFragment menuHeaderFragment = new MenuHeaderFragment();

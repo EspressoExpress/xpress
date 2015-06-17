@@ -31,9 +31,9 @@ public class FakeDataSource {
         Double lat = latlng.latitude;
         Double lon = latlng.longitude;
         ArrayList<Order> list = new ArrayList<Order>();
-        list.add(new Order("Alice", new LatLng(lat - 0.008, lon - 0.008)));
-        list.add(new Order("Bob", new LatLng(lat - 0.008, lon + 0.008)));
-        list.add(new Order("Eve", new LatLng(lat + 0.008, lon - 0.008)));
+        list.add(new Order("Alice", new LatLng(lat - 0.008, lon - 0.008), "saLdABgOFA"));
+        list.add(new Order("Bob", new LatLng(lat - 0.008, lon + 0.008), "saLdABgOFA"));
+        list.add(new Order("Eve", new LatLng(lat + 0.008, lon - 0.008), "saLdABgOFA"));
         return list;
     }
 
