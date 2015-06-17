@@ -180,7 +180,7 @@ public class CartFragment extends Fragment {
                             startActivity(i);
                         }
                         else {
-                            Log.d("Parse saveInBachground: ", e.toString());
+                            Log.e("Parse : ", e.toString());
                         }
 
                         // Stop progress indicator

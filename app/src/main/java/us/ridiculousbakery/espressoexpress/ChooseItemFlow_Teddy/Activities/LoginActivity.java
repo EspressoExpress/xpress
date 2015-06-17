@@ -4,20 +4,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.LoginFragment;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.SignUpFragment;
@@ -49,8 +44,8 @@ public class LoginActivity extends ActionBarActivity {
             signUpFragment = new SignUpFragment();
             signUpFragment.setListener(new SignUpFragment.SignUpFragmentListener() {
                 @Override
-                public void successfulSignup() {
-                    showInitialActivity();
+                public void successfulSignup(ParseUser user) {
+                    showInitialActivity(user);
                     btnAuthenticate.setProgress(0);
                 }
 
@@ -63,8 +58,8 @@ public class LoginActivity extends ActionBarActivity {
             loginFragment = new LoginFragment();
             loginFragment.setListener(new LoginFragment.LoginFragmentListener() {
                 @Override
-                public void successfulLogin() {
-                    showInitialActivity();
+                public void successfulLogin(ParseUser parseUser) {
+                    showInitialActivity(parseUser);
                     btnAuthenticate.setProgress(0);
                 }
 
@@ -173,7 +168,8 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
-    private void showInitialActivity() {
+    private void showInitialActivity( ParseUser user) {
+
         Intent i = new Intent(LoginActivity.this, ListPickerActivity.class);
         startActivity(i);
     }

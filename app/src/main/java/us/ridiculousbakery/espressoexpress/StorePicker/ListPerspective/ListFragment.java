@@ -50,7 +50,7 @@ public class ListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_stores_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_stores_list, null, false);
         setMenuVisibility(true);
         lv = (ListView) v.findViewById(R.id.lvStores);
         swMode =(Switch) v.findViewById(R.id.swActionMode);

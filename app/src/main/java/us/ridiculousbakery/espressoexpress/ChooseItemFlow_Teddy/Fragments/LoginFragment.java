@@ -3,24 +3,16 @@ package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.EditText;
-import android.widget.ListView;
-import android.widget.ProgressBar;
 
 import com.parse.LogInCallback;
 import com.parse.ParseException;
 import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 
-import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.MenuAdapter;
-import us.ridiculousbakery.espressoexpress.Model.Item;
-import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -29,7 +21,7 @@ import us.ridiculousbakery.espressoexpress.R;
 public class LoginFragment extends Fragment {
 
     public interface LoginFragmentListener {
-        void successfulLogin();
+        void successfulLogin(ParseUser parseUser);
         void errorLoggingin(String error);
     }
 
@@ -52,7 +44,7 @@ public class LoginFragment extends Fragment {
             public void done(ParseUser parseUser, ParseException e) {
                 if (parseUser != null) {
                     Log.d("DEBUG", "LOGGEDIN");
-                    listener.successfulLogin();
+                    listener.successfulLogin(parseUser);
                     //showInitialActivity();
                 } else {
                     listener.errorLoggingin(e.getLocalizedMessage());
