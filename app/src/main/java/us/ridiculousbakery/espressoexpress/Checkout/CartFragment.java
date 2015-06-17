@@ -6,6 +6,7 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -174,8 +175,14 @@ public class CartFragment extends Fragment {
                 orderObj.saveInBackground(new SaveCallback() {
                     @Override
                     public void done(ParseException e) {
-                        Intent i = new Intent(getActivity(), ReceivingActivity.class);
-                        startActivity(i);
+                        if (e==null) {
+                            Intent i = new Intent(getActivity(), ReceivingActivity.class);
+                            startActivity(i);
+                        }
+                        else {
+                            Log.d("Parse saveInBachground: ", e.toString());
+                        }
+
                         // Stop progress indicator
                     }
                 });
