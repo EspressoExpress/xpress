@@ -118,7 +118,7 @@ public class DeliveringHeaderFragment extends Fragment implements RateExperience
     }
 
     private String currentText(PickupPhase phase) {
-        return "You have " + ((targetTimestamp-currentTime())) + " to " + phase.getTask();
+        return "You have " + "seconds " + ((targetTimestamp-currentTime())) + " to " + phase.getTask();
     }
 
     private long currentTime() {
