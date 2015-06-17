@@ -1,5 +1,6 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -9,13 +10,40 @@ import java.util.List;
 import java.util.TreeMap;
 
 import us.ridiculousbakery.espressoexpress.Model.Item;
+import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
+import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.MarkedOrder;
 
 /**
  * Created by mrozelle on 6/17/2015.
  */
 public class ParseQueryHelper {
 
+    //get submitted order for the other side to pick up
+    public static ArrayList<MarkedOrder> getSubmittedOrderfromParse(String store_name) {
+        ArrayList<MarkedOrder> markedOrders = new ArrayList<>();
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Order");
+        query.whereEqualTo("status", "order submitted");
+        query.whereEqualTo("store_name", store_name);
+        List<ParseObject> results = null;
+        try {
+            results = query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        for (ParseObject order_obj : results) {
+            String name = (String) order_obj.get("name");
+            String receiverID = (String) order_obj.get("receiver_id");
+            Double delivery_lat = (Double) order_obj.get("delivery_lat");
+            Double delivery_lng = (Double) order_obj.get("delivery_lng");
+            //also need to get lineitems from order
+            Order order = new Order(name, new LatLng(delivery_lat, delivery_lng), receiverID);
+            markedOrders.add(new MarkedOrder(order));
+        }
+        return markedOrders;
+    }
+
+    //get Menu
     public static StoreMenu getMenufromParse(String store_name) {
         StoreMenu menu = new StoreMenu();
         TreeMap<String, ArrayList<Item>> categories = getCategories(store_name);

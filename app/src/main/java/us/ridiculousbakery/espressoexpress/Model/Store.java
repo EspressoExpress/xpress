@@ -24,6 +24,10 @@ public class Store implements Serializable {
         this.storeMenu = storeMenu;
     }
 
+    public void setLogo(Integer logo) {
+        this.logo = logo;
+    }
+
     private StoreMenu storeMenu;
     public Integer getBackground() {
         return background;

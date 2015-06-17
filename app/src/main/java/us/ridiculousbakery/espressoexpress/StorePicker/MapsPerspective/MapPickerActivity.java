@@ -36,6 +36,7 @@ import com.makeramen.roundedimageview.RoundedImageView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import us.ridiculousbakery.espressoexpress.Checkout.ParseQueryHelper;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.MenuActivity;
 import us.ridiculousbakery.espressoexpress.InProgress.Delivering.DeliveringActivity;
 import us.ridiculousbakery.espressoexpress.Model.Order;
@@ -301,6 +302,27 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
                                 )
                 );
                 marker2Order.put(order.marker, order.order);
+            }
+
+
+            //query submitted order from Parse
+            ArrayList<MarkedOrder> ordersFromParse = ParseQueryHelper.getSubmittedOrderfromParse(store.getName());
+            if (!ordersFromParse.isEmpty()) {
+                for (MarkedOrder markedOrder: ordersFromParse) {
+                    //try to pass down logo
+                    markedOrder.getOrder().setStore(store.getStore());
+                    markedOrder.marker =map.addMarker(
+                            new MarkerOptions()
+                                    .position(markedOrder.getLatLng())
+                                    .title(markedOrder.getName())
+                                    .alpha(0.5f)
+                                    .visible(true)
+                                    .icon(
+                                            BitmapDescriptorFactory
+                                                    .defaultMarker(BitmapDescriptorFactory.HUE_AZURE) //so we can see what from parse
+                                    ));
+                    marker2Order.put(markedOrder.marker, markedOrder.order);
+                }
             }
         }
 
