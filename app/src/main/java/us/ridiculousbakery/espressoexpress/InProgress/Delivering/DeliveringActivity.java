@@ -19,7 +19,11 @@ public class DeliveringActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivering);
         if (savedInstanceState == null) {
-            orderInProgressFragment = OrderInProgressFragment.newInstance(true, "");
+
+            String userID = getIntent().getStringExtra("userID");
+            userID = "HmR0es0hPp";
+
+            orderInProgressFragment = OrderInProgressFragment.newInstance(true, userID);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContainer, orderInProgressFragment);
             ft.commit();

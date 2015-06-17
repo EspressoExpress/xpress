@@ -71,7 +71,7 @@ public class OrderInProgressFragment extends Fragment {
                     otherUser = parseUser;
 
                     if (isDelivering) {
-                        deliveringHeaderFragment = DeliveringHeaderFragment.newInstance(DisplayHelper.getProfileUrl(otherUser.getObjectId()), otherUser.getEmail());
+                        deliveringHeaderFragment = DeliveringHeaderFragment.newInstance(DisplayHelper.getProfileUrl(otherUser.getEmail()), otherUser.getString("displayName"));
                         FragmentTransaction ft = getChildFragmentManager().beginTransaction();
                         ft.replace(R.id.flHeaderContainer, deliveringHeaderFragment);
                         ft.commit();
@@ -116,7 +116,6 @@ public class OrderInProgressFragment extends Fragment {
             } else {
                 //return ChatFragment.newInstance(otherUser.getObjectId());
                 return ChatFragment.newInstance(otherUser.getObjectId(), otherUser.getEmail());
-
             }
         }
 

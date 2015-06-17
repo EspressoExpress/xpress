@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.ProfileImageHelper;
+import us.ridiculousbakery.espressoexpress.DisplayHelper;
 import us.ridiculousbakery.espressoexpress.InProgress.RateExperienceDialogFragment;
 import us.ridiculousbakery.espressoexpress.Model.PickupPhase;
 import us.ridiculousbakery.espressoexpress.R;
@@ -35,11 +36,11 @@ public class DeliveringHeaderFragment extends Fragment implements RateExperience
     // PublicAPI
     //================================================================================
 
-    public static DeliveringHeaderFragment newInstance(String profileURL, String username) {
+    public static DeliveringHeaderFragment newInstance(String email, String displayName) {
         DeliveringHeaderFragment fragment = new DeliveringHeaderFragment();
         Bundle args = new Bundle();
-        args.putString("username", username);
-        args.putString("profileURL", profileURL);
+        args.putString("email", email);
+        args.putString("displayName", displayName);
         fragment.setArguments(args);
         return fragment;
     }
@@ -49,13 +50,15 @@ public class DeliveringHeaderFragment extends Fragment implements RateExperience
     //================================================================================
 
     private Handler handler = new Handler();
-    private String username;
     private long targetTimestamp;
     private ArrayList<PickupPhase> phases;
     private int currentPhaseIndex;
 
     private TextView tvStatus;
     private Button btnCompleted;
+
+    private String displayName;
+    private String email;
 
     //================================================================================
     // Lifecycle
@@ -70,8 +73,8 @@ public class DeliveringHeaderFragment extends Fragment implements RateExperience
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_delivering_header, container, false);
 
-        String url = getArguments().getString("profileURL", "");
-        username = getArguments().getString("username", "");
+        email = getArguments().getString("email", "");
+        displayName = getArguments().getString("displayName", "");
 
         btnCompleted = (Button) v.findViewById(R.id.btnCompleted);
         ImageView ivReceiving = (ImageView) v.findViewById(R.id.ivReceiving);
@@ -89,8 +92,10 @@ public class DeliveringHeaderFragment extends Fragment implements RateExperience
 
         targetTimestamp = (new Date().getTime() + 150000)/1000;
 
-        if (url != null) {
-            Picasso.with(getActivity()).load(url).fit().transform(ProfileImageHelper.roundTransformation()).into(ivReceiving);
+        if (email != null) {
+            String gravitarString = DisplayHelper.getProfileUrlFromEmail(email);
+            Picasso.with(getActivity()).load(gravitarString).fit().transform(ProfileImageHelper.circleTransformation(80)).into(ivReceiving);
+//            Picasso.with(getActivity()).load(url).fit().transform(ProfileImageHelper.roundTransformation()).into(ivReceiving);
         }
         handler.postDelayed(runnable, 0);
 
@@ -99,9 +104,9 @@ public class DeliveringHeaderFragment extends Fragment implements RateExperience
 
     private void setupPickupPhases() {
         phases = new ArrayList<>();
-        PickupPhase first = new PickupPhase(150, "pickup coffee for " + username, "Completed Pickup");
+        PickupPhase first = new PickupPhase(150, "pickup coffee for " + displayName, "Completed Pickup");
         phases.add(first);
-        PickupPhase second = new PickupPhase(150, "deliver Coffee to " + username, "Completed Delivery");
+        PickupPhase second = new PickupPhase(150, "deliver Coffee to " + displayName, "Completed Delivery");
         phases.add(second);
     }
 
@@ -118,7 +123,7 @@ public class DeliveringHeaderFragment extends Fragment implements RateExperience
     }
 
     private String currentText(PickupPhase phase) {
-        return "You have " + "seconds " + ((targetTimestamp-currentTime())) + " to " + phase.getTask();
+        return "You have " + ((targetTimestamp-currentTime())) + " seconds" +  " to " + phase.getTask();
     }
 
     private long currentTime() {
@@ -126,7 +131,7 @@ public class DeliveringHeaderFragment extends Fragment implements RateExperience
     }
 
     private void updateStatusText() {
-        if (username != null) {
+        if (displayName != null) {
             if (currentPhaseIndex < phases.size()) {
                 PickupPhase phase = phases.get(currentPhaseIndex);
                 tvStatus.setText(currentText(phase));
