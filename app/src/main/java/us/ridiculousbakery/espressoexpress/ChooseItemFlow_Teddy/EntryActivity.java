@@ -1,12 +1,11 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 
 import com.parse.ParseUser;
 
-import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.LoginActivity;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.TutorialActivity;
 import us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.ListPickerActivity;
 
@@ -39,7 +38,6 @@ public class EntryActivity extends ActionBarActivity {
         // NOTE - Place logic here to determine which screen to show next
         // Default is used in this demo code
         // Check for current user
-        ParseUser.logOut();
 
         ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser == null) {
