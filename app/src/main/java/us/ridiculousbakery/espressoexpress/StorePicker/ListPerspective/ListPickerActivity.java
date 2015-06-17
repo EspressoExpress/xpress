@@ -19,10 +19,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.MenuActivity;
-import us.ridiculousbakery.espressoexpress.Model.FakeDataSource;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 import us.ridiculousbakery.espressoexpress.R;
@@ -42,7 +41,7 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
     private final static int CONNECTION_FAILURE_RESOLUTION_REQUEST = 9000;
     private ListFragment fgListStoreFragment;
 
-    private ArrayList<Store> stores;
+    private List<Store> stores;
 
 
     private GoogleApiClient mGoogleApiClient;
@@ -67,7 +66,7 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
 
         if (id == R.id.action_store_pick_map && stores.size()>0) {
 
-            activate_map_and_pager_fragments(0);
+            activate_map_and_pager_fragments(stores.get(0).getObjectId());
         }
 
         return true;
@@ -78,10 +77,10 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
         return fgListStoreFragment = new ListFragment();
     }
 
-    private void activate_map_and_pager_fragments(int position) {
+    private void activate_map_and_pager_fragments(String storeId) {
         Intent i = new Intent(this, MapPickerActivity.class);
-        i.putExtra("position", position);
-        i.putExtra("stores", stores);
+        i.putExtra("storeId", storeId);
+        i.putExtra("currentLatLng", currentlatLng());
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 
@@ -192,18 +191,13 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
         if (stores != null) return;
         LatLng ll = currentlatLng();
         if (ll == null) return;
-
-        stores = FakeDataSource.nearby_stores(currentlatLng());
-
-        Log.i("ZZZZZZZ", "store list: " + stores.size());
-
+//        if (stores.size() > 0) getListFragment().setMenuVisibility(true);
         Bundle b = new Bundle();
-        b.putSerializable("stores", stores);
+        b.putParcelable("currentLatLng", ll);
         getListFragment().setArguments(b);
-        if (stores.size()>0)getListFragment().setMenuVisibility(true);
-
-
         activate_list_fragment();
+
+
     }
 
     @Override
@@ -243,26 +237,19 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
     }
 
     @Override
-    public void onNewMapTarget(int index) {
-        Log.i("ZZZZZZZ", "Entered onNewMapTarget "+index);
-        final LatLng latLng = new LatLng(stores.get(index).getLat(), stores.get(index).getLon());
-            Log.i("ZZZZZZZ", "getting map async");
-            activate_map_and_pager_fragments(index);
+    public void onNewMapTarget(String storeId) {
+        Log.i("ZZZZZZZ", "Entered onNewMapTarget "+storeId);
+            activate_map_and_pager_fragments(storeId);
 
     }
 
-    @Override
-    public void onMapsRequired() {
-//        activate_map_and_pager_fragments();
-    }
     public void onStoreElementClicked(Store store){
         Switch s = (Switch) findViewById(R.id.swActionMode);
         if(s.isChecked()) {
-            activate_map_and_pager_fragments(stores.indexOf(store));
+            activate_map_and_pager_fragments(store.getObjectId());
         }else{
             Intent i = new Intent(this, MenuActivity.class);
-            i.putExtra("store", store);
-            i.putExtra("ParentClass", getClass());
+            i.putExtra("storeId", store.getObjectId());
             startActivity(i);
 
         }

@@ -9,6 +9,7 @@ import com.parse.ParseObject;
 import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.Model.Message;
+import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 
 /**
@@ -27,6 +28,8 @@ public class EspressoApplication extends Application {
         ParseInstallation.getCurrentInstallation().saveInBackground();
 
         ParseObject.registerSubclass(Message.class);
+        ParseObject.registerSubclass(Order.class);
+        ParseObject.registerSubclass(Store.class);
 
 
 //        // Test Parse

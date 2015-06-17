@@ -1,6 +1,5 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -63,8 +62,8 @@ public class ParseQueryHelper {
             Double delivery_lat = (Double) order_obj.get("delivery_lat");
             Double delivery_lng = (Double) order_obj.get("delivery_lng");
             //also need to get lineitems from order
-            Order order = new Order(name, new LatLng(delivery_lat, delivery_lng), receiverID);
-            markedOrders.add(new MarkedOrder(order));
+//            Order order = new Order(name, new LatLng(delivery_lat, delivery_lng), receiverID);
+//            markedOrders.add(new MarkedOrder(order));
         }
         return markedOrders;
     }

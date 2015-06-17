@@ -3,50 +3,55 @@ package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 
 import com.parse.ParseUser;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.TutorialActivity;
+import us.ridiculousbakery.espressoexpress.InProgress.Delivering.DeliveringActivity;
+import us.ridiculousbakery.espressoexpress.InProgress.Receiving.ReceivingActivity;
+import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.ListPickerActivity;
 
 public class EntryActivity extends ActionBarActivity {
 
     @Override
-    public void onCreate(Bundle savedInstanceState)
-    {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // launch a different activity
-        Intent launchIntent = new Intent();
-        Class<?> launchActivity;
-        try {
-            String className = getScreenClassName();
-            launchActivity = Class.forName(className);
-        }
-        catch (ClassNotFoundException e) {
-            launchActivity = TutorialActivity.class;
-        }
-        launchIntent.setClass(getApplicationContext(), launchActivity);
-        startActivity(launchIntent);
-
-        finish();
-    }
-
-    /** return Class name of Activity to show **/
-    private String getScreenClassName()
-    {
-        // NOTE - Place logic here to determine which screen to show next
-        // Default is used in this demo code
-        // Check for current user
-
-        ParseUser currentUser = ParseUser.getCurrentUser();
+        final ParseUser currentUser = ParseUser.getCurrentUser();
         if (currentUser == null) {
-            String activity = TutorialActivity.class.getName();
-            return activity;
+            startActivity(new Intent(getApplicationContext(), TutorialActivity.class));
+            finish();
         } else {
-            String activity = ListPickerActivity.class.getName();
-            return activity;
+
+            Order order = Order.getAcceptedParticipating(currentUser.getObjectId());
+            if (order == null) {
+                startActivity(new Intent(getApplicationContext(), ListPickerActivity.class));
+                finish();
+            } else {
+                Log.i("ZZZZZZZ", "order " + order.getObjectId() + "found: r:" + order.getReceiverId() + " d:" + order.getDelivererId());
+                if (order.matchesDelivererId(currentUser.getObjectId())) {
+                    Log.e("ZZZZZZ", "User is in the middle of delivering" + order.toString());
+                    Intent i = new Intent(getApplicationContext(), DeliveringActivity.class);
+                    i.putExtra("parseOrderID", order.getObjectId());
+                    startActivity(i);
+                    finish();
+                } else if (order.matchesReceiverId((currentUser.getObjectId()))) {
+                    Log.e("ZZZZZZ", "User is in the middle of receiving" + order.toString());
+                    Intent i = new Intent(getApplicationContext(), ReceivingActivity.class);
+                    i.putExtra("parseOrderID", order.getObjectId());
+                    startActivity(i);
+                    finish();
+                }else Log.e("ZZZZZZ", "found participating order, but didn't match??!  " + order.toString());
+            }
         }
     }
+
 
 }
+
+
+
+
+

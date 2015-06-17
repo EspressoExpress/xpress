@@ -1,9 +1,12 @@
 package us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective;
 
+import android.util.Log;
+
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
@@ -15,7 +18,15 @@ public class MarkedStore {
     public MarkedStore(Store store) {
         this.store = store;
         markedOrders = new ArrayList<MarkedOrder>();
-        for(Order v :store.getOrders()) markedOrders.add(new MarkedOrder(v));
+        List<Order> list = Order.findForStore(store);
+        Log.i("ZZZZZZZ", "found " + list.size() + " orders for store");
+        for (Order v : list) {
+            v.setStore(store);
+            setStore(store);
+            markedOrders.add(new MarkedOrder(v));
+        Log.i("ZZZZZ", ""+v.getObjectId()+" "+v.getName()+" "+v.getLatLng().toString());
+        }
+
     }
 
 
@@ -58,11 +69,13 @@ public class MarkedStore {
     }
 
 
-    public static ArrayList<MarkedStore> decorateList(ArrayList<Store> stores) {
+    public static ArrayList<MarkedStore> decorateList(List<Store> stores) {
+
         ArrayList<MarkedStore> aa = new ArrayList<MarkedStore>();
         for (Store store : stores) {
             aa.add(new MarkedStore(store));
         }
+
         return aa;
     }
 }

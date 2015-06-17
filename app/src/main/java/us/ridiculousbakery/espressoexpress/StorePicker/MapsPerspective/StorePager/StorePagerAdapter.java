@@ -26,7 +26,7 @@ public class StorePagerAdapter extends PagerAdapter {
     private final List<View> mDiscardedViews = new ArrayList<View>();
     // Views that are already in use.
     private final SparseArray<View> mBindedViews = new SparseArray<View>();
-    private ArrayList<Store> stores;
+    private List<Store> stores;
     private final LayoutInflater mInflator;
     private final int mResourceId;
     private final Context mCtx;
@@ -50,7 +50,7 @@ public class StorePagerAdapter extends PagerAdapter {
         mInflator = LayoutInflater.from(context);
         mResourceId = R.layout.fancy_store_item;
     }
-    public StorePagerAdapter(Context context, ArrayList<Store> list, StoreElementListener listener) {
+    public StorePagerAdapter(Context context, List<Store> list, StoreElementListener listener) {
         this(context);
         stores = list;
         storeElementListener = listener;

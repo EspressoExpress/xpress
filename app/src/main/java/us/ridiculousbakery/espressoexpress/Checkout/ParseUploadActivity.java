@@ -13,7 +13,6 @@ import com.parse.ParseRelation;
 
 import java.util.List;
 
-import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
 
 public class ParseUploadActivity extends ActionBarActivity {
@@ -112,7 +111,7 @@ public class ParseUploadActivity extends ActionBarActivity {
             @Override
             public void done(List<ParseObject> results, com.parse.ParseException e) {
                 for (ParseObject store_obj : results) {
-                    Store store = new Store((String) store_obj.get("name"));
+//                    Store store = new Store((String) store_obj.get("name"));
                 }
             }
         });

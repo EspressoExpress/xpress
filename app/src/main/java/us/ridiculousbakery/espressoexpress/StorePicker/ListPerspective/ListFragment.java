@@ -14,7 +14,11 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Switch;
 
-import java.util.ArrayList;
+import com.google.android.gms.maps.model.LatLng;
+import com.parse.FindCallback;
+import com.parse.ParseException;
+
+import java.util.List;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
@@ -28,23 +32,25 @@ public class ListFragment extends Fragment {
 
     private ListView lv;
     private StoreListAdapter aaStores;
-    private ArrayList<Store> stores;
+    private List<Store> stores;
     private ListListener listListener;
     private Switch swMode;
+    private LatLng currentLatLng;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
-        stores = (ArrayList<Store>) getArguments().getSerializable("stores");
-        aaStores = new StoreListAdapter(getActivity(), stores, (StoreElementListener) getActivity());
+        currentLatLng = (LatLng) getArguments().getParcelable("currentLatLng");
+
     }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         listListener = (ListListener) activity;
+
     }
 
     @Nullable
@@ -54,32 +60,42 @@ public class ListFragment extends Fragment {
         setMenuVisibility(true);
         lv = (ListView) v.findViewById(R.id.lvStores);
         swMode =(Switch) v.findViewById(R.id.swActionMode);
+        Store.findInBackground(currentLatLng, new FindCallback<Store>() {
+            @Override
+            public void done(List<Store> list, ParseException e) {
+                if (e == null) {
+                    stores = list;
+                    Log.i("ZZZZZZZ", "store list: " + stores.size());
+                    aaStores = new StoreListAdapter(getActivity(), stores, (StoreElementListener) getActivity());
+                    swMode.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Switch b=(Switch)v;
+                            if(b.isChecked()){
+                                b.setText("Schlep for Coffee");
+                            }else{
+                                b.setText("Pay for Coffee");
+                            }
+                        }
+                    });
+                    Log.i("ZZZZZZZ", "aaStores " + aaStores.toString());
+                    lv.setAdapter(aaStores);
+                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            Log.i("ZZZZZZZ", "clicked onNewMapTargetRequest: " + position);
+                            Store store  = (Store)parent.getItemAtPosition(position);
+                            listListener.onNewMapTarget(store.getObjectId());
 
+                        }
+
+                    });
+
+                } else e.printStackTrace();
+            }
+        });
         if (savedInstanceState == null) {
-            swMode.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Switch b=(Switch)v;
-                    if(b.isChecked()){
-                        b.setText("Schlep for Coffee");
-                    }else{
-                        b.setText("Pay for Coffee");
-                    }
-                }
-            });
-            Log.i("ZZZZZZZ", "aaStores " + aaStores.toString());
-            lv.setAdapter(aaStores);
-//            lv.addHeaderView(inflater.inflate(R.layout.list_header, container, false));
-            lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    Log.i("ZZZZZZZ", "clicked onNewMapTargetRequest: " + position);
-                    listListener.onMapsRequired();
-                    listListener.onNewMapTarget(position);
 
-                }
-
-            });
         }
         return v;
     }
@@ -87,7 +103,6 @@ public class ListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         setMenuVisibility(true);
-      Log.i("ZZZZZZZZ", "SHOWING MENU") ;
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -99,9 +114,8 @@ public class ListFragment extends Fragment {
     }
 
     public interface ListListener {
-        public void onNewMapTarget(int index);
+        public void onNewMapTarget(String index);
 
-        public void onMapsRequired();
     }
 
 }

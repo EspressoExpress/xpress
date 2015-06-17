@@ -24,9 +24,7 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
     private ViewPager viewPager;
     private ArrayList<Store> stores;
     private StorePagerAdapter paStores;
-    private Integer mapTarget;
     private View rootView;
-    //    private ViewPager.OnPageChangeListener pageChangeListener;
     private PagerListener pagerListener;
 
 
@@ -57,8 +55,6 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
             viewPager.setOnPageChangeListener(this);
             viewPager.setCurrentItem(position);
             pagerListener.onNewMapTargetRequest(position, false);
-
-
         }
 
         return rootView;
