@@ -335,7 +335,7 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
     }
 
     @Override
-    public void gotoMenu(Store store){
+    public void onStoreElementClicked(Store store){
         Intent i = new Intent(this, MenuActivity.class);
         i.putExtra("store", store);
         i.putExtra("ParentClass", getClass());
@@ -381,14 +381,6 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
                         Intent i = new Intent(MapPickerActivity.this, DeliveringActivity.class);
                         startActivity(i);
                         // Define color of marker icon
-//                        BitmapDescriptor defaultMarker =
-//                                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-//                        // Extract content from alert dialog
-//                        String title = ((EditText) alertDialog.findViewById(R.id.etTitle)).
-//                                getText().toString();
-//                        String snippet = ((EditText) alertDialog.findViewById(R.id.etSnippet)).
-//                                getText().toString();
-//
 
                     }
                 });
@@ -399,11 +391,15 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
-                        Log.i("ZZZZZZZ",  "order for "+ order.getUser().getName() + " declined");
-                        dialog.cancel(); }
+                        Log.i("ZZZZZZZ",  "order for " + order.getUser().getName() + " declined");
+                        dialog.cancel();
+                    }
                 });
         // Display the dialog
+        alertDialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
+
         alertDialog.show();
+
     }
 
 

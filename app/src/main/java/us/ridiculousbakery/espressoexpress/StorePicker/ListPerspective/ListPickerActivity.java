@@ -254,7 +254,7 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
     public void onMapsRequired() {
 //        activate_map_and_pager_fragments();
     }
-    public void gotoMenu(Store store){
+    public void onStoreElementClicked(Store store){
         Intent i = new Intent(this, MenuActivity.class);
         i.putExtra("store", store);
         i.putExtra("ParentClass", getClass());

@@ -14,7 +14,7 @@ import java.util.List;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.ItemStoreLayout;
+import us.ridiculousbakery.espressoexpress.StorePicker.ItemStoreLayout;
 import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 
@@ -88,7 +88,7 @@ public class StorePagerAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 Log.i("ZZZZZZZ", "clicked!!!");
-                storeElementListener.gotoMenu(item);
+                storeElementListener.onStoreElementClicked(item);
             }
         });
 //                ((TextView) v.findViewById(R.id.tvName)).setText(item.getName());
@@ -98,7 +98,7 @@ public class StorePagerAdapter extends PagerAdapter {
 //        btnRequest.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
-//                storeElementListener.gotoMenu(item);
+
 //            }
 //        });
     }
@@ -109,7 +109,5 @@ public class StorePagerAdapter extends PagerAdapter {
         notifyDataSetChanged();
     }
 
-    public interface PagerItemListener {
-        public void gotoMenu(Store store);
-    }
+
 }
