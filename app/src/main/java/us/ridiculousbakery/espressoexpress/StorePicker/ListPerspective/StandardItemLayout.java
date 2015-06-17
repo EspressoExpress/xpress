@@ -35,9 +35,6 @@ public class StandardItemLayout extends ItemStoreLayout{
         super(context, attrs, defStyleAttr);
     }
 
-//    public StandardItemLayout(Context context) {
-//        super(context);
-//    }
 
 
 

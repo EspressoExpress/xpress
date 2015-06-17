@@ -1,5 +1,6 @@
 package us.ridiculousbakery.espressoexpress.NavDrawer;
 
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -13,9 +14,12 @@ import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.parse.ParseUser;
+
 import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.Checkout.CCFormFragment;
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.TutorialActivity;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -39,8 +43,9 @@ public class NavDrawerBaseActivity extends AppCompatActivity {
         mDrawerList.addHeaderView(getLayoutInflater().inflate(R.layout.nav_drawer_header, null));
 
         navDrawerItems = new ArrayList<>();
-        navDrawerItems.add(new NavDrawerItem("Edit Payment Information", R.drawable.bank24));
-        navDrawerItems.add(new NavDrawerItem("Edit User Profile", R.drawable.ic_user_profile));
+        navDrawerItems.add(new NavDrawerItem("Bank / CC", R.drawable.bank24));
+        navDrawerItems.add(new NavDrawerItem("User Profile", R.drawable.ic_user_profile));
+        navDrawerItems.add(new NavDrawerItem("Invite Friends", R.drawable.ic_action_share));
         navDrawerItems.add(new NavDrawerItem("Sign Out", R.drawable.ic_user_profile));
 
 //        navDrawerItems.add(new NavDrawerItem("Edit Usual Order", R.drawable.philz_twit_logo));
@@ -51,9 +56,16 @@ public class NavDrawerBaseActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 switch(position){
-                    case 0:
+                    case 1:
                         displayCCForm();
                         break;
+                    case 2:
+                        displayUserProfileForm();
+                        break;
+                    case 3:
+                        displayShare();
+                    case 4:
+                        do_logout();
                     default:
                         break;
                 }
@@ -64,6 +76,20 @@ public class NavDrawerBaseActivity extends AppCompatActivity {
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
+    }
+
+    private void do_logout() {
+        ParseUser.logOut();
+        Intent i= new Intent(this, TutorialActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(i);
+    }
+
+    private void displayShare() {
+
+    }
+
+    private void displayUserProfileForm() {
     }
 
     private void displayCCForm() {
