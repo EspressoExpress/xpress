@@ -150,26 +150,35 @@ public class CartFragment extends Fragment {
         btCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ParseObject orderObj = new ParseObject("Order");
+                final ParseObject orderObj = new ParseObject("Order");
                 ParseUser user = ParseUser.getCurrentUser();
                 orderObj.put("receiver_id", user.getObjectId());
                 orderObj.put("delivery_lat", order.getLatLng().latitude);
                 orderObj.put("delivery_lng", order.getLatLng().longitude);
-
-                ParseRelation<ParseObject> relation = orderObj.getRelation("lineItems");
-                //  Add price to line item later
-                for (int i=0;i<order.getLineItems().size();i++) {
-                    LineItem lineItem = order.getLineItems().get(i);
-                    ParseObject lineItemObj = new ParseObject("LineItem");
-                    lineItemObj.put("name", lineItem.getItem().getName());
-                    ArrayList<String> des = new ArrayList<>();
-                    for (int j=0; j<lineItem.getChosenOptions().size(); j++) {
-                        SelectedOption op = lineItem.getChosenOptions().get(j);
-                        des.add(op.getCategory() + " - " + op.getName());
+                orderObj.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        if (e == null) {
+                            ParseRelation<ParseObject> relation = orderObj.getRelation("lineItems");
+                            //  Add price to line item later
+                            for (int i=0;i<order.getLineItems().size();i++) {
+                                LineItem lineItem = order.getLineItems().get(i);
+                                ParseObject lineItemObj = new ParseObject("LineItem");
+                                lineItemObj.put("name", lineItem.getItem().getName());
+                                ArrayList<String> des = new ArrayList<>();
+                                for (int j=0; j<lineItem.getChosenOptions().size(); j++) {
+                                    SelectedOption op = lineItem.getChosenOptions().get(j);
+                                    des.add(op.getCategory() + " - " + op.getName());
+                                }
+                                lineItemObj.put("descriptions", des);
+                                relation.add(lineItemObj);
+                            }
+                        }
+                        else {
+                            Log.d("Parse 1: ", e.toString());
+                        }
                     }
-                    lineItemObj.put("descriptions", des);
-                    relation.add(lineItemObj);
-                }
+                });
 
                 // Show progress Indicator
                 orderObj.saveInBackground(new SaveCallback() {
@@ -180,13 +189,12 @@ public class CartFragment extends Fragment {
                             startActivity(i);
                         }
                         else {
-                            Log.d("Parse saveInBachground: ", e.toString());
+                            Log.d("Parse 2: ", e.toString());
                         }
 
                         // Stop progress indicator
                     }
                 });
-
 
             }
         });
