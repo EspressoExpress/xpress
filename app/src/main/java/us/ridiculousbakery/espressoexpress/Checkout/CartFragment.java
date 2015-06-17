@@ -17,12 +17,18 @@ import android.widget.TextView;
 
 import com.devmarvel.creditcardentry.library.CreditCard;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.InProgress.Receiving.ReceivingActivity;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.Order;
+import us.ridiculousbakery.espressoexpress.Model.SelectedOption;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -143,8 +149,38 @@ public class CartFragment extends Fragment {
         btCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(getActivity(), ReceivingActivity.class);
-                startActivity(i);
+                ParseObject orderObj = new ParseObject("Order");
+                ParseUser user = ParseUser.getCurrentUser();
+                orderObj.put("receiver_id", user.getObjectId());
+                orderObj.put("delivery_lat", order.getLatLng().latitude);
+                orderObj.put("delivery_lng", order.getLatLng().longitude);
+
+                ParseRelation<ParseObject> relation = orderObj.getRelation("lineItems");
+                //  Add price to line item later
+                for (int i=0;i<order.getLineItems().size();i++) {
+                    LineItem lineItem = order.getLineItems().get(i);
+                    ParseObject lineItemObj = new ParseObject("LineItem");
+                    lineItemObj.put("name", lineItem.getItem().getName());
+                    ArrayList<String> des = new ArrayList<>();
+                    for (int j=0; j<lineItem.getChosenOptions().size(); j++) {
+                        SelectedOption op = lineItem.getChosenOptions().get(j);
+                        des.add(op.getCategory() + " - " + op.getName());
+                    }
+                    lineItemObj.put("descriptions", des);
+                    relation.add(lineItemObj);
+                }
+
+                // Show progress Indicator
+                orderObj.saveInBackground(new SaveCallback() {
+                    @Override
+                    public void done(ParseException e) {
+                        Intent i = new Intent(getActivity(), ReceivingActivity.class);
+                        startActivity(i);
+                        // Stop progress indicator
+                    }
+                });
+
+
             }
         });
 
