@@ -72,7 +72,7 @@ public class ListFragment extends Fragment {
                         public void onClick(View v) {
                             Switch b=(Switch)v;
                             if(b.isChecked()){
-                                b.setText("Schlep for Coffee");
+                                b.setText("Run for Coffee");
                             }else{
                                 b.setText("Pay for Coffee");
                             }
@@ -88,7 +88,6 @@ public class ListFragment extends Fragment {
                             listListener.onNewMapTarget(store.getObjectId());
 
                         }
-
                     });
 
                 } else e.printStackTrace();
@@ -102,7 +101,6 @@ public class ListFragment extends Fragment {
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        setMenuVisibility(true);
         super.onViewCreated(view, savedInstanceState);
     }
 
@@ -114,7 +112,7 @@ public class ListFragment extends Fragment {
     }
 
     public interface ListListener {
-        public void onNewMapTarget(String index);
+        void onNewMapTarget(String index);
 
     }
 

@@ -42,7 +42,7 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
     private ListFragment fgListStoreFragment;
 
     private List<Store> stores;
-
+    private boolean list_fragment_activated = false;
 
     private GoogleApiClient mGoogleApiClient;
 
@@ -52,10 +52,10 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
 
         setContentView(R.layout.activity_store_picker);
 
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addApi(LocationServices.API)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this).build();
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(LocationServices.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this).build();
 
     }
 
@@ -64,8 +64,7 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_store_pick_map && stores.size()>0) {
-
+        if (id == R.id.action_store_pick_map) {
             activate_map_and_pager_fragments(stores.get(0).getObjectId());
         }
 
@@ -78,6 +77,7 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
     }
 
     private void activate_map_and_pager_fragments(String storeId) {
+        Log.i("ZZZZZZZ", "Starting Map Activity "+storeId);
         Intent i = new Intent(this, MapPickerActivity.class);
         i.putExtra("storeId", storeId);
         i.putExtra("currentLatLng", currentlatLng());
@@ -92,7 +92,6 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
         ft.commit();
     }
 
-
     public void reconnect() {
         if (isGooglePlayServicesAvailable() && mGoogleApiClient != null) {
             mGoogleApiClient.connect();
@@ -102,10 +101,9 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
     @Override
     protected void onStart() {
         super.onStart();
-        Log.i("ZZZZZZZ", "onStart");
         reconnect();
-
     }
+
     @Override
     protected void onStop() {
         // Disconnecting the client invalidates it.
@@ -188,15 +186,14 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
     }
 
     private void populate_list() {
-        if (stores != null) return;
         LatLng ll = currentlatLng();
         if (ll == null) return;
-//        if (stores.size() > 0) getListFragment().setMenuVisibility(true);
+        if (list_fragment_activated) return;
         Bundle b = new Bundle();
         b.putParcelable("currentLatLng", ll);
         getListFragment().setArguments(b);
         activate_list_fragment();
-
+        list_fragment_activated = true;
 
     }
 
@@ -222,7 +219,7 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
                 // Start an Activity that tries to resolve the error
                 connectionResult.startResolutionForResult(this,
                         CONNECTION_FAILURE_RESOLUTION_REQUEST);
-				/*
+                /*
 				 * Thrown if Google Play services canceled the original
 				 * PendingIntent
 				 */
@@ -238,16 +235,14 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
 
     @Override
     public void onNewMapTarget(String storeId) {
-        Log.i("ZZZZZZZ", "Entered onNewMapTarget "+storeId);
-            activate_map_and_pager_fragments(storeId);
-
+        activate_map_and_pager_fragments(storeId);
     }
 
-    public void onStoreElementClicked(Store store){
+    public void onStoreElementClicked(Store store) {
         Switch s = (Switch) findViewById(R.id.swActionMode);
-        if(s.isChecked()) {
+        if (s.isChecked()) {
             activate_map_and_pager_fragments(store.getObjectId());
-        }else{
+        } else {
             Intent i = new Intent(this, MenuActivity.class);
             i.putExtra("storeId", store.getObjectId());
             startActivity(i);
@@ -278,7 +273,6 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
             return mDialog;
         }
     }
-
 
 
 }
