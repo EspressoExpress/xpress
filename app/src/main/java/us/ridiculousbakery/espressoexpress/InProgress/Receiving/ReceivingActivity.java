@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -21,8 +22,8 @@ public class ReceivingActivity extends ActionBarActivity {
 
     private OrderPlacedFragment orderPlacedFragment;
     private OrderInProgressFragment orderInProgressFragment;
-    private String userID;
-   // private ChatFragment chatFragment;
+    private String deliverID;
+    private String orderID;
 
     private Handler handler = new Handler();
 
@@ -32,8 +33,11 @@ public class ReceivingActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receiving);
 
-        userID = getIntent().getStringExtra("userID");
-        userID = "HmR0es0hPp";
+//        userID = getIntent().getStringExtra("userID");
+//        userID = "HmR0es0hPp";
+
+        orderID = getIntent().getStringExtra("orderID");
+        //orderID = "EmQOsUivdw";
 
         if (savedInstanceState == null) {
             orderPlacedFragment = new OrderPlacedFragment();
@@ -42,19 +46,41 @@ public class ReceivingActivity extends ActionBarActivity {
             ft.commit();
         }
 
-        handler.postDelayed(runnable, 5000);
+        handler.postDelayed(runnable, 1000);
 
     }
 
     private Runnable runnable = new Runnable() {
         @Override
         public void run() {
-            Log.d("Runnable", "Running");
-            //switchToPickupConfirmed("saLdABgOFA");
-            switchToPickupConfirmed(userID);
-            //handler.postDelayed(this, 100);
+            checkOrderStatus();
+            handler.postDelayed(this, 1000);
         }
     };
+
+    private void checkOrderStatus() {
+
+        if (deliverID == null) {
+            ParseQuery<ParseObject> query = ParseQuery.getQuery("Order");
+            query.getInBackground(orderID, new GetCallback<ParseObject>() {
+                public void done(ParseObject object, ParseException e) {
+                    if (e == null) {
+                        deliverID = (String) object.get("deliverer_id");
+                        if (deliverID != null) {
+                            switchToPickupConfirmed(deliverID);
+                        }
+                        // object will be your game score
+                    } else {
+                        // something went wrong
+                    }
+                }
+            });
+        }
+
+
+//        switchToPickupConfirmed(userID);
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

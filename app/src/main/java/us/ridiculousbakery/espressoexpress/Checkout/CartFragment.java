@@ -174,6 +174,7 @@ public class CartFragment extends Fragment {
                     e.printStackTrace();
                 }
                 Intent i = new Intent(getActivity(), ReceivingActivity.class);
+                i.putExtra("orderID", orderObj.getObjectId());
                 startActivity(i);
             }
         });
