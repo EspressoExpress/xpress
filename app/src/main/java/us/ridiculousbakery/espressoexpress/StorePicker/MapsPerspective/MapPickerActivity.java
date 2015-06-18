@@ -400,13 +400,15 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // update this order on Parse
+                        String parseOrderID = null;
                         try {
-                            ParseQueryHelper.updateSubmittedOrdertoPickup(order);
+                            parseOrderID = ParseQueryHelper.updateSubmittedOrdertoPickup(order);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
                         Log.i("ZZZZZZZ", "order for " + order.getUser().getName() + " accepted");
                         Intent i = new Intent(MapPickerActivity.this, DeliveringActivity.class);
+                        i.putExtra("parseOrderID", parseOrderID);
                         startActivity(i);
                         // Define color of marker icon
 

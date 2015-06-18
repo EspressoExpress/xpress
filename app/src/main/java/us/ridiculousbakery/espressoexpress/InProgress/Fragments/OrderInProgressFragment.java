@@ -7,14 +7,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.astuetz.PagerSlidingTabStrip;
-import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
@@ -28,11 +27,11 @@ import us.ridiculousbakery.espressoexpress.R;
  */
 public class OrderInProgressFragment extends Fragment {
 
-    public static OrderInProgressFragment newInstance(boolean isDelivering, String userID) {
+    public static OrderInProgressFragment newInstance(boolean isDelivering, String parseOrderID) {
         OrderInProgressFragment fragmentDemo = new OrderInProgressFragment();
         Bundle args = new Bundle();
         args.putBoolean("isDelivering", isDelivering);
-        args.putString("userID", userID);
+        args.putString("parseOrderID", parseOrderID);
         fragmentDemo.setArguments(args);
         return fragmentDemo;
     }
@@ -57,11 +56,47 @@ public class OrderInProgressFragment extends Fragment {
         final View v = inflater.inflate(R.layout.fragment_order_in_progress, container, false);
 
         final boolean isDelivering = getArguments().getBoolean("isDelivering");
-        String userID = getArguments().getString("userID");
+        String parseOrderID = getArguments().getString("parseOrderID");
 
+        //query Parse
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Order");
+        ParseObject order_obj = null;
+        try {
+            order_obj = query.get(parseOrderID);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        ParseQuery<ParseObject> user_query = ParseQuery.getQuery("_User");
+        ParseUser deliveringUser = null;
+        ParseUser receivingUser = null;
+        if (order_obj != null) {
+            try {
+                deliveringUser = (ParseUser) user_query.get((String) order_obj.get("deliverer_id"));
+                receivingUser = (ParseUser) user_query.get((String) order_obj.get("receiver_id"));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
         // SHOW LOADING UI
+        if (isDelivering) {
 
-        ParseQuery<ParseUser> query =  ParseQuery.getQuery("_User");
+            deliveringHeaderFragment = DeliveringHeaderFragment.newInstance(DisplayHelper.getProfileUrl(receivingUser.getEmail()), receivingUser.getString("displayName"));
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            ft.replace(R.id.flHeaderContainer, deliveringHeaderFragment);
+            ft.commit();
+        } else {
+            receivingHeaderFragment = ReceivingHeaderFragment.newInstance(DisplayHelper.getProfileUrl(deliveringUser.getObjectId()), deliveringUser.getString("displayName"));
+            FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+            ft.replace(R.id.flHeaderContainer, receivingHeaderFragment);
+            ft.commit();
+        }
+
+        ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewpager);
+        viewPager.setAdapter(new SampleFragmentPagerAdapter(getFragmentManager()));
+        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) v.findViewById(R.id.tabs);
+        tabStrip.setViewPager(viewPager);
+
+        /*ParseQuery<ParseUser> query =  ParseQuery.getQuery("_User");
         query.whereEqualTo("objectID", userID);
         query.getInBackground(userID, new GetCallback<ParseUser>() {
             @Override
@@ -91,7 +126,7 @@ public class OrderInProgressFragment extends Fragment {
                     Log.d("DEBUG", e.getLocalizedMessage());
                 }
             }
-        });
+        });*/
 
         return v;
     }
@@ -115,7 +150,8 @@ public class OrderInProgressFragment extends Fragment {
                 return new DeliveryMapFragment();
             } else {
                 //return ChatFragment.newInstance(otherUser.getObjectId());
-                return ChatFragment.newInstance(otherUser.getObjectId(), otherUser.getEmail());
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                return ChatFragment.newInstance(currentUser.getObjectId(), currentUser.getEmail());
             }
         }
 
