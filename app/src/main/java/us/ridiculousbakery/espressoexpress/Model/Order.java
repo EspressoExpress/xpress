@@ -88,7 +88,7 @@ public class Order extends ParseObject{
         queries.add(dquery);
         queries.add(rquery);
         ParseQuery<Order> qmain = ParseQuery.or(queries);
-        qmain.whereEqualTo("status",  "order picked up");
+        qmain.whereEqualTo("status",  "order picked up"); //TODO shoudl or "order submitted"
         try {
             return qmain.getFirst();
         } catch (ParseException e) {

@@ -34,7 +34,7 @@ public class ParseQueryHelper {
         }
         String orderID = null;
         for (ParseObject submittedOrder_obj : results) { //should be only one order anyway
-            submittedOrder_obj.put("status", "order picked up");
+            submittedOrder_obj.put("status", "order accepted");
             submittedOrder_obj.put("deliverer_id", user.getObjectId());
             submittedOrder_obj.put("deliverer_name", user.get("displayName"));
             submittedOrder_obj.save();
