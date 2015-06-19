@@ -68,12 +68,14 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
                         Log.i("ZZZZZZZ", "pager stores: " + stores.size());
                         paStores = new StorePagerAdapter(getActivity(), stores, (StoreElementListener) getActivity());
 
-                        String storeId =getArguments().getString("storeId");
-                        currentLatLng =(LatLng) getArguments().getParcelable("currentLatLng");
 
+                        currentLatLng =(LatLng) getArguments().getParcelable("currentLatLng");
                         Integer position=0;
-                        for(int i = 0; i < stores.size(); i++){
-                            if(stores.get(i).getObjectId()==storeId)position=i;
+                        String storeId = getArguments().getString("storeId");
+                        if (storeId != null) {
+                            for (int i = 0; i < stores.size(); i++) {
+                                if (stores.get(i).getObjectId() == storeId) position = i;
+                            }
                         }
                         Log.i("ZZZZZZ", "position found at "+position);
                         viewPager.setAdapter(paStores);

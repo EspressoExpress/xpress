@@ -65,7 +65,7 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
         int id = item.getItemId();
 
         if (id == R.id.action_store_pick_map) {
-            activate_map_and_pager_fragments(stores.get(0).getObjectId());
+            activate_map_and_pager_fragments(null);
         }
 
         return true;
@@ -79,7 +79,7 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
     private void activate_map_and_pager_fragments(String storeId) {
         Log.i("ZZZZZZZ", "Starting Map Activity "+storeId);
         Intent i = new Intent(this, MapPickerActivity.class);
-        i.putExtra("storeId", storeId);
+        if( storeId!=null) i.putExtra("storeId", storeId);
         i.putExtra("currentLatLng", currentlatLng());
         startActivity(i);
         overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);

@@ -66,7 +66,6 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
 
     private PagerFragment fgPagerStoreFragment;
 
-    private int position;
     private LatLng currentLatLng;
 
     public GoogleMap getMap() {
@@ -94,7 +93,6 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
                     stores = s;
                     Log.i("ZZZZZZZ", "stores: " + stores.size());
                     marked_stores = MarkedStore.decorateList(stores);
-                    position = getIntent().getIntExtra("position", 0);
                     mGoogleApiClient = new GoogleApiClient.Builder(MapPickerActivity.this)
                             .addApi(LocationServices.API)
                             .addConnectionCallbacks(MapPickerActivity.this)
