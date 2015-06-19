@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.devmarvel.creditcardentry.library.CreditCard;
 import com.google.android.gms.maps.model.LatLng;
+import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
@@ -59,10 +60,10 @@ public class CartFragment extends Fragment {
         public void launchCCForm();
     }
 
-    public static CartFragment newInstance(Order order) {
+    public static CartFragment newInstance(String orderId) {
         CartFragment cartFragment = new CartFragment();
         Bundle args = new Bundle();
-        args.putSerializable("order", order);
+        args.putSerializable("orderId", orderId);
         cartFragment.setArguments(args);
         return cartFragment;
     }
@@ -92,9 +93,16 @@ public class CartFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        order = (Order) getArguments().getSerializable("order");
-        lineItems = order.getLineItems();
-        alineItems = new CartItemAdapter(getActivity(), lineItems);
+        Order.getInBackground(getArguments().getString("orderId"), new GetCallback<Order>() {
+                    @Override
+                    public void done(Order o, ParseException e) {
+                        if(e!=null) e.printStackTrace();
+                        order=o;
+                        lineItems = order.getLineItems();
+                        alineItems = new CartItemAdapter(getActivity(), lineItems);
+                    }
+                });
+
     }
 
     @Override
@@ -147,8 +155,8 @@ public class CartFragment extends Fragment {
         btCheckout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                final Order orderObj = new Order();
                 ParseUser user = ParseUser.getCurrentUser();
-                ParseObject orderObj = new ParseObject("Order");
                 orderObj.put("name", user.get("displayName"));
                 orderObj.put("store_name", order.getStore().getName());
                 orderObj.put("status", "order submitted");
@@ -183,8 +191,8 @@ public class CartFragment extends Fragment {
 
     public void saveAndShowAddress(LatLng latLng, Address address) {
         if (latLng != null) {
-            order.setLat(latLng.latitude);
-            order.setLon(latLng.longitude);
+            order.setDelivery_lat(latLng.latitude);
+            order.setDelivery_lon(latLng.longitude);
             tvAddress.setText(address.getAddressLine(0));
             tvAddressLine2.setText(address.getLocality() + ", " + address.getAdminArea());
             //animation doesn't work

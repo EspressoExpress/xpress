@@ -1,12 +1,16 @@
 package us.ridiculousbakery.espressoexpress.NavDrawer;
 
+import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutCompat;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,6 +50,8 @@ public class NavDrawerBaseActivity extends AppCompatActivity {
         navDrawerItems.add(new NavDrawerItem("Bank / CC", R.drawable.bank24));
         navDrawerItems.add(new NavDrawerItem("User Profile", R.drawable.ic_user_profile));
         navDrawerItems.add(new NavDrawerItem("Invite Friends", R.drawable.ic_action_share));
+        navDrawerItems.add(new NavDrawerItem("Settings", R.drawable.ic_settings));
+
         navDrawerItems.add(new NavDrawerItem("Sign Out", R.drawable.ic_user_profile));
 
 //        navDrawerItems.add(new NavDrawerItem("Edit Usual Order", R.drawable.philz_twit_logo));
@@ -64,8 +70,13 @@ public class NavDrawerBaseActivity extends AppCompatActivity {
                         break;
                     case 3:
                         displayShare();
+                        break;
                     case 4:
+                        displaySettings();
+                        break;
+                    case 5:
                         do_logout();
+                        break;
                     default:
                         break;
                 }
@@ -77,12 +88,51 @@ public class NavDrawerBaseActivity extends AppCompatActivity {
         mDrawerLayout.setDrawerListener(mDrawerToggle);
 
     }
+    final private static String SHOW_FAB="show fab";
+    final private static String SHOW_LIST_SWITCH="listModeSwitch";
+    final private static String SHOW_PAGER="showPager";
+    final private static String MAPMODE="mapMode";
+    final private static String ANIM_MRK="animateMarkers";
+    private void displaySettings() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        LinearLayoutCompat b = new LinearLayoutCompat(this);
+        b.setOrientation(LinearLayoutCompat.VERTICAL);
+        b.setPadding(10, 10, 10, 10);
+        b.addView(pref(SHOW_FAB));
+        b.addView(pref(SHOW_LIST_SWITCH));
+        b.addView(pref(SHOW_PAGER));
+        b.addView(pref( MAPMODE));
+        b.addView(pref(ANIM_MRK));
+        alertDialogBuilder.setView(b);
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+
+
+    }
+    private SwitchCompat pref(final String label){return this.pref(label, false); }
+
+    private SwitchCompat pref(final String label, boolean def){
+        SwitchCompat d = new SwitchCompat(this);
+        final SharedPreferences p  =getPreferences(MODE_PRIVATE);
+        d.setText(label);
+        d.setPadding(5,5,5,5);
+        d.setChecked(p.getBoolean(label,def));
+        d.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                p.edit().putBoolean(label, ((SwitchCompat)v).isChecked()).apply();
+
+            }
+        });
+        return d;
+    }
 
     private void do_logout() {
         ParseUser.logOut();
         Intent i= new Intent(this, TutorialActivity.class);
-        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(i);
+        finish();
     }
 
     private void displayShare() {

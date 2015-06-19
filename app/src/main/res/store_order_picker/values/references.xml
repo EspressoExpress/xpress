@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="store_logos">
+        <item>@drawable/sbux_twit_logo</item>
+        <item>@drawable/blue_twit_logo</item>
+        <item>@drawable/philz_twit_logo</item>
+    </array>
+    <array name="store_bgs">
+        <item>@drawable/starbucksbg</item>
+        <item>@drawable/bluebg</item>
+        <item>@drawable/philzbg</item>
+    </array>
+
+</resources>

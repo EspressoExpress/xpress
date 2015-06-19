@@ -34,13 +34,6 @@ public class MarkedOrder {
         return order.getLineItems();
     }
 
-    public long getValid_until() {
-        return order.getValid_until();
-    }
-
-    public long getCreated_at() {
-        return order.getCreated_at();
-    }
 
     public Store getStore() {
         return order.getStore();
@@ -50,6 +43,6 @@ public class MarkedOrder {
         return order.getUser();
     }
     public String getName(){
-        return getUser().getName();
+        return order.getString("name");
     }
 }

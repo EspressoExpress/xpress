@@ -24,9 +24,9 @@ public class MenuActivity extends AppCompatActivity {
         setContentView(R.layout.activity_menu);
         if (savedInstanceState == null) {
             // Get Menu
-            store = (Store) getIntent().getSerializableExtra("store");
 
-            MenuFragment fragmentMenu = MenuFragment.newInstance(store);
+
+            MenuFragment fragmentMenu = MenuFragment.newInstance(getIntent().getStringExtra("storeId"));
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContainer, fragmentMenu);
             ft.commit();

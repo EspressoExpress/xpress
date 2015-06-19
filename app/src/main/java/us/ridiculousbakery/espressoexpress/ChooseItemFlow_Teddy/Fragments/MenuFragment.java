@@ -16,6 +16,9 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 
+import com.parse.GetCallback;
+import com.parse.ParseException;
+
 import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.Checkout.CartActivity;
@@ -44,10 +47,12 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     // Constructors
     //================================================================================
 
-    public static MenuFragment newInstance(Store store) {
+    public static MenuFragment newInstance(String storeId) {
         MenuFragment fragment = new MenuFragment();
         Bundle args = new Bundle();
-        args.putSerializable("store", store);
+        args.putString("storeId",storeId);
+
+//        args.putSerializable("store", store);
         fragment.setArguments(args);
         return fragment;
     }
@@ -70,53 +75,67 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_menu_list, null, false);
+    public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        final View v = inflater.inflate(R.layout.fragment_menu_list, null, false);
         Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
         AppCompatActivity activity = (AppCompatActivity) getActivity();
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        elvMenu = (ExpandableListView) v.findViewById(R.id.elvMenu);
-        elvMenu.setAdapter(aMenu);
-        elvMenu.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+        Store.getInBackground(getArguments().getString("storeId"), new GetCallback<Store>() {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Item item = (Item) aMenu.getChild(groupPosition, childPosition);
-                showCustomizeItemDialog(item);
-                return true;
-            }
-        });
+            public void done(final Store store, ParseException e) {
+                storeMenu = store.getStoreMenu();
+                aMenu = new MenuAdapter(getActivity(), storeMenu);
+                lineItems = new ArrayList<>();
+                elvMenu = (ExpandableListView) v.findViewById(R.id.elvMenu);
+                elvMenu.setAdapter(aMenu);
+                elvMenu.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                    @Override
+                    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                        Item item = (Item) aMenu.getChild(groupPosition, childPosition);
+                        showCustomizeItemDialog(item);
+                        return true;
+                    }
+                });
 
-        for(int i=0; i < aMenu.getGroupCount(); i++) {
-            elvMenu.expandGroup(i);
-        }
-
-        btnCart = (Button) v.findViewById(R.id.btnCart);
-        setCartButtonHeight();
-        btnCart.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Launch Intent!
-                if (lineItems.size() > 0) {
-                    Intent i = new Intent(getActivity(), CartActivity.class);
-                    Order order = new Order();
-                    order.setStore(store);
-                    order.setLineItems(lineItems);
-                    i.putExtra("order", order);
-                    startActivity(i);
-                    Log.d("DEBUG", "NEW INTENT");
+                for(int i=0; i < aMenu.getGroupCount(); i++) {
+                    elvMenu.expandGroup(i);
                 }
+
+                btnCart = (Button) v.findViewById(R.id.btnCart);
+                setCartButtonHeight();
+                btnCart.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Launch Intent!
+                        if (lineItems.size() > 0) {
+                            Intent i = new Intent(getActivity(), CartActivity.class);
+                            Order order = new Order();
+                            order.setStore(store);
+                            order.setLineItems(lineItems);
+                            try {
+                                order.save();
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                            i.putExtra("orderId", order.getObjectId());
+                            startActivity(i);
+                            Log.d("DEBUG", "NEW INTENT");
+                        }
+                    }
+                });
+
+                View header = inflater.inflate(R.layout.menu_header, null, false);
+
+                FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                MenuHeaderFragment menuHeaderFragment = new MenuHeaderFragment();
+                ft.replace(R.id.flContainer, menuHeaderFragment);
+                ft.commit();
+                elvMenu.addHeaderView(header);
+
             }
         });
-
-        View header = inflater.inflate(R.layout.menu_header, null, false);
-
-        FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-        MenuHeaderFragment menuHeaderFragment = new MenuHeaderFragment();
-        ft.replace(R.id.flContainer, menuHeaderFragment);
-        ft.commit();
-        elvMenu.addHeaderView(header);
 
         return v;
     }

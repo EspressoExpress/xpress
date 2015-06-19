@@ -42,12 +42,10 @@ public class NavDrawerListAdapter extends ArrayAdapter<NavDrawerItem> {
             LayoutInflater inflater = (LayoutInflater)getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = inflater.inflate(R.layout.drawer_item, parent, false);
         }
-//        (ImageView) convertView.findViewById(R.id.ivIcon);
         TextView tv = (TextView) convertView.findViewById(R.id.tvTitle);
         tv.setText(getItem(position).getTitle());
         ImageView iv = (ImageView) convertView.findViewById(R.id.ivIcon);
         iv.setImageDrawable(getContext().getResources().getDrawable(getItem(position).getIcon()));
-//        Picasso.with(getContext()).load(Uri.parse(getItem(position).getIcon())).into(iv);
 
         return convertView;
     }

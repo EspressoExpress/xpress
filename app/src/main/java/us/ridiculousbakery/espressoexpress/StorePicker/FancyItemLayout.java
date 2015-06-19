@@ -1,6 +1,7 @@
 package us.ridiculousbakery.espressoexpress.StorePicker;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.ImageView;
@@ -35,8 +36,13 @@ public class FancyItemLayout extends ItemStoreLayout {
         if(ivBg==null) ivBg = (ImageView) findViewById(R.id.ivBackground);
 
         tvName.setText(store.getName());
-        ivBg.setImageResource(store.getBackground());
+        TypedArray ta= getResources().obtainTypedArray(R.array.store_bgs);
+//        Log.i("ZZZZZZ", "background index " + store.);
+        ivBg.setImageDrawable(ta.getDrawable(store.getBackground()));
+//        ivBg.setImageDrawable(ta.getDrawable(2));
 
+//        ivBg.setImageResource(store.getBackground());
+        ta.recycle();
         setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

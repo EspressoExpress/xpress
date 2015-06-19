@@ -32,10 +32,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.makeramen.roundedimageview.RoundedImageView;
+
+import com.parse.FindCallback;
+
 import com.parse.ParseException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import us.ridiculousbakery.espressoexpress.Checkout.ParseQueryHelper;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.MenuActivity;
@@ -49,7 +53,7 @@ import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 
 
 public class MapPickerActivity extends NavDrawerBaseActivity implements
-         PagerFragment.PagerListener,
+        PagerFragment.PagerListener,
         StoreElementListener,
         GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMarkerClickListener {
@@ -62,14 +66,14 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
 
     private PagerFragment fgPagerStoreFragment;
 
-    private int position;
+    private LatLng currentLatLng;
 
     public GoogleMap getMap() {
         return map;
     }
 
     private GoogleMap map;
-    private ArrayList<Store> stores;
+    private List<Store> stores;
     private ArrayList<MarkedStore> marked_stores;
 
 
@@ -81,18 +85,29 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
 
 
         setContentView(R.layout.activity_map_picker);
+        currentLatLng = (LatLng) getIntent().getParcelableExtra("currentLatLng");
+        Store.findInBackground(currentLatLng, new FindCallback<Store>() {
+            @Override
+            public void done(List<Store> s, ParseException e) {
+                if (e == null) {
+                    stores = s;
+                    Log.i("ZZZZZZZ", "stores: " + stores.size());
+                    marked_stores = MarkedStore.decorateList(stores);
+                    mGoogleApiClient = new GoogleApiClient.Builder(MapPickerActivity.this)
+                            .addApi(LocationServices.API)
+                            .addConnectionCallbacks(MapPickerActivity.this)
+                            .addOnConnectionFailedListener(MapPickerActivity.this).build();
 
+                    getPagerFragment().setArguments(getIntent().getExtras());
+                    activate_map_and_pager_fragments();
+                }
+            }
+        });
         if (savedInstanceState == null) {
-            stores = (ArrayList<Store>)getIntent().getSerializableExtra("stores");
-            marked_stores = MarkedStore.decorateList(stores);
-            position =getIntent().getIntExtra("position", 0);
-            mGoogleApiClient = new GoogleApiClient.Builder(this)
-                    .addApi(LocationServices.API)
-                    .addConnectionCallbacks(this)
-                    .addOnConnectionFailedListener(this).build();
 
-            getPagerFragment().setArguments(getIntent().getExtras());
-            activate_map_and_pager_fragments();
+//            stores = (ArrayList<Store>)getIntent().getSerializableExtra("stores");
+
+
         }
     }
 
@@ -101,8 +116,8 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_store_pick_list) {
-          finish();
-          overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+            finish();
+            overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
 
         }
         return super.onOptionsItemSelected(item);
@@ -148,6 +163,7 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
         reconnect();
 
     }
+
     @Override
     protected void onStop() {
         // Disconnecting the client invalidates it.
@@ -232,7 +248,7 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
                 // Start an Activity that tries to resolve the error
                 connectionResult.startResolutionForResult(this,
                         CONNECTION_FAILURE_RESOLUTION_REQUEST);
-				/*
+                /*
 				 * Thrown if Google Play services canceled the original
 				 * PendingIntent
 				 */
@@ -249,13 +265,13 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
     @Override
     public void onNewMapTargetRequest(final int index, final boolean animate) {
         Log.i("ZZZZZZZ", "Entered onNewMapTargetRequest " + index);
-        if(map==null){
+        if (map == null) {
             Log.i("ZZZZZZZ", "getting map async");
             getMapStoreFragment().getMapAsync(
                     new OnMapReadyCallback() {
                         @Override
                         public void onMapReady(GoogleMap googleMap) {
-                            if(map==null) {
+                            if (map == null) {
                                 map = googleMap;
                                 map.setMyLocationEnabled(true);
 
@@ -266,7 +282,7 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
                         }
                     }
             );
-        }else {
+        } else {
             Log.i("ZZZZZZZ", "map exists");
             MapsInitializer.initialize(this);
             animateToStore(animate, index);
@@ -274,24 +290,31 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
         }
 
     }
+
     private HashMap<Marker, Store> marker2Store = new HashMap<>();
     private HashMap<Marker, Order> marker2Order = new HashMap<>();
 
-    private void populateMap(){
+    private void populateMap() {
         for (MarkedStore store : marked_stores) {
-            store.marker= map.addMarker(
-                   new MarkerOptions()
+
+            store.marker = map.addMarker(
+                    new MarkerOptions()
                             .position(store.getLatLng())
                             .title(store.getName())
                             .icon(BitmapDescriptorFactory.fromBitmap(
                                     Bitmap.createScaledBitmap(
-                                            BitmapFactory.decodeResource(getResources(), store.getLogo())
+                                            BitmapFactory.decodeResource(
+                                                    getResources(),
+                                                    getResources()
+                                                            .obtainTypedArray(R.array.store_logos)
+                                                            .getResourceId(store.getLogo(), R.drawable.philz_twit_logo))
                                             , 120, 120, true
                                     )))
-                            );
+            );
             marker2Store.put(store.marker, store.store);
+            Log.i("ZZZZZZ", "populating "+store.getMarkedOrders().size()+" orders");
             for (MarkedOrder order : store.getMarkedOrders()) {
-                order.marker =map.addMarker(
+                order.marker = map.addMarker(
                         new MarkerOptions()
                                 .position(order.getLatLng())
                                 .title(order.getName())
@@ -307,26 +330,26 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
 
 
             //query submitted order from Parse
-            ArrayList<MarkedOrder> ordersFromParse = ParseQueryHelper.getSubmittedOrderfromParse(store.getName());
-            if (!ordersFromParse.isEmpty()) {
-                for (MarkedOrder markedOrder: ordersFromParse) {
-                    //try to pass down logo
-                    markedOrder.getOrder().setStore(store.getStore());
-                    markedOrder.marker =map.addMarker(
-                            new MarkerOptions()
-                                    .position(markedOrder.getLatLng())
-                                    .title(markedOrder.getName())
-                                    .alpha(0.5f)
-                                    .visible(true)
-                                    .icon(
-                                            BitmapDescriptorFactory
-                                                    .defaultMarker(BitmapDescriptorFactory.HUE_AZURE) //so we can see what from parse
-                                    ));
-                    marker2Order.put(markedOrder.marker, markedOrder.order);
-                }
-            }
+//            ArrayList<MarkedOrder> ordersFromParse = ParseQueryHelper.getSubmittedOrderfromParse(store.getName());
+//            if (!ordersFromParse.isEmpty()) {
+//                for (MarkedOrder markedOrder: ordersFromParse) {
+//                    //try to pass down logo
+//                    markedOrder.getOrder().setStore(store.getStore());
+//                    markedOrder.marker =map.addMarker(
+//                            new MarkerOptions()
+//                                    .position(markedOrder.getLatLng())
+//                                    .title(markedOrder.getName())
+//                                    .alpha(0.5f)
+//                                    .visible(true)
+//                                    .icon(
+//                                            BitmapDescriptorFactory
+//                                                    .defaultMarker(BitmapDescriptorFactory.HUE_AZURE) //so we can see what from parse
+//                                    ));
+//                    marker2Order.put(markedOrder.marker, markedOrder.order);
+//                }
+//            }
         }
-
+//        getResources().obtainTypedArray(R.array.store_logos).getResourceId()
 
 
     }
@@ -338,13 +361,21 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
     private void animateToStore(boolean animate, Store store) {
         LatLng latLng = store.getLatLng();
         boolean visible;
-        for(MarkedStore s : marked_stores){
-            if(s.store == store){
+        for (MarkedStore s : marked_stores) {
+            if (s.store == store) {
                 s.marker.setAlpha(1);
-                for(MarkedOrder o : s.getMarkedOrders()){  o.marker.setVisible(true);  }
-            }else{
+                Log.i("ZZZZZZ", "marking  " + s.getMarkedOrders().size() + " visible orders");
+
+                for (MarkedOrder o : s.getMarkedOrders()) {
+                    Log.i("ZZZZZZ", "marker: "+o.getLatLng().toString()+" order"+ " "+ o.getName() +" "+ o.order.getObjectId());
+
+                    o.marker.setVisible(true);
+                }
+            } else {
                 s.marker.setAlpha(0.4f);
-                for(MarkedOrder o : s.getMarkedOrders()){  o.marker.setVisible(false);  }
+                for (MarkedOrder o : s.getMarkedOrders()) {
+                    o.marker.setVisible(false);
+                }
             }
 
         }
@@ -353,26 +384,25 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
 
     private void moveCamera(boolean animate, LatLng latLng) {
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, 14);
-        if(animate==true)    map.animateCamera(cameraUpdate);
+        if (animate == true) map.animateCamera(cameraUpdate);
         else map.moveCamera(cameraUpdate);
     }
 
     @Override
-    public void onStoreElementClicked(Store store){
+    public void onStoreElementClicked(Store store) {
         Intent i = new Intent(this, MenuActivity.class);
-        i.putExtra("store", store);
-        i.putExtra("ParentClass", getClass());
+        i.putExtra("storeId", store.getObjectId());
 
         startActivity(i);
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        Store store =marker2Store.get(marker);
+        Store store = marker2Store.get(marker);
         Order order = marker2Order.get(marker);
 //        if(store!=null) animateToStore(true, store);
-        if(order!=null) showOrderAcceptDialog(order);
-        if(store!=null ){
+        if (order != null) showOrderAcceptDialog(order);
+        if (store != null) {
             getPagerFragment().setPageIndex(stores.indexOf(store));
         }
         return false;
@@ -381,12 +411,17 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
     private void showOrderAcceptDialog(final Order order) {
         View messageView = LayoutInflater.from(this).
                 inflate(R.layout.order_accept_dialog, null);
-        TextView tvUserName= (TextView) messageView.findViewById(R.id.tvOrderUserName);
-        tvUserName.setText(order.getUser().getName());
+        TextView tvUserName = (TextView) messageView.findViewById(R.id.tvOrderUserName);
+        tvUserName.setText(order.getName());
         TextView tvTOS = (TextView) messageView.findViewById(R.id.tvTOS);
         RoundedImageView ivLogo = (RoundedImageView) messageView.findViewById(R.id.ivLogo);
-        ivLogo.setImageBitmap(Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), order.getStore().getLogo()), 100, 100, true));
-        tvTOS.setText(getResources().getString(R.string.confirmation_dialog_message, order.getUser().getName(), order.getStore().getName()));
+        ivLogo.setImageBitmap(Bitmap.createScaledBitmap(
+                BitmapFactory.decodeResource(
+                        getResources(),
+                        getResources()
+                                .obtainTypedArray(R.array.store_logos)
+                                .getResourceId(order.getStore().getLogo(), R.drawable.philz_twit_logo)), 100, 100, true));
+        tvTOS.setText(getResources().getString(R.string.confirmation_dialog_message, order.getName(), order.getStore().getName()));
         // Create alert dialog builder
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         // set message_item.xml to AlertDialog builder
@@ -400,13 +435,16 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // update this order on Parse
+                        String parseOrderID = null;
                         try {
-                            ParseQueryHelper.updateSubmittedOrdertoPickup(order);
+                            parseOrderID = ParseQueryHelper.updateSubmittedOrdertoPickup(order);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }
-                        Log.i("ZZZZZZZ", "order for " + order.getUser().getName() + " accepted");
+
+                        Log.i("ZZZZZZZ", "order for " + order.getName() + " accepted");
                         Intent i = new Intent(MapPickerActivity.this, DeliveringActivity.class);
+                        i.putExtra("parseOrderID", parseOrderID);
                         startActivity(i);
                         // Define color of marker icon
 
@@ -418,8 +456,7 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
         alertDialog.setButton(DialogInterface.BUTTON_NEGATIVE, "Cancel",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-
-                        Log.i("ZZZZZZZ",  "order for " + order.getUser().getName() + " declined");
+                        Log.i("ZZZZZZZ", "order for " + order.getName() + " declined");
                         dialog.cancel();
                     }
                 });
@@ -454,7 +491,6 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
             return mDialog;
         }
     }
-
 
 
 }

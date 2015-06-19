@@ -1,42 +1,37 @@
 package us.ridiculousbakery.espressoexpress.Model;
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.TreeMap;
 
-import us.ridiculousbakery.espressoexpress.Checkout.ParseQueryHelper;
-import us.ridiculousbakery.espressoexpress.R;
-
 /**
  * Created by bkuo on 6/6/15.
  */
 public class FakeDataSource {
 
-    public static ArrayList<Store> nearby_stores(LatLng latlng) {
-        Double lat = latlng.latitude;
-        Double lon = latlng.longitude;
-        ArrayList<Store> list = new ArrayList<Store>();
-        list.add(new Store("Starbucks", new LatLng(lat - 0.02, lon - 0.02), R.drawable.sbux_twit_logo, R.drawable.starbucksbg,nearby_orders(new LatLng(lat - 0.02, lon - 0.02)), fakeMenu()));
-        list.add(new Store("Starbucks", new LatLng(lat - 0.02, lon + 0.02), R.drawable.sbux_twit_logo, R.drawable.starbucksbg,nearby_orders(new LatLng(lat - 0.02, lon + 0.02)), fakeMenu()));
-        list.add(new Store("BlueBottle", new LatLng(lat + 0.02, lon - 0.02), R.drawable.blue_twit_logo, R.drawable.bluebg,nearby_orders(new LatLng(lat + 0.02, lon - 0.02)), fakeMenu()));
-        list.add(new Store("Philz", new LatLng(lat + 0.02, lon + 0.02), R.drawable.philz_twit_logo, R.drawable.philzbg,nearby_orders(new LatLng(lat + 0.02, lon + 0.02)), ParseQueryHelper.getMenufromParse("Philz")));
-        list.add(new Store("Philz", new LatLng(lat + 0.01, lon + 0.01), R.drawable.philz_twit_logo,  R.drawable.philzbg,nearby_orders(new LatLng(lat + 0.01, lon + 0.01)), ParseQueryHelper.getMenufromParse("Philz")));
-        return list;
-    }
+//    public static ArrayList<Store> nearby_stores(LatLng latlng) {
+//        Double lat = latlng.latitude;
+//        Double lon = latlng.longitude;
+//        ArrayList<Store> list = new ArrayList<Store>();
+//        list.add(new Store("Starbucks", new LatLng(lat - 0.02, lon - 0.02), R.drawable.sbux_twit_logo, R.drawable.starbucksbg,nearby_orders(new LatLng(lat - 0.02, lon - 0.02)), fakeMenu()));
+//        list.add(new Store("Starbucks", new LatLng(lat - 0.02, lon + 0.02), R.drawable.sbux_twit_logo, R.drawable.starbucksbg,nearby_orders(new LatLng(lat - 0.02, lon + 0.02)), fakeMenu()));
+//        list.add(new Store("BlueBottle", new LatLng(lat + 0.02, lon - 0.02), R.drawable.blue_twit_logo, R.drawable.bluebg,nearby_orders(new LatLng(lat + 0.02, lon - 0.02)), fakeMenu()));
+//        list.add(new Store("Philz", new LatLng(lat + 0.02, lon + 0.02), R.drawable.philz_twit_logo, R.drawable.philzbg,nearby_orders(new LatLng(lat + 0.02, lon + 0.02)), ParseQueryHelper.getMenufromParse("Philz")));
+//        list.add(new Store("Philz", new LatLng(lat + 0.01, lon + 0.01), R.drawable.philz_twit_logo,  R.drawable.philzbg,nearby_orders(new LatLng(lat + 0.01, lon + 0.01)), ParseQueryHelper.getMenufromParse("Philz")));
+//        return list;
+//    }
 
-    public static ArrayList<Order> nearby_orders(LatLng latlng) {
-        Double lat = latlng.latitude;
-        Double lon = latlng.longitude;
-        ArrayList<Order> list = new ArrayList<Order>();
-        list.add(new Order("Alice", new LatLng(lat - 0.008, lon - 0.008), "saLdABgOFA"));
-        list.add(new Order("Bob", new LatLng(lat - 0.008, lon + 0.008), "saLdABgOFA"));
-        list.add(new Order("Eve", new LatLng(lat + 0.008, lon - 0.008), "saLdABgOFA"));
-        return list;
-    }
+//    public static ArrayList<Order> nearby_orders(LatLng latlng) {
+//        Double lat = latlng.latitude;
+//        Double lon = latlng.longitude;
+//        ArrayList<Order> list = new ArrayList<Order>();
+//        list.add(new Order("Alice", new LatLng(lat - 0.008, lon - 0.008), "saLdABgOFA"));
+//        list.add(new Order("Bob", new LatLng(lat - 0.008, lon + 0.008), "saLdABgOFA"));
+//        list.add(new Order("Eve", new LatLng(lat + 0.008, lon - 0.008), "saLdABgOFA"));
+//        return list;
+//    }
 
     public static StoreMenu fakeMenu() {
 

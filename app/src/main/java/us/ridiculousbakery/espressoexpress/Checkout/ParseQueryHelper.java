@@ -1,6 +1,5 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
@@ -21,7 +20,7 @@ import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.MarkedOrd
 public class ParseQueryHelper {
 
     //
-    public static void updateSubmittedOrdertoPickup(Order order) throws ParseException {
+    public static String updateSubmittedOrdertoPickup(Order order) throws ParseException {
         String receiverId = order.getReceiverId();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Order");
         query.whereEqualTo("status", "order submitted");
@@ -33,12 +32,16 @@ public class ParseQueryHelper {
         } catch (ParseException e) {
             e.printStackTrace();
         }
+        String orderID = null;
         for (ParseObject submittedOrder_obj : results) { //should be only one order anyway
-            submittedOrder_obj.put("status", "order picked up");
+            submittedOrder_obj.put("status", "order accepted");
             submittedOrder_obj.put("deliverer_id", user.getObjectId());
             submittedOrder_obj.put("deliverer_name", user.get("displayName"));
             submittedOrder_obj.save();
+            orderID = submittedOrder_obj.getObjectId();
         }
+
+        return orderID;
     }
 
     //get submitted order for the other side to pick up
@@ -59,8 +62,8 @@ public class ParseQueryHelper {
             Double delivery_lat = (Double) order_obj.get("delivery_lat");
             Double delivery_lng = (Double) order_obj.get("delivery_lng");
             //also need to get lineitems from order
-            Order order = new Order(name, new LatLng(delivery_lat, delivery_lng), receiverID);
-            markedOrders.add(new MarkedOrder(order));
+//            Order order = new Order(name, new LatLng(delivery_lat, delivery_lng), receiverID);
+//            markedOrders.add(new MarkedOrder(order));
         }
         return markedOrders;
     }

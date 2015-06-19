@@ -1,13 +1,12 @@
 package us.ridiculousbakery.espressoexpress.InProgress.Delivering;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderInProgressFragment;
-import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderPlacedFragment;
 import us.ridiculousbakery.espressoexpress.R;
 
 public class DeliveringActivity extends ActionBarActivity {
@@ -20,10 +19,12 @@ public class DeliveringActivity extends ActionBarActivity {
         setContentView(R.layout.activity_delivering);
         if (savedInstanceState == null) {
 
-            String userID = getIntent().getStringExtra("userID");
-            userID = "HmR0es0hPp";
+            String parseOrderID = getIntent().getStringExtra("parseOrderID");
 
-            orderInProgressFragment = OrderInProgressFragment.newInstance(true, userID);
+            //String userID = getIntent().getStringExtra("userID");
+            //userID = "HmR0es0hPp";
+
+            orderInProgressFragment = OrderInProgressFragment.newInstance(true, parseOrderID);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContainer, orderInProgressFragment);
             ft.commit();
