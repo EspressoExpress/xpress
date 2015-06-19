@@ -50,7 +50,7 @@ public class NavDrawerBaseActivity extends AppCompatActivity {
         navDrawerItems.add(new NavDrawerItem("Bank / CC", R.drawable.bank24));
         navDrawerItems.add(new NavDrawerItem("User Profile", R.drawable.ic_user_profile));
         navDrawerItems.add(new NavDrawerItem("Invite Friends", R.drawable.ic_action_share));
-        navDrawerItems.add(new NavDrawerItem("Settings", R.drawable.ic_action_share));
+        navDrawerItems.add(new NavDrawerItem("Settings", R.drawable.ic_settings));
 
         navDrawerItems.add(new NavDrawerItem("Sign Out", R.drawable.ic_user_profile));
 
