@@ -62,6 +62,10 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
         store = (Store) getArguments().getSerializable("store");
         storeMenu = store.getStoreMenu();
         aMenu = new MenuAdapter(getActivity(), storeMenu);
+
+
+        // Create an initializer from aMenu
+
         lineItems = new ArrayList<>();
     }
 
