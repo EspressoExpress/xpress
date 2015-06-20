@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="120dp"
     android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants"
 
     >
 
@@ -26,7 +27,6 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
 
-        android:autoText="true"
         android:background="@drawable/store_item_gradient"
         android:text="Large Text"
         android:textAppearance="?android:attr/textAppearanceLarge"
@@ -34,5 +34,5 @@
         android:paddingLeft="10dp"
         android:paddingBottom="10dp"
         android:paddingTop="32dp"
-        android:editable="false" />
+     />
 </us.ridiculousbakery.espressoexpress.StorePicker.FancyItemLayout>
