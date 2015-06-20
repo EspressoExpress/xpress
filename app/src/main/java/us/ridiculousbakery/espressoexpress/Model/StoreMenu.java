@@ -1,5 +1,11 @@
 package us.ridiculousbakery.espressoexpress.Model;
 
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -23,6 +29,33 @@ public class StoreMenu implements Serializable {
 
     public StoreMenu() {
         //normal actions performed by class, it's still a normal object!
+    }
+
+    public static StoreMenu fromJSON(JSONObject json) {
+        StoreMenu storeMenu = new StoreMenu();
+
+        storeMenu.categories = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+
+        try {
+            JSONArray jsonCategories = json.getJSONArray("categories");
+            for (int i=0; i<jsonCategories.length(); i++) {
+                JSONObject categoryJSON = jsonCategories.getJSONObject(i);
+                String category = categoryJSON.getString("name");
+                JSONArray itemsJSON = categoryJSON.getJSONArray("items");
+                ArrayList<Item> itemArrayList = new ArrayList<>();
+                for (int j=0; j<itemsJSON.length(); j++) {
+                    JSONObject itemJSON = itemsJSON.getJSONObject(j);
+                    Item item = Item.fromJSON(itemJSON);
+                    itemArrayList.add(item);
+                }
+                storeMenu.categories.put(category, itemArrayList);
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        return storeMenu;
     }
 
     public void setCategories(TreeMap<String, ArrayList<Item>> categories) {

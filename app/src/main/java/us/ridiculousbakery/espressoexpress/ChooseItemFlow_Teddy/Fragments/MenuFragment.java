@@ -18,6 +18,13 @@ import android.widget.RelativeLayout;
 
 import com.parse.GetCallback;
 import com.parse.ParseException;
+import com.parse.ParseObject;
+import com.parse.ParseQuery;
+import com.parse.ParseRelation;
+import com.parse.ParseUser;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -50,7 +57,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     public static MenuFragment newInstance(String storeId) {
         MenuFragment fragment = new MenuFragment();
         Bundle args = new Bundle();
-        args.putString("storeId",storeId);
+        args.putString("storeId", storeId);
 
 //        args.putSerializable("store", store);
         fragment.setArguments(args);
@@ -64,14 +71,32 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        store = (Store) getArguments().getSerializable("store");
-        storeMenu = store.getStoreMenu();
-        aMenu = new MenuAdapter(getActivity(), storeMenu);
 
+        ParseQuery<ParseObject> query = ParseQuery.getQuery("Category");
+        query.getInBackground("xWMyZ4YEGZ", new GetCallback<ParseObject>() {
+            public void done(ParseObject object, ParseException e) {
+                if (e == null) {
+                    // object will be your game score
+                } else {
+                    // something went wrong
+                }
+            }
+        });
+//        ParseObject post = ...;
+//
+//        ParseObject category = ParseObject.getIn;
+//        ParseRelation relation = user.getRelation("posts");
+//        relation.add(post);
+//        user.saveInBackground();
 
-        // Create an initializer from aMenu
-
-        lineItems = new ArrayList<>();
+//        String storeID = getArguments().getString("storeId");
+//
+//
+//        store = (Store) getArguments().getSerializable("store");
+//        storeMenu = store.getStoreMenu();
+//        aMenu = new MenuAdapter(getActivity(), storeMenu);
+//        // Create an initializer from aMenu
+//        lineItems = new ArrayList<>();
     }
 
     @Override
@@ -82,58 +107,77 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
         activity.setSupportActionBar(toolbar);
         activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Store.getInBackground(getArguments().getString("storeId"), new GetCallback<Store>() {
+
+        String storeID = getArguments().getString("storeId");
+        storeID = "1NoCwWrzM5";
+
+        Store.getInBackground(storeID, new GetCallback<Store>() {
             @Override
             public void done(final Store store, ParseException e) {
-                storeMenu = store.getStoreMenu();
-                aMenu = new MenuAdapter(getActivity(), storeMenu);
-                lineItems = new ArrayList<>();
-                elvMenu = (ExpandableListView) v.findViewById(R.id.elvMenu);
-                elvMenu.setAdapter(aMenu);
-                elvMenu.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
-                    @Override
-                    public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                        Item item = (Item) aMenu.getChild(groupPosition, childPosition);
-                        showCustomizeItemDialog(item);
-                        return true;
+
+                if (e == null) {
+                    Log.d("Success in findg store", "Success in finding stre");
+                    String menuString = (String) store.get("menu");
+                    JSONObject menuJSON = null;
+                    try {
+                        menuJSON = new JSONObject(menuString);
+                    } catch (JSONException e1) {
+                        e1.printStackTrace();
                     }
-                });
 
-                for(int i=0; i < aMenu.getGroupCount(); i++) {
-                    elvMenu.expandGroup(i);
-                }
+                    storeMenu = StoreMenu.fromJSON(menuJSON);
 
-                btnCart = (Button) v.findViewById(R.id.btnCart);
-                setCartButtonHeight();
-                btnCart.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        // Launch Intent!
-                        if (lineItems.size() > 0) {
-                            Intent i = new Intent(getActivity(), CartActivity.class);
-                            Order order = new Order();
-                            order.setStore(store);
-                            order.setLineItems(lineItems);
-                            try {
-                                order.save();
-                            } catch (ParseException e) {
-                                e.printStackTrace();
-                            }
-                            i.putExtra("orderId", order.getObjectId());
-                            startActivity(i);
-                            Log.d("DEBUG", "NEW INTENT");
+
+                    //storeMenu = store.getStoreMenu();
+                    aMenu = new MenuAdapter(getActivity(), storeMenu);
+                    lineItems = new ArrayList<>();
+                    elvMenu = (ExpandableListView) v.findViewById(R.id.elvMenu);
+                    elvMenu.setAdapter(aMenu);
+                    elvMenu.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
+                        @Override
+                        public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                            Item item = (Item) aMenu.getChild(groupPosition, childPosition);
+                            Log.d("ITEMNAME", item.getName());
+                            showCustomizeItemDialog(item);
+                            return true;
                         }
+                    });
+
+                    for(int i=0; i < aMenu.getGroupCount(); i++) {
+                        elvMenu.expandGroup(i);
                     }
-                });
 
-                View header = inflater.inflate(R.layout.menu_header, null, false);
+                    btnCart = (Button) v.findViewById(R.id.btnCart);
+                    setCartButtonHeight();
+                    btnCart.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // Launch Intent!
+                            if (lineItems.size() > 0) {
+                                Intent i = new Intent(getActivity(), CartActivity.class);
+                                Order order = new Order();
+                                order.setStore(store);
+                                order.setLineItems(lineItems);
+                                try {
+                                    order.save();
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                                i.putExtra("orderId", order.getObjectId());
+                                startActivity(i);
+                                Log.d("DEBUG", "NEW INTENT");
+                            }
+                        }
+                    });
 
-                FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                MenuHeaderFragment menuHeaderFragment = new MenuHeaderFragment();
-                ft.replace(R.id.flContainer, menuHeaderFragment);
-                ft.commit();
-                elvMenu.addHeaderView(header);
+                    View header = inflater.inflate(R.layout.menu_header, null, false);
 
+                    FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                    MenuHeaderFragment menuHeaderFragment = new MenuHeaderFragment();
+                    ft.replace(R.id.flContainer, menuHeaderFragment);
+                    ft.commit();
+                    elvMenu.addHeaderView(header);
+                }
             }
         });
 

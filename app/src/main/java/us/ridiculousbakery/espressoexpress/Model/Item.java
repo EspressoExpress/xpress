@@ -2,6 +2,11 @@ package us.ridiculousbakery.espressoexpress.Model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,9 +31,48 @@ public class Item implements Serializable {
     public Item(String name) {
         this.name = name;
     }
+    public Item() {
+    }
     public Item(String name, TreeMap options) {
         this.name = name;
         this.options = options;
+    }
+
+    public static Item fromJSON(JSONObject json) {
+        Item item = new Item();
+        try {
+            String itemName = json.getString("name");
+            item.name = itemName;
+
+            JSONArray sizes = json.getJSONArray("sizes");
+            TreeMap<String, ArrayList<String>> newOptions = new TreeMap<>();
+            ArrayList<String> size = new ArrayList<String>();
+            for (int i=0; i<sizes.length(); i++) {
+                JSONObject sizeJSON = sizes.getJSONObject(i);
+                String sizeName = sizeJSON.getString("name");
+                size.add(sizeName);
+            }
+            newOptions.put("Size", size);
+            //2
+            ArrayList<String> milk = new ArrayList<String>();
+            milk.add("None");
+            milk.add("Splash");
+            milk.add("Medium");
+            milk.add("A lot");
+            newOptions.put("Milk", milk);
+            //3
+            ArrayList<String> sugar = new ArrayList<String>();
+            sugar.add("None");
+            sugar.add("Little");
+            sugar.add("A lot");
+            newOptions.put("Sugar", sugar);
+
+            item.options = newOptions;
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return item;
     }
 
     //================================================================================
