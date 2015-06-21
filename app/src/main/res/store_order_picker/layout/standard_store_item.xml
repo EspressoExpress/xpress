@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<us.ridiculousbakery.espressoexpress.StorePicker.StandardItemLayout
+<view
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/vgStoreItem"
     android:descendantFocusability="blocksDescendants"
     android:padding="10dp"
+    class="us.ridiculousbakery.espressoexpress.StorePicker.StandardItemLayout"
     >
 
 
@@ -50,4 +51,4 @@
         android:layout_toRightOf="@+id/btnDeliver"
         android:layout_toEndOf="@+id/btnDeliver" />
 
-</us.ridiculousbakery.espressoexpress.StorePicker.StandardItemLayout>
+</view>

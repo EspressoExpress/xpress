@@ -8,20 +8,20 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <Switch
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/swActionMode"
-            android:checked="false"
-            android:layout_centerHorizontal="true"
-            android:paddingLeft="30dp"
-            android:paddingRight="60dp"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp"
-            android:showText="false"
-            android:background="#46323232"
-            android:splitTrack="false"
-            android:text="Pay for Coffee" />
+        <!--<Switch           android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/swActionMode"-->
+            <!--android:checked="false"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:paddingLeft="30dp"-->
+            <!--android:paddingRight="60dp"-->
+            <!--android:paddingBottom="15dp"-->
+            <!--android:paddingTop="15dp"-->
+            <!--android:showText="false"-->
+            <!--android:background="#46323232"-->
+            <!--android:splitTrack="false"-->
+            <!--android:text="Pay for Coffee" />-->
+        <include layout="@layout/pay_run_switch"/>
 
     </RelativeLayout>
 

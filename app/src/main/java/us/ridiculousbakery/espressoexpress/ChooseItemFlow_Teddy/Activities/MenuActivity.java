@@ -1,10 +1,7 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -31,21 +28,6 @@ public class MenuActivity extends AppCompatActivity {
             ft.replace(R.id.flContainer, fragmentMenu);
             ft.commit();
         }
-    }
-
-
-    @Override
-    public void onCreateSupportNavigateUpTaskStack(TaskStackBuilder builder) {
-        super.onCreateSupportNavigateUpTaskStack(builder);
-    }
-
-    @Nullable
-    @Override
-    public Intent getSupportParentActivityIntent() {
-        Class<?> parentClass = (Class) getIntent().getSerializableExtra("ParentClass");
-        Intent i = new Intent(this, parentClass);
-        return i;
-
     }
 
     @Override

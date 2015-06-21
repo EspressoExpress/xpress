@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<us.ridiculousbakery.espressoexpress.StorePicker.FancyItemLayout
+<view
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="120dp"
     android:orientation="vertical"
     android:descendantFocusability="blocksDescendants"
-
+    class="us.ridiculousbakery.espressoexpress.StorePicker.FancyItemLayout"
     >
 
     <ImageView
@@ -35,4 +35,4 @@
         android:paddingBottom="10dp"
         android:paddingTop="32dp"
      />
-</us.ridiculousbakery.espressoexpress.StorePicker.FancyItemLayout>
+</view>

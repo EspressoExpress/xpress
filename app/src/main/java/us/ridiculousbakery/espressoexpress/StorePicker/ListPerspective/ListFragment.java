@@ -23,6 +23,7 @@ import java.util.List;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
 import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
+import us.ridiculousbakery.espressoexpress.StorePicker.Xtoggle;
 
 /**
  * Created by bkuo on 6/6/15.
@@ -56,10 +57,18 @@ public class ListFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.fragment_stores_list, container, false);
+        View v = inflater.inflate(R.layout.fragment_stores_list, null, false);
         setMenuVisibility(true);
         lv = (ListView) v.findViewById(R.id.lvStores);
-        swMode =(Switch) v.findViewById(R.id.swActionMode);
+
+        Xtoggle z = (Xtoggle) v.findViewById(R.id.xToggle);
+        z.initialize();
+        z.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
         Store.findInBackground(currentLatLng, new FindCallback<Store>() {
             @Override
             public void done(List<Store> list, ParseException e) {
@@ -67,17 +76,6 @@ public class ListFragment extends Fragment {
                     stores = list;
                     Log.i("ZZZZZZZ", "store list: " + stores.size());
                     aaStores = new StoreListAdapter(getActivity(), stores, (StoreElementListener) getActivity());
-                    swMode.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Switch b=(Switch)v;
-                            if(b.isChecked()){
-                                b.setText("Run for Coffee");
-                            }else{
-                                b.setText("Pay for Coffee");
-                            }
-                        }
-                    });
                     Log.i("ZZZZZZZ", "aaStores " + aaStores.toString());
                     lv.setAdapter(aaStores);
                     lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {

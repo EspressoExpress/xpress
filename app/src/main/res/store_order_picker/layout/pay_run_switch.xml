@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<us.ridiculousbakery.espressoexpress.StorePicker.Xtoggle
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:baselineAligned="false"
+    android:background="?attr/colorPrimary"
+    android:paddingLeft="24dp"
+    android:paddingRight="24dp"
+    android:paddingTop="12dp"
+    android:paddingBottom="12dp"
+    android:id="@+id/xToggle"
+    class="us.ridiculousbakery.espressoexpress.StorePicker.Xtoggle"
+    >
+    <TextView
+        android:id="@+id/tvKnob"
+        android:text="Pay for Coffee"
+        android:background="@drawable/switch_knob"
+        android:layout_width="160dp"
+        android:layout_height="match_parent"
+        android:elevation="3dp"
+        android:gravity="center"
+        android:textColor="#fff" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:id="@+id/track"
+        android:background="@drawable/switch_off"
+        android:checked="false"
+        android:text=""
+        android:textColor="#0000"
+        android:shadowColor="#0000"
+        android:textColorHighlight="#0000"
+        />
+
+
+</us.ridiculousbakery.espressoexpress.StorePicker.Xtoggle>

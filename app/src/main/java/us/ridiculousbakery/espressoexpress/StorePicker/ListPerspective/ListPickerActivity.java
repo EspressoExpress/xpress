@@ -10,7 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Switch;
+import android.widget.Checkable;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -239,7 +239,7 @@ public class ListPickerActivity extends NavDrawerBaseActivity implements
     }
 
     public void onStoreElementClicked(Store store) {
-        Switch s = (Switch) findViewById(R.id.swActionMode);
+        Checkable s = (Checkable) findViewById(R.id.xToggle);
         if (s.isChecked()) {
             activate_map_and_pager_fragments(store.getObjectId());
         } else {

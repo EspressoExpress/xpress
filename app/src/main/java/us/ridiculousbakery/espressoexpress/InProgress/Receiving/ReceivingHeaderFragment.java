@@ -133,5 +133,6 @@ public class ReceivingHeaderFragment extends Fragment implements RateExperienceD
     public void dialogWillDismiss() {
         Intent i = new Intent(getActivity(), ListPickerActivity.class);
         startActivity(i);
+        getActivity().finish();
     }
 }

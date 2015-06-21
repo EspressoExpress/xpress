@@ -437,7 +437,7 @@ public class MapPickerActivity extends NavDrawerBaseActivity implements
                         // update this order on Parse
                         String parseOrderID = null;
                         try {
-                            parseOrderID = ParseQueryHelper.updateSubmittedOrdertoPickup(order);
+                            parseOrderID = ParseQueryHelper.updateSubmittedOrdertoAccepted(order);
                         } catch (ParseException e) {
                             e.printStackTrace();
                         }

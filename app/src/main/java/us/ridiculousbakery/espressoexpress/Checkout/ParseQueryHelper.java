@@ -20,7 +20,7 @@ import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.MarkedOrd
 public class ParseQueryHelper {
 
     //
-    public static String updateSubmittedOrdertoPickup(Order order) throws ParseException {
+    public static String updateSubmittedOrdertoAccepted(Order order) throws ParseException {
         String receiverId = order.getReceiverId();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Order");
         query.whereEqualTo("status", "order submitted");
