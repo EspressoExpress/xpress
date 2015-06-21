@@ -1,23 +1,30 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities;
 
 import android.content.Intent;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.TextView;
 
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.ScreenSlidePagerFragment;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Titanic;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.TitanicTextView;
 import us.ridiculousbakery.espressoexpress.R;
 
 public class TutorialActivity extends ActionBarActivity {
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tutorial);
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.replace(R.id.flSwipeContainer, new ScreenSlidePagerFragment());
+        ft.commit();
+
         TitanicTextView tvTitle = (TitanicTextView) findViewById(R.id.tvTitle);
         Titanic titanic = new Titanic();
         titanic.start(tvTitle);

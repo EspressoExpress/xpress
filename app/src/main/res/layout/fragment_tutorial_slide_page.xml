@@ -1,0 +1,30 @@
+<!-- fragment_screen_slide_page.xml -->
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/ivBackground"
+            android:src="@drawable/common_full_open_on_phone"/>
+
+        <TextView style="?android:textAppearanceMedium"
+            android:padding="16dp"
+            android:gravity="center"
+            android:id="@+id/tvInstruction"
+            android:lineSpacingMultiplier="1.2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/hello_world" />
+
+    </FrameLayout>
+
+
+
+</ScrollView>

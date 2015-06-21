@@ -152,6 +152,7 @@
             android:name=".Checkout.ParseUploadActivity"
             android:label="@string/title_activity_parse_upload" >
         </activity>
+
     </application>
 
 </manifest>
