@@ -10,7 +10,12 @@ import android.view.MenuItem;
 import com.devmarvel.creditcardentry.library.CreditCard;
 import com.google.android.gms.maps.model.LatLng;
 
+import java.util.ArrayList;
+
+import us.ridiculousbakery.espressoexpress.Model.Item;
+import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.Order;
+import us.ridiculousbakery.espressoexpress.Model.TempOrder;
 import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 import us.ridiculousbakery.espressoexpress.R;
 
@@ -29,16 +34,18 @@ public class CartActivity extends NavDrawerBaseActivity implements
         getSupportActionBar().hide();
         setContentView(R.layout.activity_cart);
 
-        /*Order order = new Order();
-        order.setStore(new Store("Starbucks"));
+        //test object
+        TempOrder order = new TempOrder();
         ArrayList<LineItem> orderItems = new ArrayList<>();
         orderItems.add(new LineItem(new Item("Latte"), null));
         orderItems.add(new LineItem(new Item("Frapp"), null));
-        order.setLineItems(orderItems);*/
-//        (new Intent()).putExtra("order", order);
+        order.setLineItems(orderItems);
+        //order.setStore(new Store("Starbucks"));
+        String storeID = "1NoCwWrzM5";
         if (savedInstanceState == null) {
             // Create order fragment
-            cartFragment = CartFragment.newInstance(getIntent().getStringExtra("orderId"));
+            //cartFragment = CartFragment.newInstance(getIntent().getStringExtra("orderId"));
+            cartFragment = CartFragment.newInstance(order, storeID);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flCart, cartFragment);
             ft.commit();

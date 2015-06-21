@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.devmarvel.creditcardentry.library.CreditCard;
 import com.google.android.gms.maps.model.LatLng;
-import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseRelation;
@@ -28,6 +27,8 @@ import java.util.ArrayList;
 import us.ridiculousbakery.espressoexpress.InProgress.Receiving.ReceivingActivity;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.Order;
+import us.ridiculousbakery.espressoexpress.Model.Store;
+import us.ridiculousbakery.espressoexpress.Model.TempOrder;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -49,8 +50,9 @@ public class CartFragment extends Fragment {
     protected Button btAddress;
     protected Button btPayment;
     protected Button btCheckout;
-    private Order order;
-    private CreditCard cc;
+    private TempOrder order;
+    private Store store;
+    //private CreditCard cc;
     private OnWidgetClickedListener listener;
     static private boolean LOCK_VISIBILITY = false;
 
@@ -60,10 +62,19 @@ public class CartFragment extends Fragment {
         public void launchCCForm();
     }
 
-    public static CartFragment newInstance(String orderId) {
+    /*public static CartFragment newInstance(String orderId) {
         CartFragment cartFragment = new CartFragment();
         Bundle args = new Bundle();
         args.putSerializable("orderId", orderId);
+        cartFragment.setArguments(args);
+        return cartFragment;
+    }*/
+
+    public static CartFragment newInstance(TempOrder order, String storeID) {
+        CartFragment cartFragment = new CartFragment();
+        Bundle args = new Bundle();
+        args.putSerializable("order", order);
+        args.putSerializable("storeId", storeID);
         cartFragment.setArguments(args);
         return cartFragment;
     }
@@ -73,7 +84,7 @@ public class CartFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_cart, container,false);
         tvStoreName = (TextView) v.findViewById(R.id.tvStoreName);
-        tvStoreName.setText(order.getStore().getName());
+        tvStoreName.setText(store.getName());
         rlDeliveryAddress = (RelativeLayout) v.findViewById(R.id.rlDeliveryAddress);
         rlCCInfo = (RelativeLayout) v.findViewById(R.id.rlCCInfo);
         btAddress = (Button) v.findViewById(R.id.btAddress);
@@ -93,16 +104,18 @@ public class CartFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Order.getInBackground(getArguments().getString("orderId"), new GetCallback<Order>() {
-                    @Override
-                    public void done(Order o, ParseException e) {
-                        if(e!=null) e.printStackTrace();
-                        order=o;
-                        lineItems = order.getLineItems();
-                        alineItems = new CartItemAdapter(getActivity(), lineItems);
-                    }
-                });
-
+        order = (TempOrder) getArguments().getSerializable("order");
+        lineItems = order.getLineItems();
+        alineItems = new CartItemAdapter(getActivity(), lineItems);
+        store = Store.getInForeground(getArguments().getString("StoreID"));
+        /*Store.getInBackground(getArguments().getString("StoreID"), new GetCallback<Store>() {
+            @Override
+            public void done(Store store, ParseException e) {
+                if(e!=null) e.printStackTrace();
+                CartFragment.this.store = store;
+            }
+        });
+        */
     }
 
     @Override
@@ -191,8 +204,8 @@ public class CartFragment extends Fragment {
 
     public void saveAndShowAddress(LatLng latLng, Address address) {
         if (latLng != null) {
-            order.setDelivery_lat(latLng.latitude);
-            order.setDelivery_lon(latLng.longitude);
+            order.setLat(latLng.latitude);
+            order.setLon(latLng.longitude);
             tvAddress.setText(address.getAddressLine(0));
             tvAddressLine2.setText(address.getLocality() + ", " + address.getAdminArea());
             //animation doesn't work

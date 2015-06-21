@@ -6,10 +6,12 @@ import com.google.android.gms.maps.model.LatLng;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.ParseClassName;
+import com.parse.ParseException;
 import com.parse.ParseObject;
 import com.parse.ParseQuery;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by bkuo on 6/3/15.
@@ -31,6 +33,8 @@ public class Store extends ParseObject {
 //    }
     public  Store(){}
 
+    public  Store(String name){ this.name = name;}
+
     Store(String name, LatLng latlng, Integer logo, Integer background, ArrayList<Order> orders, StoreMenu menu) {
         this.name = name;
         this.background = background;
@@ -40,6 +44,20 @@ public class Store extends ParseObject {
         this.storeMenu=menu;
         this.orders = orders;
         for(Order order : orders){order.setStore(this);}
+    }
+
+    public static Store getInForeground(String id) {
+        ParseQuery<Store> query = ParseQuery.getQuery(Store.class);
+        List<Store> results = null;
+        try {
+            results = query.find();
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        if (!results.isEmpty()) {
+            return results.get(0);
+        }
+        return null;
     }
 
     public static void getInBackground(String id, GetCallback<Store> cb ){
