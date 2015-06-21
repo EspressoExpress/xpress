@@ -1,9 +1,11 @@
 package us.ridiculousbakery.espressoexpress.NavDrawer;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.DrawerLayout;
@@ -12,12 +14,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
@@ -25,16 +31,23 @@ import java.util.ArrayList;
 import us.ridiculousbakery.espressoexpress.Checkout.CCFormFragment;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.TutorialActivity;
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.LocationUtility;
 
 /**
  * Created by bkuo on 6/14/15.
  */
-public class NavDrawerBaseActivity extends AppCompatActivity {
+public class NavDrawerLocationBaseActivity extends AppCompatActivity implements LocationUtility.OnConnectedDelegate {
+    final private static String SHOW_FAB="show fab";
+    final private static String SHOW_LIST_SWITCH="listModeSwitch";
+    final private static String SHOW_PAGER="showPager";
+    final private static String MAPMODE="mapMode";
+    final private static String ANIM_MRK="animateMarkers";
     private CharSequence mTitle;
     private ListView mDrawerList;
     private ArrayList<NavDrawerItem> navDrawerItems;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+    protected LocationUtility locationUtility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +74,7 @@ public class NavDrawerBaseActivity extends AppCompatActivity {
         mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                switch(position){
+                switch (position) {
                     case 1:
                         displayCCForm();
                         break;
@@ -86,13 +99,10 @@ public class NavDrawerBaseActivity extends AppCompatActivity {
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, toolbar, R.string.drawer_open, R.string.drawer_close);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
+        locationUtility = new LocationUtility(this, this);
 
     }
-    final private static String SHOW_FAB="show fab";
-    final private static String SHOW_LIST_SWITCH="listModeSwitch";
-    final private static String SHOW_PAGER="showPager";
-    final private static String MAPMODE="mapMode";
-    final private static String ANIM_MRK="animateMarkers";
+
     private void displaySettings() {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
@@ -116,12 +126,12 @@ public class NavDrawerBaseActivity extends AppCompatActivity {
         SwitchCompat d = new SwitchCompat(this);
         final SharedPreferences p  =getPreferences(MODE_PRIVATE);
         d.setText(label);
-        d.setPadding(5,5,5,5);
-        d.setChecked(p.getBoolean(label,def));
+        d.setPadding(5, 5, 5, 5);
+        d.setChecked(p.getBoolean(label, def));
         d.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                p.edit().putBoolean(label, ((SwitchCompat)v).isChecked()).apply();
+                p.edit().putBoolean(label, ((SwitchCompat) v).isChecked()).apply();
 
             }
         });
@@ -188,5 +198,56 @@ public class NavDrawerBaseActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        locationUtility.reconnect();
+    }
+
+    @Override
+    protected void onStop() {
+        // Disconnecting the client invalidates it.
+        locationUtility.disconnect_if_present();
+        super.onStop();
+    }
+    /*
+      * Handle results returned to the FragmentActivity by Google Play services
+      */
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Decide what to do based on the original request code
+        switch (requestCode) {
+
+            case LocationUtility.CONNECTION_FAILURE_RESOLUTION_REQUEST:
+                switch (resultCode) {
+                    case Activity.RESULT_OK:
+                        locationUtility.reconnect();
+                        break;
+                }
+
+        }
+    }
+    protected LatLng currentlatLng() {
+        if (!locationUtility.isConnected()) {
+            Log.i("ZZZZZZZ", "No lat lon,  not yet connected");
+            return null;
+        }
+        Log.i("ZZZZZZZ", "we are connected, looking for latlng");
+
+        Location location = LocationServices.FusedLocationApi.getLastLocation(locationUtility.client());
+        if (location != null) {
+            LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            Log.i("ZZZZZZ", latLng.toString());
+            return latLng;
+        } else {
+            Toast.makeText(this, "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+    }
+
+    @Override
+    public void onConnected() {
+
     }
 }

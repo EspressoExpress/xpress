@@ -2,7 +2,6 @@ package us.ridiculousbakery.espressoexpress.StorePicker;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -50,11 +49,11 @@ public class StandardItemLayout extends ItemStoreLayout{
         tvName.setText(store.getName());
         ivLogo.setImageDrawable(getContext().getResources().getDrawable(store.getLogo()));
 
-        btnRequest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listListener.onStoreElementClicked(store);
-            }
-        });
+//        btnRequest.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                listListener.onListStoreElementClicked(store);
+//            }
+//        });
     }
 }

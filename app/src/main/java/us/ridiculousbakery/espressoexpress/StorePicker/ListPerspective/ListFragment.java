@@ -12,17 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Switch;
-
-import com.google.android.gms.maps.model.LatLng;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 
 import java.util.List;
 
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
-import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 import us.ridiculousbakery.espressoexpress.StorePicker.Xtoggle;
 
 /**
@@ -30,20 +24,26 @@ import us.ridiculousbakery.espressoexpress.StorePicker.Xtoggle;
  */
 public class ListFragment extends Fragment {
 
-
+    public static ListFragment _instance;
+    static public ListFragment get_instance(){
+        if(_instance==null) _instance = new ListFragment();
+        return _instance;
+    }
     private ListView lv;
     private StoreListAdapter aaStores;
+
+    public void setStores(List<Store> stores) {
+        this.stores = stores;
+    }
+
     private List<Store> stores;
     private ListListener listListener;
-    private Switch swMode;
-    private LatLng currentLatLng;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
-        currentLatLng = (LatLng) getArguments().getParcelable("currentLatLng");
 
     }
 
@@ -69,34 +69,27 @@ public class ListFragment extends Fragment {
 
             }
         });
-        Store.findInBackground(currentLatLng, new FindCallback<Store>() {
+
+//        lv.setAdapter(aaStores);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void done(List<Store> list, ParseException e) {
-                if (e == null) {
-                    stores = list;
-                    Log.i("ZZZZZZZ", "store list: " + stores.size());
-                    aaStores = new StoreListAdapter(getActivity(), stores, (StoreElementListener) getActivity());
-                    Log.i("ZZZZZZZ", "aaStores " + aaStores.toString());
-                    lv.setAdapter(aaStores);
-                    lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Log.i("ZZZZZZZ", "clicked onNewMapTargetRequest: " + position);
-                            Store store  = (Store)parent.getItemAtPosition(position);
-                            listListener.onNewMapTarget(store.getObjectId());
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Log.i("ZZZZZZZ", "clicked onNewMapTargetRequest: " + position);
+                Store store  = (Store)parent.getItemAtPosition(position);
+                listListener.onNewMapTarget(position);
 
-                        }
-                    });
-
-                } else e.printStackTrace();
             }
         });
+
         if (savedInstanceState == null) {
 
         }
         return v;
     }
 
+    public void setAdapter(StoreListAdapter a){
+        lv.setAdapter(a);
+    }
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -110,7 +103,7 @@ public class ListFragment extends Fragment {
     }
 
     public interface ListListener {
-        void onNewMapTarget(String index);
+        void onNewMapTarget(int index);
 
     }
 

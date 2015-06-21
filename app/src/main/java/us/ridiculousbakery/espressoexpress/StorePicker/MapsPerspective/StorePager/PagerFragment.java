@@ -5,14 +5,9 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import com.google.android.gms.maps.model.LatLng;
-import com.parse.FindCallback;
-import com.parse.ParseException;
 
 import java.util.List;
 
@@ -24,7 +19,13 @@ import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
  * Created by bkuo on 6/6/15.
  */
 public class PagerFragment extends Fragment implements ViewPager.OnPageChangeListener {
+    public static PagerFragment _instance;
+    private StorePagerAdapter intendedAdapter;
 
+    static public PagerFragment get_instance() {
+        if (_instance == null) _instance = new PagerFragment();
+        return _instance;
+    }
 
     private ViewPager viewPager;
     private List<Store> stores;
@@ -34,14 +35,16 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
     //    private ViewPager.OnPageChangeListener pageChangeListener;
     private PagerListener pagerListener;
     private StoreElementListener storeElementListener;
-    private LatLng currentLatLng;
 
+    public void setStores(List<Store> stores) {
+        this.stores = stores;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 //        stores = (ArrayList<Store>) getArguments().getSerializable("stores");
-        storeElementListener =  (StoreElementListener) getActivity();
+        storeElementListener = (StoreElementListener) getActivity();
 
     }
 
@@ -59,38 +62,19 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
         viewPager = (ViewPager) rootView.findViewById(R.id.vpStores);
         if (savedInstanceState == null) {
 
-            currentLatLng =(LatLng) getArguments().getParcelable("currentLatLng");
-            Store.findInBackground(currentLatLng, new FindCallback<Store>() {
+
+//            Log.i("ZZZZZZZ", "pager stores: " + stores.size());
+//            paStores = new StorePagerAdapter(getActivity(), stores, (StoreElementListener) getActivity());
+
+//            String storeId = getArguments().getString("storeId");
+            if (intendedAdapter != null) viewPager.setAdapter(intendedAdapter);
+            viewPager.setOnPageChangeListener(PagerFragment.this);
+//            viewPager.setCurrentItem(position);
+            viewPager.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void done(List<Store> store_list, ParseException e) {
-                    if (e == null) {
-                        stores = store_list;
-                        Log.i("ZZZZZZZ", "pager stores: " + stores.size());
-                        paStores = new StorePagerAdapter(getActivity(), stores, (StoreElementListener) getActivity());
+                public void onClick(View v) {
 
-
-                        currentLatLng =(LatLng) getArguments().getParcelable("currentLatLng");
-                        Integer position=0;
-                        String storeId = getArguments().getString("storeId");
-                        if (storeId != null) {
-                            for (int i = 0; i < stores.size(); i++) {
-                                if (stores.get(i).getObjectId() == storeId) position = i;
-                            }
-                        }
-                        Log.i("ZZZZZZ", "position found at "+position);
-                        viewPager.setAdapter(paStores);
-                        viewPager.setOnPageChangeListener(PagerFragment.this);
-                        viewPager.setCurrentItem(position);
-                        pagerListener.onNewMapTargetRequest(position, false);
-                        viewPager.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Log.i("ZZZZZZZ", "clicked!!!");
-                                storeElementListener.onStoreElementClicked(stores.get(viewPager.getCurrentItem()));
-                            }
-                        });
-
-                    }
+                    storeElementListener.onListStoreElementClicked(viewPager.getCurrentItem());
                 }
             });
 
@@ -98,6 +82,18 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
         }
 
         return rootView;
+    }
+
+    public void setAdapter(StorePagerAdapter paStores) {
+        if (viewPager == null) intendedAdapter = paStores;
+        else viewPager.setAdapter(paStores);
+    }
+
+    public void setCurrentItem(int position) {
+        viewPager.setCurrentItem(position);
+
+        pagerListener.onNewMapTargetRequest(position, false);
+
     }
 
 
@@ -111,7 +107,8 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
     }
 
     @Override
-    public void onPageScrollStateChanged(int state) {   }
+    public void onPageScrollStateChanged(int state) {
+    }
 
     public void setPageIndex(int i) {
         viewPager.setCurrentItem(i);

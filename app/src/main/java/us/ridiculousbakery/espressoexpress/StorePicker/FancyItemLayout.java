@@ -3,7 +3,6 @@ package us.ridiculousbakery.espressoexpress.StorePicker;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -43,14 +42,15 @@ public class FancyItemLayout extends ItemStoreLayout {
 
 //        ivBg.setImageResource(store.getBackground());
         ta.recycle();
-        setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listener.onStoreElementClicked(store);
-            }
-        });
+//        setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                listener.onListStoreElementClicked(store);
+//            }
+//        });
 //        setBackground(getResources().getDrawable(store.getBackground()));
         //        viewholder.ivLogo.setImageDrawable(getContext().getResources().getDrawable(store.getLogo()));
 
     }
+
 }

@@ -15,10 +15,10 @@ import java.util.ArrayList;
 import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.TempOrder;
-import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
+import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerLocationBaseActivity;
 import us.ridiculousbakery.espressoexpress.R;
 
-public class CartActivity extends NavDrawerBaseActivity implements
+public class CartActivity extends NavDrawerLocationBaseActivity implements
         CartFragment.OnWidgetClickedListener,
         AddressMapFragment.OnWidgetClickedListener,
         AddressListFragment.OnWidgetClickedListener,

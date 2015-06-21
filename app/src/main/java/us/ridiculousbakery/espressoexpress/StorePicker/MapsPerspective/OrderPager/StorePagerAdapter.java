@@ -81,7 +81,7 @@ public class StorePagerAdapter extends PagerAdapter {
         }
     }
 
-    private void initView(View v, final Store item, int position) {
+    private void initView(View v, final Store item, final int position) {
         Log.i("ZZZZZZ", "initView: position:" + position + " store item " + item.getName());
         ((TextView)v.findViewById(R.id.tvName)).setText(item.getName());
         ((ImageView)v.findViewById(R.id.ivLogo)).setImageDrawable(mCtx.getResources().getDrawable(item.getLogo()));
@@ -90,7 +90,7 @@ public class StorePagerAdapter extends PagerAdapter {
         btnRequest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pagerListener.onStoreElementClicked(item);
+                pagerListener.onListStoreElementClicked(position);
             }
         });
     }

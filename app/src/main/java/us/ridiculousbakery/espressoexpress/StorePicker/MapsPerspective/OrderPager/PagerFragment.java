@@ -19,7 +19,11 @@ import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
  * Created by bkuo on 6/6/15.
  */
 public class PagerFragment extends Fragment implements ViewPager.OnPageChangeListener {
-
+    public static PagerFragment _instance;
+    static public PagerFragment get_instance(){
+        if(_instance==null) _instance = new PagerFragment();
+        return _instance;
+    }
 
     private ViewPager viewPager;
     private ArrayList<Store> stores;

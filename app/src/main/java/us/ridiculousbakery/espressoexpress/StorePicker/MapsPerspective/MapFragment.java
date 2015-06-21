@@ -8,7 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 
 import us.ridiculousbakery.espressoexpress.R;
 
@@ -17,8 +16,11 @@ import us.ridiculousbakery.espressoexpress.R;
  */
 public class MapFragment extends SupportMapFragment {
 
-
-    private LatLng initialMapTarget;
+    public static MapFragment _instance;
+    static public MapFragment get_instance(){
+        if(_instance==null) _instance = new MapFragment();
+        return _instance;
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +40,5 @@ public class MapFragment extends SupportMapFragment {
         setMenuVisibility(true);
         return super.onCreateView(inflater, container, savedInstanceState);
     }
-
-
 
 }

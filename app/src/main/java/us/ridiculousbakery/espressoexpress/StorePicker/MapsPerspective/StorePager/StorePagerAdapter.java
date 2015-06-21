@@ -80,7 +80,7 @@ public class StorePagerAdapter extends PagerAdapter {
         }
     }
 
-    private void initView(View v, final Store item, int position) {
+    private void initView(View v, final Store item, final int position) {
         Log.i("ZZZZZZ", "initView: position:" + position + " store item " + item.getName());
         ItemStoreLayout vv = (ItemStoreLayout) v;
         ((ItemStoreLayout) v).setContent(item, storeElementListener);
@@ -88,7 +88,7 @@ public class StorePagerAdapter extends PagerAdapter {
             @Override
             public void onClick(View v) {
                 Log.i("ZZZZZZZ", "clicked!!!");
-                storeElementListener.onStoreElementClicked(item);
+                storeElementListener.onListStoreElementClicked(position);
             }
         });
 
