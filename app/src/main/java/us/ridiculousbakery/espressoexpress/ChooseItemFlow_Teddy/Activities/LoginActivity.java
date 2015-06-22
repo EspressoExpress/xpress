@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -56,8 +58,17 @@ public class LoginActivity extends ActionBarActivity {
 
                 @Override
                 public void errorSigningUp(String error) {
+
+                    // Shake Animation the correct Fragment
+                    Animation shake = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.shake);
+                    signUpFragment.getView().startAnimation(shake);
+
+
                     showErrorToast(error);
                     btnAuthenticate.setProgress(0);
+
+                    btnAuthenticate.setText("Sign up");
+
                 }
             });
             loginFragment = new LoginFragment();
@@ -70,8 +81,15 @@ public class LoginActivity extends ActionBarActivity {
 
                 @Override
                 public void errorLoggingin(String error) {
+
+                    Animation shake = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.shake);
+                    loginFragment.getView().startAnimation(shake);
+
                     showErrorToast(error);
                     btnAuthenticate.setProgress(0);
+
+                    btnAuthenticate.setText("Login");
+
                 }
             });
         }

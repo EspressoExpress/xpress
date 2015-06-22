@@ -37,7 +37,7 @@
         android:onClick="onAuthenticate"
         custom:pb_textComplete="Success"
         custom:pb_textProgress="Loading"
-        android:textColor="@color/bakers_chocolate"
+        android:textColor="@android:color/white"
         android:background="@color/pearl_bush"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -49,7 +49,7 @@
         android:id="@+id/btnSwithLogin"
         android:onClick="onSwitchLogin"
         android:background="@android:color/transparent"
-        android:textColor="@color/tumbleweed"
+        android:textColor="@android:color/holo_blue_light"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
