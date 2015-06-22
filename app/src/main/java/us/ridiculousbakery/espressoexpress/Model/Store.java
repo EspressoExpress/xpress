@@ -48,6 +48,7 @@ public class Store extends ParseObject {
 
     public static Store getInForeground(String id) {
         ParseQuery<Store> query = ParseQuery.getQuery(Store.class);
+        query.whereEqualTo("objectId", id);
         List<Store> results = null;
         try {
             results = query.find();

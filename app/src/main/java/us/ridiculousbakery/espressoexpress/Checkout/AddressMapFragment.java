@@ -1,5 +1,6 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -7,6 +8,7 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentTransaction;
@@ -91,6 +93,7 @@ public class AddressMapFragment extends DialogFragment implements
         return addressMapFragment;
     }
 
+
     @Override
     public void onStart() {
         super.onStart();
@@ -148,6 +151,14 @@ public class AddressMapFragment extends DialogFragment implements
         });
     }
 
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
+        return dialog;
+    }
+
     protected void loadMap(GoogleMap googleMap) {
         map = googleMap;
         if (map != null) {
@@ -170,7 +181,7 @@ public class AddressMapFragment extends DialogFragment implements
         if (addressLatLng == null) {
             Location location = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
             if (location != null) {
-                //Toast.makeText(getActivity(), "GPS location was found!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), "GPS location was found!", Toast.LENGTH_SHORT).show();
                 addressLatLng = new LatLng(location.getLatitude(), location.getLongitude());
             } else {
                 Toast.makeText(getActivity(), "Current location was null, enable GPS on emulator!", Toast.LENGTH_SHORT).show();

@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
-import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.TempOrder;
 import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerBaseActivity;
 import us.ridiculousbakery.espressoexpress.R;
@@ -26,12 +25,11 @@ public class CartActivity extends NavDrawerBaseActivity implements
         CCFormFragment.OnWidgetClickedListener{
 
     CartFragment cartFragment;
-    private Order order;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportActionBar().hide();
+        //getSupportActionBar().hide();
         setContentView(R.layout.activity_cart);
 
         //test object

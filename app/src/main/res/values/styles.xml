@@ -33,6 +33,11 @@
 
         <item name="colorControlNormal">#727272</item>
         <item name="colorControlActivated">#8BC34A</item>
+        <item name="android:textViewStyle">@style/Widget.TextView.Custom</item>
+
+    </style>
+    
+    <style name="Widget.TextView.Custom" parent="android:Widget.TextView">
 
     </style>
 

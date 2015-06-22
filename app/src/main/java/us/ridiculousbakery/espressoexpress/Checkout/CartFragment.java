@@ -52,6 +52,7 @@ public class CartFragment extends Fragment {
     protected Button btCheckout;
     private TempOrder order;
     private Store store;
+    private String storeId;
     //private CreditCard cc;
     private OnWidgetClickedListener listener;
     static private boolean LOCK_VISIBILITY = false;
@@ -74,7 +75,7 @@ public class CartFragment extends Fragment {
         CartFragment cartFragment = new CartFragment();
         Bundle args = new Bundle();
         args.putSerializable("order", order);
-        args.putSerializable("storeId", storeID);
+        args.putString("StoreId", storeID);
         cartFragment.setArguments(args);
         return cartFragment;
     }
@@ -107,8 +108,8 @@ public class CartFragment extends Fragment {
         order = (TempOrder) getArguments().getSerializable("order");
         lineItems = order.getLineItems();
         alineItems = new CartItemAdapter(getActivity(), lineItems);
-        store = Store.getInForeground(getArguments().getString("StoreID"));
-        /*Store.getInBackground(getArguments().getString("StoreID"), new GetCallback<Store>() {
+        store = Store.getInForeground(getArguments().getString("StoreId"));
+        /*Store.getInBackground(getArguments().getString("StoreId"), new GetCallback<Store>() {
             @Override
             public void done(Store store, ParseException e) {
                 if(e!=null) e.printStackTrace();
@@ -171,7 +172,8 @@ public class CartFragment extends Fragment {
                 final Order orderObj = new Order();
                 ParseUser user = ParseUser.getCurrentUser();
                 orderObj.put("name", user.get("displayName"));
-                orderObj.put("store_name", order.getStore().getName());
+                orderObj.put("store_name", store.getName());
+                orderObj.put("storeId", store.getObjectId());
                 orderObj.put("status", "order submitted");
                 orderObj.put("receiver_id", user.getObjectId());
                 orderObj.put("delivery_lat", order.getLatLng().latitude);
