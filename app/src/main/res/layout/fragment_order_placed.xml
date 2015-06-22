@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/white"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.TitanicTextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/order_placed_text"
-        android:id="@+id/textView2"
+        android:id="@+id/tvTitanic"
+        android:textSize="70sp"
+        android:textColor="#e4e4e4"
+        android:gravity="center"
         android:layout_gravity="center_horizontal"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
@@ -21,7 +25,8 @@
         android:id="@+id/textView4"
         android:gravity="center_horizontal"
         android:singleLine="false"
-        android:layout_below="@+id/textView2"
+        android:textColor="@color/tumbleweed"
+        android:layout_below="@+id/tvTitanic"
         android:layout_centerHorizontal="true" />
 
     <Button
@@ -29,17 +34,9 @@
         android:layout_height="wrap_content"
         android:text="@string/cancel_order_label"
         android:id="@+id/btnCancel"
+        android:textColor="@color/tumbleweed"
+        android:background="@android:color/transparent"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true" />
 
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/pbProgress"
-        android:layout_below="@+id/textView4"
-        android:layout_centerHorizontal="true"
-        android:max="100"
-        android:indeterminate="false"
-        android:progress="25" />
 </RelativeLayout>

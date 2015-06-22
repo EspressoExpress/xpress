@@ -43,7 +43,10 @@ dependencies {
     compile fileTree(dir: 'libs', include: 'Parse-*.jar')
 
     //Updating Library
-    compile 'com.android.support:appcompat-v7:22.1.1'
+    //compile 'com.android.support:appcompat-v7:22.1.1'
+
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:design:22.2.0'
 
     // We need to update to these
 //    compile 'com.android.support:appcompat-v7:22.2.0'
@@ -61,6 +64,6 @@ dependencies {
     compile 'com.github.dmytrodanylyk.android-process-button:library:1.0.3'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
-    compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
+//    compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
 
 }

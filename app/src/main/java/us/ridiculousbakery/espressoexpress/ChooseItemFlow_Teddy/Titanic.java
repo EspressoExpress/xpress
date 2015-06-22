@@ -15,6 +15,7 @@ import android.view.animation.LinearInterpolator;
  */
 public class Titanic {
 
+
     private AnimatorSet animatorSet;
     private Animator.AnimatorListener animatorListener;
 
@@ -48,7 +49,7 @@ public class Titanic {
                 ObjectAnimator maskYAnimator = ObjectAnimator.ofFloat(textView, "maskY", h/2, - h/2);
                 maskYAnimator.setRepeatCount(ValueAnimator.INFINITE);
                 maskYAnimator.setRepeatMode(ValueAnimator.REVERSE);
-                maskYAnimator.setDuration(1000);
+                maskYAnimator.setDuration(10000);
                 maskYAnimator.setStartDelay(0);
 
                 // now play both animations together

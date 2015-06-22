@@ -16,6 +16,8 @@ import com.parse.SaveCallback;
 
 import java.util.ArrayList;
 
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Titanic;
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.TitanicTextView;
 import us.ridiculousbakery.espressoexpress.InProgress.Adapters.ChatListAdapter;
 import us.ridiculousbakery.espressoexpress.Model.Message;
 import us.ridiculousbakery.espressoexpress.R;
@@ -38,6 +40,12 @@ public class OrderPlacedFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_order_placed, container, false);
+
+        TitanicTextView tvTitanic = (TitanicTextView) v.findViewById(R.id.tvTitanic);
+        tvTitanic.setTextColor(getResources().getColor(android.R.color.white));
+        Titanic titanic = new Titanic();
+        titanic.start(tvTitanic);
+
         btnCancel = (Button) v.findViewById(R.id.btnCancel);
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override

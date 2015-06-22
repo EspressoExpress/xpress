@@ -44,14 +44,17 @@
             android:id="@+id/flContainer"
             android:layout_above="@+id/button"></FrameLayout>
 
-        <com.gc.materialdesign.views.ButtonRectangle
+        <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/tutorial_get_started_label"
             android:id="@+id/button"
             android:onClick="OnStartPressed"
+            android:textColor="@color/bakers_chocolate"
             android:background="#FFFFFF"
-            android:textSize="10sp"
+            android:textSize="20sp"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />

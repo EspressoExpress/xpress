@@ -3,6 +3,7 @@ package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -132,6 +133,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
                     aMenu = new MenuAdapter(getActivity(), storeMenu);
                     lineItems = new ArrayList<>();
                     elvMenu = (ExpandableListView) v.findViewById(R.id.elvMenu);
+                    Log.d("DEBUG", "LISTVIEWEXPAND is " + elvMenu.toString());
                     elvMenu.setAdapter(aMenu);
                     elvMenu.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
                         @Override
