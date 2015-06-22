@@ -3,6 +3,7 @@
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@android:color/white"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
@@ -36,6 +37,8 @@
         android:onClick="onAuthenticate"
         custom:pb_textComplete="Success"
         custom:pb_textProgress="Loading"
+        android:textColor="@color/bakers_chocolate"
+        android:background="@color/pearl_bush"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
@@ -45,6 +48,8 @@
         android:text="New Button"
         android:id="@+id/btnSwithLogin"
         android:onClick="onSwitchLogin"
+        android:background="@android:color/transparent"
+        android:textColor="@color/tumbleweed"
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />

@@ -3,5 +3,8 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="basic_margin">10dp</dimen>
+    <dimen name="tutorial_label_from_bottom">140dp</dimen>
+    <dimen name="tutorial_logo_offset_from_center">100dp</dimen>
+
 
 </resources>

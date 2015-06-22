@@ -63,7 +63,15 @@ public class ScreenSlidePagerFragment extends Fragment implements ViewPager.Page
             Resources res = getResources();
             String[] planets = res.getStringArray(R.array.tutorial_text_array);
 
-            TutorialSlidePageFragment fragment = TutorialSlidePageFragment.newInstance(planets[position], 0);
+            int draw = 0;
+            if(position == 0) {
+                draw = R.drawable.tutorial_1;
+            } else if (position == 1) {
+                draw = R.drawable.tutorial_2;
+            } else if (position == 2) {
+                draw = R.drawable.tutorial_3;
+            }
+            TutorialSlidePageFragment fragment = TutorialSlidePageFragment.newInstance(planets[position], draw);
             return fragment;
         }
 

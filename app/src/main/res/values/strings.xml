@@ -35,9 +35,9 @@
     <string name="title_activity_parse_upload">"Parse upload"</string>
 
     <string-array name="tutorial_text_array">
-        <item>Coffee 1</item>
-        <item>Coffee 2</item>
-        <item>Coffee 3</item>
+        <item>The mutual market place for coffee enthusiasts</item>
+        <item>Thirsty but busy? Get coffee deliverd to your door</item>
+        <item>Have a spare minute? Delvier coffee to a comrade and get your cup free</item>
     </string-array>
 
 </resources>

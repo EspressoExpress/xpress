@@ -25,9 +25,9 @@ public class TutorialActivity extends ActionBarActivity {
         ft.replace(R.id.flSwipeContainer, new ScreenSlidePagerFragment());
         ft.commit();
 
-        TitanicTextView tvTitle = (TitanicTextView) findViewById(R.id.tvTitle);
-        Titanic titanic = new Titanic();
-        titanic.start(tvTitle);
+//        TitanicTextView tvTitle = (TitanicTextView) findViewById(R.id.tvTitle);
+//        Titanic titanic = new Titanic();
+//        titanic.start(tvTitle);
     }
 
     @Override
@@ -55,5 +55,6 @@ public class TutorialActivity extends ActionBarActivity {
     public void OnStartPressed(View view) {
         Intent i = new Intent(TutorialActivity.this, LoginActivity.class);
         startActivity(i);
+        overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
 }

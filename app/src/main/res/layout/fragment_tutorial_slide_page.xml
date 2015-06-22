@@ -1,30 +1,32 @@
 <!-- fragment_screen_slide_page.xml -->
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/content"
+
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
 
-    <FrameLayout
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:id="@+id/ivBackground"
+        android:scaleType="centerCrop"
+        android:src="@drawable/common_full_open_on_phone"/>
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/ivBackground"
-            android:src="@drawable/common_full_open_on_phone"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/dimmer"
+        />
 
-        <TextView style="?android:textAppearanceMedium"
-            android:padding="16dp"
-            android:gravity="center"
-            android:id="@+id/tvInstruction"
-            android:lineSpacingMultiplier="1.2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/hello_world" />
-
-    </FrameLayout>
-
-
-
-</ScrollView>
+    <TextView style="?android:textAppearanceMedium"
+        android:padding="16dp"
+        android:gravity="center"
+        android:id="@+id/tvInstruction"
+        android:lineSpacingMultiplier="1.2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@android:color/white"
+        android:text="@string/hello_world"
+        android:layout_marginBottom="@dimen/tutorial_label_from_bottom"
+        android:layout_gravity="center_horizontal|bottom" />
+</FrameLayout>
