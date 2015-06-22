@@ -1,9 +1,11 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
+import android.app.Dialog;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.text.Editable;
@@ -110,6 +112,14 @@ public class AddressListFragment extends DialogFragment {
         float dialogHeight = displayMetrics.heightPixels - 56; // specify a value here
         //Toast.makeText(getActivity(), "width: " + Math.round(dialogWidth) + ", height: " + Math.round(dialogHeight), Toast.LENGTH_LONG).show();
         getDialog().getWindow().setLayout(Math.round(dialogWidth), Math.round(dialogHeight));
+    }
+
+    @NonNull
+    @Override
+    public Dialog onCreateDialog(Bundle savedInstanceState) {
+        final Dialog dialog = super.onCreateDialog(savedInstanceState);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.dialog_animation;
+        return dialog;
     }
 
     private void setupListeners() {
