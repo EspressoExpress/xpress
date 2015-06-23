@@ -42,6 +42,7 @@ public class CartItemAdapter extends ArrayAdapter<LineItem> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         viewHolder.tvItemName.setText(lineItem.getItem().getName());
+        viewHolder.tvPrice.setText("$" + StringHelper.priceToString(lineItem.getPrice()));
         return convertView;
     }
 }

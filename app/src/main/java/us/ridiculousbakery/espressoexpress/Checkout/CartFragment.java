@@ -47,6 +47,7 @@ public class CartFragment extends Fragment {
     protected TextView tvStoreName;
     protected TextView tvCCInfo;
     protected TextView tvChangeCCInfo;
+    protected TextView tvTotal$;
     protected Button btAddress;
     protected Button btPayment;
     protected Button btCheckout;
@@ -96,6 +97,8 @@ public class CartFragment extends Fragment {
         tvChangeAddress = (TextView) v.findViewById(R.id.tvChangeAddress);
         tvCCInfo = (TextView) v.findViewById(R.id.tvCCInfo);
         tvChangeCCInfo = (TextView) v.findViewById(R.id.tvChangeCCInfo);
+        tvTotal$ = (TextView) v.findViewById(R.id.tvTotal$);
+        tvTotal$.setText("$" + StringHelper.priceToString(order.getTotalPrice()));
         lvOrderItems = (ListView) v.findViewById(R.id.lvOrderItems);
         lvOrderItems.setAdapter(alineItems);
         setupListeners();

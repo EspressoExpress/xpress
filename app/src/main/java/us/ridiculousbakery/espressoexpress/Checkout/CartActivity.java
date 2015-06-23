@@ -35,8 +35,8 @@ public class CartActivity extends NavDrawerLocationBaseActivity implements
 
         TempOrder order = new TempOrder();
         ArrayList<LineItem> orderItems = new ArrayList<>();
-        orderItems.add(new LineItem(new Item("Latte"), null));
-        orderItems.add(new LineItem(new Item("Frapp"), null));
+        orderItems.add(new LineItem(new Item("Latte"), null, 3.00));
+        orderItems.add(new LineItem(new Item("Frapp"), null, 3.00));
         order.setLineItems(orderItems);
 
         //order.setStore(new Store("Starbucks"));

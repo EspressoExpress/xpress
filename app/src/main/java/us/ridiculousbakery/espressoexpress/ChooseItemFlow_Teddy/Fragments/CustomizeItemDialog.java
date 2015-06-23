@@ -88,7 +88,7 @@ public class CustomizeItemDialog extends DialogFragment {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                LineItem lineItem = new LineItem(item, chosenOptions);
+                LineItem lineItem = new LineItem(item, chosenOptions, 0.00);
                 listener.onFinishCustomizingLineItem(lineItem);
             }
         });

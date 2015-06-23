@@ -2,6 +2,8 @@ package us.ridiculousbakery.espressoexpress.Checkout;
 
 import android.location.Address;
 
+import java.text.DecimalFormat;
+
 /**
  * Created by mrozelle on 6/14/2015.
  */
@@ -13,5 +15,10 @@ public class StringHelper {
             stringBuilder.append(divider).append(address.getAddressLine(i));
         }
         return stringBuilder.toString().substring(divider.length());
+    }
+
+    public static String priceToString(Double price) {
+        DecimalFormat df = new DecimalFormat("#.00");
+        return df.format(price).toString();
     }
 }

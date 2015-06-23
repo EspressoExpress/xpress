@@ -11,6 +11,7 @@ public class LineItem implements Serializable{
 
     private static final long serialVersionUID = -7700720797863366950L;
     private Item  item;
+    private double price;
     private ArrayList<SelectedOption> chosenOptions;
     //private ItemOption itemOption;
 
@@ -23,9 +24,10 @@ public class LineItem implements Serializable{
     // Constructors
     //================================================================================
 
-    public LineItem(Item item, ArrayList<SelectedOption> chosenOptions) {
+    public LineItem(Item item, ArrayList<SelectedOption> chosenOptions, Double price) {
         this.item = item;
         this.chosenOptions = chosenOptions;
+        this.price = price;
     }
 
 //    public  LineItem(Item item, ItemOption itemOption) {
@@ -43,5 +45,15 @@ public class LineItem implements Serializable{
 
     public ArrayList<SelectedOption> getChosenOptions() {
         return chosenOptions;
+    }
+
+
+    public void setPrice(double price) {
+        this.price = price;
+    }
+
+    public double getPrice() {
+
+        return price;
     }
 }

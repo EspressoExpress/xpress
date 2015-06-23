@@ -10,6 +10,8 @@ import java.util.ArrayList;
  */
 public class TempOrder implements Serializable {
 
+    private static final Double DELIVERY_FEE = 5.00;
+
     public TempOrder(){}
 
     private ArrayList<LineItem> lineItems;
@@ -77,5 +79,12 @@ public class TempOrder implements Serializable {
         this.store = store;
     }
 
+    public double getTotalPrice() {
+        Double total = 0.0;
+        for (int i=0; i<lineItems.size(); i++) {
+            total += lineItems.get(i).getPrice();
+        }
+        return total + DELIVERY_FEE;
+    }
 
 }
