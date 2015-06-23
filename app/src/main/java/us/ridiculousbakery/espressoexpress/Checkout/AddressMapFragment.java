@@ -42,7 +42,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-
 import us.ridiculousbakery.espressoexpress.R;
 
 /**

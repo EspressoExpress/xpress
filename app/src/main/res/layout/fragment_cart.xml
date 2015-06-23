@@ -189,7 +189,7 @@
             android:layout_below="@+id/tvDeliveryCharge"
             android:textSize="16sp"
             android:layout_marginTop="16dp"
-            android:textStyle="bold"/>
+            fontPath = "open-sans/OpenSans-Bold.ttf"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -200,7 +200,7 @@
             android:layout_below="@+id/tvDeliveryCharge$"
             android:textSize="16sp"
             android:layout_marginTop="16dp"
-            android:textStyle="bold"/>
+            fontPath = "open-sans/OpenSans-Bold.ttf"/>
 
     </RelativeLayout>
 

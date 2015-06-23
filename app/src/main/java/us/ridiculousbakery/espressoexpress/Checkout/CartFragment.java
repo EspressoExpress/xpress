@@ -37,7 +37,8 @@ import us.ridiculousbakery.espressoexpress.R;
 public class CartFragment extends Fragment {
 
     protected ArrayList<LineItem> lineItems;
-    protected CartItemAdapter alineItems;
+    //protected CartItemAdapter alineItems;
+    protected CartItemAdapterSwipe alineItems;
     protected RelativeLayout rlDeliveryAddress;
     protected RelativeLayout rlCCInfo;
     protected ListView lvOrderItems;
@@ -110,7 +111,8 @@ public class CartFragment extends Fragment {
         super.onCreate(savedInstanceState);
         order = (TempOrder) getArguments().getSerializable("order");
         lineItems = order.getLineItems();
-        alineItems = new CartItemAdapter(getActivity(), lineItems);
+
+        alineItems = new CartItemAdapterSwipe(getActivity(), lineItems);
         store = Store.getInForeground(getArguments().getString("StoreId"));
         /*Store.getInBackground(getArguments().getString("StoreId"), new GetCallback<Store>() {
             @Override
