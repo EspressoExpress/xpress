@@ -37,6 +37,11 @@ public class Order extends ParseObject {
         ParseQuery<Order> query = ParseQuery.getQuery(Order.class);
         query.getInBackground(id, cb);
     }
+//    public static Order get(String id ) {
+//        ParseQuery<Order> query = ParseQuery.getQuery(Order.class);
+//        return query.getFirst(id);
+//
+//    }
 
     public static void findUnacceptedInBackground(LatLng ll, FindCallback<Order> cb) {
         ParseQuery<Order> query = ParseQuery.getQuery(Order.class);

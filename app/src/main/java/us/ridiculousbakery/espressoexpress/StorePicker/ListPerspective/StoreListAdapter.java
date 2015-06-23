@@ -31,7 +31,7 @@ public class StoreListAdapter extends ArrayAdapter<Store> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.fancy_store_item, parent, false);
         }
         ((ItemStoreLayout)convertView).setContent(store, listListener);
-        ((ItemStoreLayout)convertView).setOnClickListener(new View.OnClickListener() {
+        (convertView).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listListener.onListStoreElementClicked(position);

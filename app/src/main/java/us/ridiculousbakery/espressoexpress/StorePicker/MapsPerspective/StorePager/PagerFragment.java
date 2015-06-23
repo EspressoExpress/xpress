@@ -62,22 +62,14 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
         viewPager = (ViewPager) rootView.findViewById(R.id.vpStores);
         if (savedInstanceState == null) {
 
-
-//            Log.i("ZZZZZZZ", "pager stores: " + stores.size());
-//            paStores = new StorePagerAdapter(getActivity(), stores, (StoreElementListener) getActivity());
-
-//            String storeId = getArguments().getString("storeId");
             if (intendedAdapter != null) viewPager.setAdapter(intendedAdapter);
             viewPager.setOnPageChangeListener(PagerFragment.this);
-//            viewPager.setCurrentItem(position);
             viewPager.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
                     storeElementListener.onListStoreElementClicked(viewPager.getCurrentItem());
                 }
             });
-
 
         }
 

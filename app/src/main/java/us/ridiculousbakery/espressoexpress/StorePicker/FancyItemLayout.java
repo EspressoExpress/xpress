@@ -36,20 +36,10 @@ public class FancyItemLayout extends ItemStoreLayout {
 
         tvName.setText(store.getName());
         TypedArray ta= getResources().obtainTypedArray(R.array.store_bgs);
-//        Log.i("ZZZZZZ", "background index " + store.);
         ivBg.setImageDrawable(ta.getDrawable(store.getBackground()));
-//        ivBg.setImageDrawable(ta.getDrawable(2));
 
-//        ivBg.setImageResource(store.getBackground());
         ta.recycle();
-//        setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                listener.onListStoreElementClicked(store);
-//            }
-//        });
-//        setBackground(getResources().getDrawable(store.getBackground()));
-        //        viewholder.ivLogo.setImageDrawable(getContext().getResources().getDrawable(store.getLogo()));
+
 
     }
 

@@ -49,11 +49,5 @@ public class StandardItemLayout extends ItemStoreLayout{
         tvName.setText(store.getName());
         ivLogo.setImageDrawable(getContext().getResources().getDrawable(store.getLogo()));
 
-//        btnRequest.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                listListener.onListStoreElementClicked(store);
-//            }
-//        });
     }
 }

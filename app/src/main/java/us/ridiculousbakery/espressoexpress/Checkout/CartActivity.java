@@ -4,8 +4,6 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.Menu;
-import android.view.MenuItem;
 
 import com.devmarvel.creditcardentry.library.CreditCard;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,12 +30,15 @@ public class CartActivity extends NavDrawerLocationBaseActivity implements
         //getSupportActionBar().hide();
         setContentView(R.layout.activity_cart);
 
+
         //test object
+
         TempOrder order = new TempOrder();
         ArrayList<LineItem> orderItems = new ArrayList<>();
         orderItems.add(new LineItem(new Item("Latte"), null));
         orderItems.add(new LineItem(new Item("Frapp"), null));
         order.setLineItems(orderItems);
+
         //order.setStore(new Store("Starbucks"));
         String storeID = "1NoCwWrzM5";
         if (savedInstanceState == null) {
@@ -50,30 +51,7 @@ public class CartActivity extends NavDrawerLocationBaseActivity implements
         }
 
     }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_cart, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
+    
     @Override
     public void launchAddressMap() {
         FragmentManager fm = getSupportFragmentManager();

@@ -1,6 +1,5 @@
 package us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -17,7 +16,6 @@ import com.parse.ParseException;
 
 import java.util.List;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.MenuActivity;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerLocationBaseActivity;
@@ -42,9 +40,6 @@ public class ListPickerActivity extends NavDrawerLocationBaseActivity implements
     private List<Store> stores;
     private boolean list_fragment_activated = false;
     private final MapPicker mapPicker = new MapPicker(this);
-//    private StoreListAdapter aaStores;
-//    private StorePagerAdapter paStores;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,9 +134,6 @@ public class ListPickerActivity extends NavDrawerLocationBaseActivity implements
                     list_fragment_activated = true;
 
                     Log.i("ZZZZZZZ", "stores: " + mapPicker.getStores().size());
-//                    mapPicker.setMarked_stores(MarkedStore.decorateList(mapPicker.getStores()));
-//                    PagerFragment.get_instance().setArguments(getIntent().getExtras());
-//                    start_map_and_pager_fragments();
                 }
             }
         });
