@@ -79,19 +79,19 @@ public class MenuAdapter extends BaseExpandableListAdapter {
             convertView = inflater.inflate(R.layout.menu_item, parent, false);
             viewHolder.name = (TextView) convertView.findViewById(R.id.tvName);
             viewHolder.price = (TextView) convertView.findViewById(R.id.tvPrice);
-            viewHolder.image = (ImageView) convertView.findViewById(R.id.ivImage);
+//            viewHolder.image = (ImageView) convertView.findViewById(R.id.ivImage);
             convertView.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.image.setImageResource(0);
+//        viewHolder.image.setImageResource(0);
         viewHolder.price.setText("$4-6");
         viewHolder.name.setText(item.getName());
 
-        if (item.getImageURL() != null) {
-            Picasso.with(getContext()).load(item.getImageURL()).fit().transform(ProfileImageHelper.roundTransformation()).into(viewHolder.image);
-        }
+//        if (item.getImageURL() != null) {
+//            Picasso.with(getContext()).load(item.getImageURL()).fit().transform(ProfileImageHelper.roundTransformation()).into(viewHolder.image);
+//        }
 
         return convertView;
     }

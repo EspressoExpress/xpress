@@ -145,6 +145,19 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
                         }
                     });
 
+                    View header = inflater.inflate(R.layout.menu_header, null, false);
+
+
+                    String imageURL = (String)store.get("imageURL");
+
+                    //Log.d("IMAGE", imageURL);
+
+                    FragmentTransaction ft = getChildFragmentManager().beginTransaction();
+                    MenuHeaderFragment menuHeaderFragment = MenuHeaderFragment.newInstance("Hello", imageURL);
+                    ft.replace(R.id.flContainer, menuHeaderFragment);
+                    ft.commit();
+                    elvMenu.addHeaderView(header);
+
                     for(int i=0; i < aMenu.getGroupCount(); i++) {
                         elvMenu.expandGroup(i);
                     }
@@ -172,13 +185,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
                         }
                     });
 
-                    View header = inflater.inflate(R.layout.menu_header, null, false);
 
-                    FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                    MenuHeaderFragment menuHeaderFragment = new MenuHeaderFragment();
-                    ft.replace(R.id.flContainer, menuHeaderFragment);
-                    ft.commit();
-                    elvMenu.addHeaderView(header);
                 }
             }
         });
