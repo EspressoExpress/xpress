@@ -154,7 +154,8 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            />
 
         <TextView
             android:layout_width="wrap_content"
@@ -192,34 +193,39 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:text="Add Delivery Address"
         android:id="@+id/btAddress"
         android:layout_above="@+id/btCheckout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:background="@color/bakers_chocolate"
+        android:textColor="@android:color/white"
         />
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:text="Enter Payment"
         android:id="@+id/btPayment"
         android:layout_above="@+id/btCheckout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:visibility="gone"
+        android:background="@color/bakers_chocolate"
+        android:textColor="@android:color/white"
         />
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="56dp"
         android:text="Get It Now"
         android:id="@+id/btCheckout"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:enabled="false"
+        android:background="@color/dim_foreground_disabled_material_dark"
         />
 
 

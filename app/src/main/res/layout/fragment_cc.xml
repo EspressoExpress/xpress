@@ -23,7 +23,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:include_helper="false"
-        app:include_zip="false"/>
+        app:include_zip="false"
+        app:input_background="@drawable/round_cornered_view"
+        />
 
     <Button
         android:layout_width="200dp"
