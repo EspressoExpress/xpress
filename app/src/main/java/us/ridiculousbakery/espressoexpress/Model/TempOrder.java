@@ -42,7 +42,7 @@ public class TempOrder implements Serializable {
 
     private long valid_until;
     private long created_at;
-    private Store store;
+    private TempStore store;
 
     public ArrayList<LineItem> getLineItems() {
         return lineItems;
@@ -57,7 +57,7 @@ public class TempOrder implements Serializable {
         return created_at;
     }
 
-    public Store getStore() {
+    public TempStore getStore() {
         return store;
     }
 
@@ -75,7 +75,7 @@ public class TempOrder implements Serializable {
         this.created_at = created_at;
     }
 
-    public void setStore(Store store) {
+    public void setStore(TempStore store) {
         this.store = store;
     }
 

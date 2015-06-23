@@ -36,6 +36,8 @@ import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
+import us.ridiculousbakery.espressoexpress.Model.TempOrder;
+import us.ridiculousbakery.espressoexpress.Model.TempStore;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -170,17 +172,12 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
                             // Launch Intent!
                             if (lineItems.size() > 0) {
                                 Intent i = new Intent(getActivity(), CartActivity.class);
-                                Order order = new Order();
-                                order.setStore(store);
+                                TempOrder order = new TempOrder();
+                                TempStore tempStore = new TempStore(store);
+                                order.setStore(tempStore);
                                 order.setLineItems(lineItems);
-                                try {
-                                    order.save();
-                                } catch (ParseException e) {
-                                    e.printStackTrace();
-                                }
-                                i.putExtra("orderId", order.getObjectId());
+                                i.putExtra("order", order);
                                 startActivity(i);
-                                Log.d("DEBUG", "NEW INTENT");
                             }
                         }
                     });

@@ -50,7 +50,8 @@ public class Item implements Serializable {
             for (int i=0; i<sizes.length(); i++) {
                 JSONObject sizeJSON = sizes.getJSONObject(i);
                 String sizeName = sizeJSON.getString("name");
-                size.add(sizeName);
+                double sizePrice = sizeJSON.getDouble("price");
+                size.add(sizeName + "-" + Double.toString(sizePrice));
             }
             newOptions.put("Size", size);
             //2

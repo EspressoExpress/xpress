@@ -88,7 +88,19 @@ public class CustomizeItemDialog extends DialogFragment {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                double price = 0;
+                for (int i=0; i<chosenOptions.size(); i++) {
+                    SelectedOption op = chosenOptions.get(i);
+                    if (op.getCategory().equals("Size")) {
+                        String size = op.getName();
+                        String parts[] = size.split("-");
+                        op.setName(parts[0]);
+                        price = Double.parseDouble(parts[1]);
+                    }
+                }
+
                 LineItem lineItem = new LineItem(item, chosenOptions, 0.00);
+                lineItem.setPrice(price);
                 listener.onFinishCustomizingLineItem(lineItem);
             }
         });
