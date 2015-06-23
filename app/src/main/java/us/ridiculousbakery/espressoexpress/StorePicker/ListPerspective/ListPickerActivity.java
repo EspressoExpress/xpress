@@ -189,8 +189,5 @@ public class ListPickerActivity extends NavDrawerLocationBaseActivity implements
         }
 
     }
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(CalligraphyContextWrapper.wrap(base));
-    }
+
 }

@@ -2,6 +2,7 @@ package us.ridiculousbakery.espressoexpress.NavDrawer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,6 +31,7 @@ import com.parse.ParseUser;
 import java.util.ArrayList;
 
 import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import us.ridiculousbakery.espressoexpress.Checkout.CCFormFragment;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.TutorialActivity;
 import us.ridiculousbakery.espressoexpress.R;
@@ -130,7 +132,7 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
         b.addView(pref(SHOW_FAB));
         b.addView(pref(SHOW_LIST_SWITCH));
         b.addView(pref(SHOW_PAGER));
-        b.addView(pref( MAPMODE));
+        b.addView(pref(MAPMODE));
         b.addView(pref(ANIM_MRK));
         b.addView(pref(SCRIPT_MODE));
         alertDialogBuilder.setView(b);
@@ -273,7 +275,10 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
             return null;
         }
     }
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(base));
+    }
     @Override
     public void onConnected() {
 
