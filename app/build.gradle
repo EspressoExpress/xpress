@@ -34,6 +34,7 @@ android {
 
 repositories {
     maven { url "https://jitpack.io" }
+    maven { url 'http://clinker.47deg.com/nexus/content/groups/public' }
 }
 
 dependencies {
@@ -65,5 +66,8 @@ dependencies {
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'uk.co.chrisjenx:calligraphy:2.1.0'
 //    compile 'com.github.navasmdc:MaterialDesign:1.5@aar'
+    compile ('com.fortysevendeg.swipelistview:swipelistview:1.0-SNAPSHOT@aar') {
+        transitive = true
+    }
 
 }
