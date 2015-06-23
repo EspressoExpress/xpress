@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -12,14 +11,9 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.dd.processbutton.iml.ActionProcessButton;
-import com.parse.LogInCallback;
-import com.parse.ParseException;
-import com.parse.ParseUser;
-import com.parse.SignUpCallback;
 
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.LoginFragment;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.SignUpFragment;
@@ -194,6 +188,7 @@ public class LoginActivity extends ActionBarActivity {
     private void showInitialActivity() {
         Intent i = new Intent(LoginActivity.this, ListPickerActivity.class);
         startActivity(i);
+        finish();  // Remove login activity from stack on successful login
     }
 
     private void showErrorToast(String error) {
