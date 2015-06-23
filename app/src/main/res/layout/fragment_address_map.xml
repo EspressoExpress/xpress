@@ -37,6 +37,7 @@
             android:background="@android:color/white"
             android:gravity="left|center"
             android:textSize="18sp"
+            android:paddingLeft="8dp"
             />
         <Button
             android:layout_width="match_parent"
