@@ -1,7 +1,6 @@
 package us.ridiculousbakery.espressoexpress;
 
 import android.app.Application;
-import android.content.SharedPreferences;
 
 import com.parse.Parse;
 import com.parse.ParseInstallation;
@@ -9,11 +8,10 @@ import com.parse.ParseObject;
 
 import java.util.ArrayList;
 
-import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import us.ridiculousbakery.espressoexpress.Model.Message;
 import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
-import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerLocationBaseActivity;
+import us.ridiculousbakery.espressoexpress.Model.XpressUser;
 
 /**
  * Created by teddywyly on 6/12/15.
@@ -35,6 +33,7 @@ public class EspressoApplication extends Application {
         ParseObject.registerSubclass(Message.class);
         ParseObject.registerSubclass(Order.class);
         ParseObject.registerSubclass(Store.class);
+        ParseObject.registerSubclass(XpressUser.class);
 
 
 //        // Test Parse

@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
-import us.ridiculousbakery.espressoexpress.Model.User;
 
 /**
  * Created by bkuo on 6/13/15.
@@ -39,9 +38,6 @@ public class MarkedOrder {
         return order.getStore();
     }
 
-    public User getUser() {
-        return order.getUser();
-    }
     public String getName(){
         return order.getString("name");
     }

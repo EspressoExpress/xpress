@@ -9,11 +9,7 @@ import java.util.ArrayList;
  * Created by mrozelle on 6/21/2015.
  */
 public class TempOrder implements Serializable {
-    public TempOrder(String username, LatLng latlng){
-        this.lon = latlng.longitude;
-        this.lat = latlng.latitude;
-        this.user= new User(username);
-    }
+
     public TempOrder(){}
 
     private ArrayList<LineItem> lineItems;
@@ -45,7 +41,6 @@ public class TempOrder implements Serializable {
     private long valid_until;
     private long created_at;
     private Store store;
-    private User user;
 
     public ArrayList<LineItem> getLineItems() {
         return lineItems;
@@ -64,9 +59,6 @@ public class TempOrder implements Serializable {
         return store;
     }
 
-    public User getUser() {
-        return user;
-    }
 
     public void setLineItems(ArrayList<LineItem> lineItems) {
         this.lineItems = lineItems;
@@ -85,7 +77,5 @@ public class TempOrder implements Serializable {
         this.store = store;
     }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+
 }

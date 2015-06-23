@@ -1,9 +1,7 @@
 package us.ridiculousbakery.espressoexpress;
 
-import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by teddywyly on 6/15/15.
@@ -24,10 +22,10 @@ public class DisplayHelper {
     }
 
     public static String getProfileUrlFromEmail(final String email) {
-        return "http://2.gravatar.com/avatar/ac73bb914aef6ef42af47e0c37696e05.jpg";
+//        return "http://2.gravatar.com/avatar/ac73bb914aef6ef42af47e0c37696e05.jpg";
 
-//        String hash =  MD5Util.md5Hex(email.toLowerCase());
-//        return " http://2.gravatar.com/avatar/" + hash + ".jpg";
+        String hash =  MD5Util.md5Hex(email.toLowerCase().trim());
+        return " http://2.gravatar.com/avatar/" + hash + ".jpg?d=identicon";
 
     }
 

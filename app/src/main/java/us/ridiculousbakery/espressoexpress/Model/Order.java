@@ -23,8 +23,6 @@ import java.util.List;
 public class Order extends ParseObject {
     private ArrayList<LineItem> lineItems;
 
-    private User user;
-
     public boolean matchesDelivererId(String id) {
         return get("deliverer_id").equals(id);
     }
@@ -168,13 +166,6 @@ public class Order extends ParseObject {
         put("Store", store);
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
 
     public String getReceiverId() {
         return getString("receiver_id");

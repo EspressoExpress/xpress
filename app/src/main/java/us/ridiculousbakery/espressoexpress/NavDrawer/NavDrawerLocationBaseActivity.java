@@ -21,12 +21,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewStub;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -77,7 +80,18 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
         setSupportActionBar(toolbar);
 
         mDrawerList = (ListView) findViewById(R.id.lvDrawer);
-        mDrawerList.addHeaderView(getLayoutInflater().inflate(R.layout.nav_drawer_header, null));
+        View vgHeader = getLayoutInflater().inflate(R.layout.nav_drawer_header, null);
+        ImageView rv =(ImageView) vgHeader.findViewById(R.id.ivLogo);
+        TextView tvName = (TextView) vgHeader.findViewById(R.id.tvName);
+        TextView tvEmail = (TextView) vgHeader.findViewById(R.id.tvEmail);
+
+        Log.i("ZZZZZZZZZ", "current gravatar: " + ParseUser.getCurrentUser().getString("gravatar_url"));
+//        rv.setImageResource(R.drawable.sbux_twit_logo);
+        Picasso.with(this).load(ParseUser.getCurrentUser().getString("gravatar_url")).into(rv);//.fit().transform(ProfileImageHelper.circleTransformation(67)).into(rv);
+        tvName.setText(ParseUser.getCurrentUser().getString("displayName"));
+        tvEmail.setText(ParseUser.getCurrentUser().getString("email") );
+
+        mDrawerList.addHeaderView(vgHeader);
 
         navDrawerItems = new ArrayList<>();
         navDrawerItems.add(new NavDrawerItem("Bank / CC", R.drawable.bank24));
@@ -180,6 +194,29 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
     }
 
     private void displayUserProfileForm() {
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+
+        LinearLayoutCompat b = new LinearLayoutCompat(this);
+        b.setOrientation(LinearLayoutCompat.VERTICAL);
+        b.setGravity(View.TEXT_ALIGNMENT_CENTER);
+        b.setPadding(10, 10, 10, 10);
+        b.addView(pref(SHOW_FAB));
+        b.addView(pref(SHOW_LIST_SWITCH));
+        b.addView(pref(SHOW_PAGER));
+        b.addView(pref(MAPMODE));
+        b.addView(pref(ANIM_MRK));
+        b.addView(pref(SCRIPT_MODE));
+        alertDialogBuilder.setView(b);
+        final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                Log.i("ZZZZZZZ", "DISMISSED");
+                recreate();
+            }
+        });
+
+        alertDialog.show();
     }
 
     private void displayCCForm() {
