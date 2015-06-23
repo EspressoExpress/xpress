@@ -181,7 +181,7 @@ public class CartFragment extends Fragment {
                 orderObj.put("name", user.get("displayName"));
                 orderObj.put("store_name", store.getName());
                 orderObj.put("storeId", store.getObjectId());
-                orderObj.put("status", "order submitted");
+                orderObj.put("status", Order.SUBMITTED);
                 orderObj.put("receiver_id", user.getObjectId());
                 orderObj.put("delivery_lat", order.getLatLng().latitude);
                 orderObj.put("delivery_lng", order.getLatLng().longitude);

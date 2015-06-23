@@ -24,8 +24,9 @@ android {
         main {
             res.srcDirs =
                     [
-                            'src/main/res/store_order_picker',
-                            'src/main/res/nav_drawer',
+                            'src/receiving/res',
+                            'src/store_order_picker/res',
+                            'src/nav_drawer/res',
                             'src/main/res'
                     ]
         }

@@ -33,11 +33,15 @@
     <string name="order_placed_detail">Please wait while someone confirms to pick up your order</string>
     <string name="cancel_order_label">Cancel Order</string>
     <string name="title_activity_parse_upload">"Parse upload"</string>
+    <string name="progress_placed">Your order has been placed. Please wait while we find someone to deliver your order</string>
+    <string name="progress_accepted">Someone has accepted your order!  Expect them to be over soon with your delivery</string>
+    <string name="progress_picked_up">Your order has been picked up. See their progress here</string>
+    <string name="progress_delivered">Your order has been delivered. Enjoy! Please don\'t forget to rate your deliverer</string>
 
     <string-array name="tutorial_text_array">
-        <item>The mutual market place for coffee enthusiasts</item>
-        <item>Thirsty but busy? Get coffee deliverd to your door</item>
-        <item>Have a spare minute? Delvier coffee to a comrade and get your cup free</item>
+        <item>The mutual market place for coffee delivery</item>
+        <item>Thirsty but busy? Get coffee delivered to your door</item>
+        <item>Have a spare minute? Deliver coffee to a comrade and get your cup free</item>
     </string-array>
 
 </resources>

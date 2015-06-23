@@ -41,6 +41,12 @@ public class Order extends ParseObject {
 //
 //    }
 
+
+    public final static String ACCEPTED="order accepted";
+    public final static String SUBMITTED="order submitted";
+    public final static String PICKED_UP="order picked up";
+    public final static String DELIVERED="order delivered";
+
     public static void findUnacceptedInBackground(LatLng ll, FindCallback<Order> cb) {
         ParseQuery<Order> query = ParseQuery.getQuery(Order.class);
         query.whereEqualTo("status", "placed");
@@ -89,7 +95,7 @@ public class Order extends ParseObject {
         queries.add(dquery);
         queries.add(rquery);
         ParseQuery<Order> qmain = ParseQuery.or(queries);
-        qmain.whereEqualTo("status", "order picked up"); //TODO shoudl or "order submitted"
+        qmain.whereEqualTo("status", Order.PICKED_UP); //TODO shoudl or "order submitted"
         try {
             return qmain.getFirst();
         } catch (ParseException e) {
@@ -137,6 +143,7 @@ public class Order extends ParseObject {
     public Order() {
     }
 
+
     public void setDelivery_lat(Double delivery_lat) {
         put("delivery_lat", delivery_lat);
     }
@@ -182,5 +189,17 @@ public class Order extends ParseObject {
     public String bob() {
 
         return new JSONArray(new ArrayList<>()).toString();
+    }
+
+// change to parse getter/setters
+
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

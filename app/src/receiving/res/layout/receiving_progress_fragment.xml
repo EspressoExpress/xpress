@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/llProgress"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <include
+        android:id="@+id/elPlaced"
+        layout="@layout/progress_element" />
+
+    <include
+        android:id="@+id/elAccepted"
+        layout="@layout/progress_element" />
+
+    <include
+        android:id="@+id/elPickedUp"
+        layout="@layout/progress_element" />
+
+    <include
+        android:id="@+id/elDelivered"
+        layout="@layout/progress_element" />
+</LinearLayout>

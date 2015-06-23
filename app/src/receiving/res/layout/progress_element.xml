@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<us.ridiculousbakery.espressoexpress.InProgress.Receiving.ProgressElement xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="10dp"
+    android:alpha="0.3"
+    >
+
+
+    <ImageView
+        android:id="@+id/ivIcon"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:src="@drawable/ic_check"
+        />
+
+    <TextView
+        android:id="@+id/tvStep"
+        android:layout_marginLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/progress_placed" />
+</us.ridiculousbakery.espressoexpress.InProgress.Receiving.ProgressElement>
