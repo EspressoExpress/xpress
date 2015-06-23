@@ -199,7 +199,7 @@
         android:layout_above="@+id/btCheckout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:background="@color/bakers_chocolate"
+        android:background="?attr/colorAccent"
         android:textColor="@android:color/white"
         />
 
@@ -212,7 +212,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:visibility="gone"
-        android:background="@color/bakers_chocolate"
+        android:background="?attr/colorAccent"
         android:textColor="@android:color/white"
         />
 

@@ -49,7 +49,8 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
     final public static String SHOW_PAGER="showPager";
     final public static String MAPMODE="mapMode";
     final public static String ANIM_MRK="animateMarkers";
-    public static final String SCRIPT_MODE = "scriptMode";
+    final public static String ALT_ACCENT="Alternative Accent Color";
+    public static final String SCRIPT_MODE = "Script Font";
     private CharSequence mTitle;
     private ListView mDrawerList;
     private ArrayList<NavDrawerItem> navDrawerItems;
@@ -74,6 +75,8 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
                             .build()
             );
         }
+        if(p.getBoolean(ALT_ACCENT, false)) setTheme(R.style.XpressTheme);
+        else setTheme(R.style.XpressThemeB);
 
         super.setContentView(R.layout.nav_drawer_wrapper);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -143,11 +146,11 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
         LinearLayoutCompat b = new LinearLayoutCompat(this);
         b.setOrientation(LinearLayoutCompat.VERTICAL);
         b.setPadding(10, 10, 10, 10);
-        b.addView(pref(SHOW_FAB));
-        b.addView(pref(SHOW_LIST_SWITCH));
-        b.addView(pref(SHOW_PAGER));
-        b.addView(pref(MAPMODE));
-        b.addView(pref(ANIM_MRK));
+//        b.addView(pref(SHOW_FAB));
+//        b.addView(pref(SHOW_LIST_SWITCH));
+//        b.addView(pref(SHOW_PAGER));
+//        b.addView(pref(MAPMODE));
+        b.addView(pref(ALT_ACCENT));
         b.addView(pref(SCRIPT_MODE));
         alertDialogBuilder.setView(b);
         final AlertDialog alertDialog = alertDialogBuilder.create();
@@ -170,7 +173,7 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
         final SharedPreferences p = getSharedPreferences("Xpress", MODE_PRIVATE);
 
         d.setText(label);
-        d.setPadding(5, 5, 5, 5);
+        d.setPadding(5, 5, 5, 15);
         d.setChecked(p.getBoolean(label, def));
         d.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -194,29 +197,7 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
     }
 
     private void displayUserProfileForm() {
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
 
-        LinearLayoutCompat b = new LinearLayoutCompat(this);
-        b.setOrientation(LinearLayoutCompat.VERTICAL);
-        b.setGravity(View.TEXT_ALIGNMENT_CENTER);
-        b.setPadding(10, 10, 10, 10);
-        b.addView(pref(SHOW_FAB));
-        b.addView(pref(SHOW_LIST_SWITCH));
-        b.addView(pref(SHOW_PAGER));
-        b.addView(pref(MAPMODE));
-        b.addView(pref(ANIM_MRK));
-        b.addView(pref(SCRIPT_MODE));
-        alertDialogBuilder.setView(b);
-        final AlertDialog alertDialog = alertDialogBuilder.create();
-        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
-            @Override
-            public void onDismiss(DialogInterface dialog) {
-                Log.i("ZZZZZZZ", "DISMISSED");
-                recreate();
-            }
-        });
-
-        alertDialog.show();
     }
 
     private void displayCCForm() {

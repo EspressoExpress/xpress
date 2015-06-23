@@ -33,20 +33,13 @@
 
         <item name="colorControlNormal">#727272</item>
         <item name="colorControlActivated">#8BC34A</item>
-        <item name="android:textViewStyle">@style/Widget.TextView.Custom</item>
-
-    </style>
-    
-    <style name="Widget.TextView.Custom" parent="android:Widget.TextView">
+        <!--<item name="android:textViewStyle">@style/Widget.TextView.Custom</item>-->
 
     </style>
 
-    <style name="ThemeOverlay.AppCompat.Dark.ActionBar">
-
-
-    </style>
-
-    <style name="ThemeOverlay.AppCompat.Light">
+    <style name="XpressThemeB" parent="XpressTheme">
+        <item name="colorAccent">@color/bakers_chocolate</item>
+        <item name="colorControlActivated">@color/bakers_chocolate</item>
 
     </style>
 
@@ -63,6 +56,19 @@
         <item name="titleMarginTop">13dp</item>
 
     </style>
+    <!-- -->
+    <!--<style name="Widget.TextView.Custom" parent="android:Widget.TextView">-->
+
+    <!--</style>-->
+
+    <!--<style name="ThemeOverlay.AppCompat.Dark.ActionBar">-->
+
+
+    <!--</style>-->
+
+    <!--<style name="ThemeOverlay.AppCompat.Light">-->
+
+    <!--</style>-->
 
     <!--<style name="Base.Widget.AppCompat.ActionBar" parent="">-->
         <!--<item name="displayOptions">showTitle</item>-->
