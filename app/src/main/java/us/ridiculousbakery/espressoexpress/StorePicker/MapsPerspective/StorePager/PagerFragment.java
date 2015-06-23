@@ -108,7 +108,7 @@ public class PagerFragment extends Fragment implements ViewPager.OnPageChangeLis
 
 
     public interface PagerListener {
-        public void onNewMapTargetRequest(int t, boolean animate);
+        void onNewMapTargetRequest(int t, boolean animate);
 
     }
 

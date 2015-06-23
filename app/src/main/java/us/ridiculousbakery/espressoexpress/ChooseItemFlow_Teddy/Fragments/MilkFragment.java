@@ -18,7 +18,7 @@ public class MilkFragment extends Fragment {
     private OnPercentageChosenListener listener;
 
     public interface OnPercentageChosenListener {
-        public void onMilkPercentageChosen();
+        void onMilkPercentageChosen();
     }
 
 

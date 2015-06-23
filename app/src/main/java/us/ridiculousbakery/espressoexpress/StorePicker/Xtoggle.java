@@ -42,7 +42,7 @@ public class Xtoggle extends FrameLayout implements Checkable {
 
 
     public void initialize() {
-        btn = (View) findViewById(R.id.track);
+        btn = findViewById(R.id.track);
         knob = (TextView) findViewById(R.id.tvKnob);
 
     }

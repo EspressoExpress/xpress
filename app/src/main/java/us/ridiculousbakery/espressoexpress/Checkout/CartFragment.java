@@ -58,9 +58,9 @@ public class CartFragment extends Fragment {
     static private boolean LOCK_VISIBILITY = false;
 
     public interface OnWidgetClickedListener {
-        public void launchAddressMap();
-        public void launchAddressMap(LatLng latLng);
-        public void launchCCForm();
+        void launchAddressMap();
+        void launchAddressMap(LatLng latLng);
+        void launchCCForm();
     }
 
     /*public static CartFragment newInstance(String orderId) {

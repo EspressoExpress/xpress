@@ -14,7 +14,7 @@ public class TempOrder implements Serializable {
         this.lat = latlng.latitude;
         this.user= new User(username);
     }
-    public TempOrder(){};
+    public TempOrder(){}
 
     private ArrayList<LineItem> lineItems;
 

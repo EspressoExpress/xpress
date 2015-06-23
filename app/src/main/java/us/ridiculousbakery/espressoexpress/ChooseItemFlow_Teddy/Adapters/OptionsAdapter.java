@@ -1,26 +1,17 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.plus.model.people.Person;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import us.ridiculousbakery.espressoexpress.Model.Item;
-import us.ridiculousbakery.espressoexpress.Model.ItemOption;
-import us.ridiculousbakery.espressoexpress.Model.StoreMenu;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -111,11 +102,7 @@ public class OptionsAdapter extends BaseAdapter {
 
     public boolean positionIsInFirstGroup(int pos) {
         ArrayList<String> firstGroup = options.get(options.firstKey());
-        if (pos < firstGroup.size()) {
-            return true;
-        } else {
-            return false;
-        }
+        return pos < firstGroup.size();
 
     }
 

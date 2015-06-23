@@ -1,7 +1,5 @@
 package us.ridiculousbakery.espressoexpress.Model;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -18,7 +16,7 @@ public class ItemOption {
 
         private final String text;
 
-        private Options(final String text) {
+        Options(final String text) {
             this.text = text;
         }
 

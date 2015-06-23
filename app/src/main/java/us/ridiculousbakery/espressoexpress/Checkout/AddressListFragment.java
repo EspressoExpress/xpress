@@ -211,6 +211,6 @@ public class AddressListFragment extends DialogFragment {
             }
             //progressItem.setVisible(false);
         }
-    };
+    }
 
 }

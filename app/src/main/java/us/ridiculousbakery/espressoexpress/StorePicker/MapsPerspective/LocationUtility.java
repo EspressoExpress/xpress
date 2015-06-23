@@ -34,7 +34,7 @@ public class LocationUtility implements
     }
 
     public interface OnConnectedDelegate {
-        public void onConnected();
+        void onConnected();
     }
     @Override
     public void onConnected(Bundle bundle) {

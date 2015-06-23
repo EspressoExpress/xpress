@@ -3,46 +3,30 @@ package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.GridView;
-import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.etsy.android.grid.StaggeredGridView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.TreeMap;
 
 import at.markushi.ui.CircleButton;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.OptionsAdapter;
 import us.ridiculousbakery.espressoexpress.Model.Item;
-import us.ridiculousbakery.espressoexpress.Model.ItemOption;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.SelectedOption;
-import us.ridiculousbakery.espressoexpress.Model.User;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -137,7 +121,7 @@ public class CustomizeItemDialog extends DialogFragment {
 
     private void addOptionAtIndex(int pos) {
         String op = (String) aOptions.getItem(pos);
-        String cat = (String) aOptions.optionNameForPosition(pos);
+        String cat = aOptions.optionNameForPosition(pos);
         SelectedOption chosenOption = new SelectedOption(op, cat);
         chosenOptions.add(chosenOption);
     }

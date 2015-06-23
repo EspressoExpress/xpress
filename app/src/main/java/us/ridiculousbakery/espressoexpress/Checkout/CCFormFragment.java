@@ -29,7 +29,7 @@ public class CCFormFragment extends DialogFragment {
     protected OnWidgetClickedListener listener;
 
     public interface OnWidgetClickedListener {
-        public void onSaveCCInfo(CreditCard cc);
+        void onSaveCCInfo(CreditCard cc);
     }
 
     public CCFormFragment() {
