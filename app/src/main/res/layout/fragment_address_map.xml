@@ -35,9 +35,11 @@
             android:hint="Enter Location"
             android:layout_weight="1"
             android:background="@android:color/white"
-            android:gravity="left|center"
+            android:gravity="start|center"
             android:textSize="18sp"
             android:paddingLeft="8dp"
+            android:drawableLeft="@drawable/ic_lookup"
+            android:drawablePadding="8dp"
             />
         <Button
             android:layout_width="match_parent"
