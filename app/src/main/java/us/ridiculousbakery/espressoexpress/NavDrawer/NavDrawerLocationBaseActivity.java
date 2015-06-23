@@ -2,6 +2,7 @@ package us.ridiculousbakery.espressoexpress.NavDrawer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -28,6 +29,7 @@ import com.parse.ParseUser;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import us.ridiculousbakery.espressoexpress.Checkout.CCFormFragment;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.TutorialActivity;
 import us.ridiculousbakery.espressoexpress.R;
@@ -37,21 +39,37 @@ import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.LocationU
  * Created by bkuo on 6/14/15.
  */
 public class NavDrawerLocationBaseActivity extends AppCompatActivity implements LocationUtility.OnConnectedDelegate {
-    final private static String SHOW_FAB="show fab";
-    final private static String SHOW_LIST_SWITCH="listModeSwitch";
-    final private static String SHOW_PAGER="showPager";
-    final private static String MAPMODE="mapMode";
-    final private static String ANIM_MRK="animateMarkers";
+    final public static String SHOW_FAB="show fab";
+    final public static String SHOW_LIST_SWITCH="listModeSwitch";
+    final public static String SHOW_PAGER="showPager";
+    final public static String MAPMODE="mapMode";
+    final public static String ANIM_MRK="animateMarkers";
+    public static final String SCRIPT_MODE = "scriptMode";
     private CharSequence mTitle;
     private ListView mDrawerList;
     private ArrayList<NavDrawerItem> navDrawerItems;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     protected LocationUtility locationUtility;
-
+    private boolean shouldRestart = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        SharedPreferences p = getSharedPreferences("Xpress",MODE_PRIVATE);
+        if(p.getBoolean(NavDrawerLocationBaseActivity.SCRIPT_MODE, false)){
+            CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                            .setDefaultFontPath("Satisfy-Regular.ttf")
+                            .setFontAttrId(R.attr.fontPath)
+                            .build()
+            );
+        }else{
+            CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
+                            .setDefaultFontPath("open-sans/OpenSans-Regular.ttf")
+                            .setFontAttrId(R.attr.fontPath)
+                            .build()
+            );
+        }
+
         super.setContentView(R.layout.nav_drawer_wrapper);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -114,8 +132,17 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
         b.addView(pref(SHOW_PAGER));
         b.addView(pref( MAPMODE));
         b.addView(pref(ANIM_MRK));
+        b.addView(pref(SCRIPT_MODE));
         alertDialogBuilder.setView(b);
         final AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.setOnDismissListener(new DialogInterface.OnDismissListener() {
+            @Override
+            public void onDismiss(DialogInterface dialog) {
+                Log.i("ZZZZZZZ", "DISMISSED");
+                recreate();
+            }
+        });
+
         alertDialog.show();
 
 
@@ -124,7 +151,8 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
 
     private SwitchCompat pref(final String label, boolean def){
         SwitchCompat d = new SwitchCompat(this);
-        final SharedPreferences p  =getPreferences(MODE_PRIVATE);
+        final SharedPreferences p = getSharedPreferences("Xpress", MODE_PRIVATE);
+
         d.setText(label);
         d.setPadding(5, 5, 5, 5);
         d.setChecked(p.getBoolean(label, def));
@@ -132,7 +160,7 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
             @Override
             public void onClick(View v) {
                 p.edit().putBoolean(label, ((SwitchCompat) v).isChecked()).apply();
-
+                shouldRestart = true;
             }
         });
         return d;

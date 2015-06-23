@@ -46,7 +46,7 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:id="@+id/btSelectAddress"
-            android:background="@color/bakers_chocolate"
+            android:background="?attr/colorAccent"
             android:text="Update Address"
             android:textColor="@android:color/white"
             android:textSize="18sp"/>

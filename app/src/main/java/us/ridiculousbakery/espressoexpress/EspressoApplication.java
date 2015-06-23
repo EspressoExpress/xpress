@@ -1,6 +1,7 @@
 package us.ridiculousbakery.espressoexpress;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 
 import com.parse.Parse;
 import com.parse.ParseInstallation;
@@ -8,9 +9,11 @@ import com.parse.ParseObject;
 
 import java.util.ArrayList;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import us.ridiculousbakery.espressoexpress.Model.Message;
 import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.Model.Store;
+import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerLocationBaseActivity;
 
 /**
  * Created by teddywyly on 6/12/15.
@@ -23,11 +26,7 @@ public class EspressoApplication extends Application {
     public void onCreate() {
         super.onCreate();
         //doesn't work
-        /*CalligraphyConfig.initDefault(new CalligraphyConfig.Builder()
-                        .setDefaultFontPath("open-sans/OpenSans-Regular.ttf")
-                        .setFontAttrId(R.attr.fontPath)
-                        .build()
-        );*/
+
         // Enable Local Datastore.
         Parse.enableLocalDatastore(this);
         Parse.initialize(this, YOUR_APPLICATION_ID, YOUR_CLIENT_KEY);
@@ -44,8 +43,5 @@ public class EspressoApplication extends Application {
 //        testObject.saveInBackground();
     }
 
-    /*@Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext((Context) CalligraphyContextWrapper.wrap(base));
-    }*/
+
 }
