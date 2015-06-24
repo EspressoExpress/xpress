@@ -81,7 +81,7 @@ public class CCFormFragment extends DialogFragment {
         DisplayMetrics displayMetrics  = new DisplayMetrics();
         display.getMetrics(displayMetrics);
         float dialogWidth = displayMetrics.widthPixels - 56; // specify a value here
-        float dialogHeight = displayMetrics.heightPixels - 56; // specify a value here
+        float dialogHeight = displayMetrics.heightPixels - 112; // specify a value here
         getDialog().getWindow().setLayout(Math.round(dialogWidth), Math.round(dialogHeight));
     }
 
