@@ -6,7 +6,6 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -240,7 +239,7 @@ public class CartFragment extends Fragment {
             rlCCInfo.setVisibility(View.VISIBLE);
             btPayment.setVisibility(View.GONE);
         }
-        btCheckout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.round_cornered_button));
+        //btCheckout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.round_cornered_button));
         btCheckout.setVisibility(View.VISIBLE);
         //btCheckout.setTextSize(getResources().getDimension(R.dimen.button_text_size));
         btCheckout.setEnabled(true);
