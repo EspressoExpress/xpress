@@ -21,4 +21,5 @@
     <include
         android:id="@+id/elDelivered"
         layout="@layout/progress_element" />
+
 </LinearLayout>

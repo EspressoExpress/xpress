@@ -11,7 +11,11 @@ import us.ridiculousbakery.espressoexpress.DisplayHelper;
 @ParseClassName("_User")
 
 public class XpressUser extends ParseUser {
-
+    static public String getGravatarUrl(ParseUser u){
+        String b = u.getString("gravatar_url");
+        if(b==null || b.length()<1){ return DisplayHelper.getProfileUrlFromEmail(u.getEmail()); };
+        return b;
+    }
 
     public void setEmail(String email){
         super.setEmail(email);

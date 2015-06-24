@@ -44,17 +44,6 @@ public class XpressReceiver extends BroadcastReceiver {
                 i.putExtras(intent);
                 while (itr.hasNext()) {
                     String key = (String) itr.next();
-//
-//                    if(key.equals("status")) i.putExtra("status", json.optString("status"));
-//                    if(key.equals("orderId")) i.putExtra("orderId", json.optString("orderId"));
-
-//                    // Extract custom push data
-//                    if (key.equals("customdata")) {
-//
-//                        // OR trigger a broadcast to activity
-//                        triggerBroadcastToActivity(context);
-//
-//                    }
                     Log.d(TAG, "..." + key + " => " + json.getString(key));
                 }
                 LocalBroadcastManager.getInstance(context).sendBroadcast(i);

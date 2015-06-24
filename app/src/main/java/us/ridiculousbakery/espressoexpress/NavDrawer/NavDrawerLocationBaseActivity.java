@@ -29,6 +29,7 @@ import android.widget.Toast;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseUser;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -36,6 +37,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import us.ridiculousbakery.espressoexpress.Checkout.CCFormFragment;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities.TutorialActivity;
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.ProfileImageHelper;
+import us.ridiculousbakery.espressoexpress.Model.XpressUser;
 import us.ridiculousbakery.espressoexpress.R;
 import us.ridiculousbakery.espressoexpress.StorePicker.MapsPerspective.LocationUtility;
 
@@ -87,11 +90,10 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
         TextView tvName = (TextView) vgHeader.findViewById(R.id.tvName);
         TextView tvEmail = (TextView) vgHeader.findViewById(R.id.tvEmail);
 
-//        Log.i("ZZZZZZZZZ", "current gravatar: " + ParseUser.getCurrentUser().getString("gravatar_url"));
-//        rv.setImageResource(R.drawable.sbux_twit_logo);
-//        Picasso.with(this).load(ParseUser.getCurrentUser().getString("gravatar_url")).into(rv);//.fit().transform(ProfileImageHelper.circleTransformation(67)).into(rv);
-//        tvName.setText(ParseUser.getCurrentUser().getString("displayName"));
-//        tvEmail.setText(ParseUser.getCurrentUser().getString("email") );
+        Log.i("ZZZZZZZZZ", "current gravatar: _" + ParseUser.getCurrentUser().getString("gravatar_url") + "_");
+        Picasso.with(this).load(XpressUser.getGravatarUrl(ParseUser.getCurrentUser())).fit().transform(ProfileImageHelper.circleTransformation(100)).into(rv);
+        tvName.setText(ParseUser.getCurrentUser().getString("displayName"));
+        tvEmail.setText(ParseUser.getCurrentUser().getString("email") );
 
         mDrawerList.addHeaderView(vgHeader);
 

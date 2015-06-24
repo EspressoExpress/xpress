@@ -12,10 +12,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.parse.ParseUser;
 import com.parse.PushService;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderInProgressFragment;
 import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderPlacedFragment;
@@ -28,34 +31,88 @@ public class ReceivingActivity extends AppCompatActivity {
     private OrderInProgressFragment orderInProgressFragment;
     private String deliverID;
     private String orderID;
+    private  ArrayList<Fragment>fragments = new ArrayList<Fragment>() ;
+
+    private ChatArrayAdapter aMessages ;//= new ChatArrayAdapter(this,)
+    private ArrayList<String> messages = new ArrayList<String>();
+    private ReceivingFragmentPagerAdapter  receivingFragmentPagerAdapter;
+    private ArrayList<String> titles = new ArrayList<String>();
+    private ViewPager viewPager;
+    private PagerSlidingTabStrip tabsStrip;
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.receiving_activity);
+        PushService.setDefaultPushCallback(this, ReceivingActivity.class);
+        tabsStrip= (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        viewPager= (ViewPager) findViewById(R.id.viewpager);
+        fragments.add(ProgressFragment.instance());
+        titles.add("Progress");
+
+        receivingFragmentPagerAdapter  = new ReceivingFragmentPagerAdapter(getSupportFragmentManager(), titles, fragments);
+
+        if (savedInstanceState == null) {
+            viewPager.setAdapter(receivingFragmentPagerAdapter);
+            tabsStrip.setViewPager(viewPager);
+
+        }
+
+        addChatFragment();
+        addMapFragment();
+    }
+    public void addChatFragment(){
+        if(fragments.indexOf(ChatFragment.instance()) >= 0) return;
+        fragments.add(ChatFragment.instance());
+        titles.add("Chat");
+        receivingFragmentPagerAdapter.notifyDataSetChanged();
+        tabsStrip.notifyDataSetChanged();
+    }
+
+    public void addMapFragment(){
+        if(fragments.indexOf(MapFragment.instance()) <0) return;
+        fragments.add(MapFragment.instance());
+        titles.add("Track");
+        receivingFragmentPagerAdapter.notifyDataSetChanged();
+        tabsStrip.notifyDataSetChanged();
+    }
+    public void addOrderConfirmFragment(){}
 
 
+
+    private void updateStatus(JSONObject json) {
+        String orderId = json.optString("orderId", null);
+        String status = json.optString("status", null);
+        ProgressFragment.instance().activate(status);
+    }
+    private void applyChat(JSONObject json){
+        String senderId = json.optString("senderId", null);
+//        if(senderId.equals(ParseUser.getCurrentUser().getObjectId())) return;
+        String message = json.optString("message", null);
+        aMessages.add(new Message(
+                message,
+                senderId.equals(ParseUser.getCurrentUser().getObjectId()) ? 0 : 1
+        ));
+        ChatFragment.instance().scrollToEnd();
+    }
+
+    Order order;
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
+//                Log.i("ZZZZZZ R_A", "onReceive!  "+status+" /"+orderId);
+
                 JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
-                String orderId = json.optString("orderId", null);
-                String status = json.optString("status", null);
-                Log.i("ZZZZZZ R_A", "onReceive!  "+status+" /"+orderId);
-                updateStatus(orderId, status);
+                String type = json.optString("type", "");
+                if(type.equals("status")) updateStatus(json);
+                if(type.equals("chat")) applyChat(json);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             Log.i("ZZZZZZ R_A", "onReceive!  CELEBRATE");
-//            Toast.makeText(getApplicationContext(), "onReceive invoked!", Toast.LENGTH_LONG).show();
         }
     };
-
-    private void updateStatus(String orderId, String status) {
-//        if(this.orderID.equals(orderId))
-            ProgressFragment.instance().activate(status);
-    }
-
-    Order order;
-
     @Override
     public void onPause() {
         super.onPause();
@@ -69,54 +126,7 @@ public class ReceivingActivity extends AppCompatActivity {
         LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter(XpressReceiver.intentAction));
         Log.i("ZZZZZZZ", "called register on " + XpressReceiver.intentAction);
     }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.receiving_activity);
-        PushService.setDefaultPushCallback(this, ReceivingActivity.class);
-
-//        userID = getIntent().getStringExtra("userID");
-//        userID = "HmR0es0hPp";
-
-        orderID = getIntent().getStringExtra("orderID");
-        //orderID = "EmQOsUivdw";
-        order = new Order();
-        order.setStatus(Order.SUBMITTED);
-        if (savedInstanceState == null) {
-
-            ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-            String[] titles = {"Progress"};
-            Fragment[] fragments = {
-                    ProgressFragment.instance()
-
-            };
-            viewPager.setAdapter(new ReceivingFragmentPagerAdapter(getSupportFragmentManager(), titles, fragments));
-
-            // Give the PagerSlidingTabStrip the ViewPager
-            PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
-            // Attach the view pager to the tab strip
-            tabsStrip.setViewPager(viewPager);
-
-//            orderPlacedFragment = new OrderPlacedFragment();
-//            FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-//            ft.replace(R.id.flContainer, orderPlacedFragment);
-//            ft.commit();
-        }
-
-//        handler.postDelayed(runnable, 1000);
-
-    }
 }
-
-//    private Runnable runnable = new Runnable() {
-//        @Override
-//        public void run() {
-//            checkOrderStatus();
-//            handler.postDelayed(this, 1000);
-//        }
-//    };
-//
 //    private void checkOrderStatus() {
 //
 //        if (deliverID == null) {
