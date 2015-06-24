@@ -37,10 +37,12 @@
     <string name="progress_accepted">Someone has accepted your order!  Expect them to be over soon with your delivery</string>
     <string name="progress_picked_up">Your order has been picked up. See their progress here</string>
     <string name="progress_delivered">Your order has been delivered. Enjoy! Please don\'t forget to rate your deliverer</string>
-    <string name="deliver_accepted" formatted="false">Please head over to %s to pick up %s\'s order</string>
-    <string name="deliver_picked_up" formatted="false">Please deliver %s\'s order to %s.  </string>
-    <string name="deliver_delivered" formatted="false">Thanks for helping!  You have earned %s for this delivery</string>
-
+    <string name="deliver_accepted" formatted="false">Please head over to Philz to pick up Bert\'s order</string>
+    <string name="deliver_picked_up" formatted="false">Please deliver Bert\'s order to 4410 El Camino Rd.  </string>
+    <string name="deliver_delivered" formatted="false">Thanks for helping!  You have earned $5 for this delivery</string>
+    <!--<string name="deliver_accepted" formatted="false">Please head over to %s to pick up %s\'s order</string>-->
+    <!--<string name="deliver_picked_up" formatted="false">Please deliver %s\'s order to %s.  </string>-->
+    <!--<string name="deliver_delivered" formatted="false">Thanks for helping!  You have earned %s for this delivery</string>-->
     <string-array name="tutorial_text_array">
         <item>The mutual market place for coffee delivery</item>
         <item>Thirsty but busy? Get coffee delivered to your door</item>
