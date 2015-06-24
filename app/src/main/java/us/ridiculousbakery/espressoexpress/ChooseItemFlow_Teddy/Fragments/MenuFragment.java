@@ -117,6 +117,10 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
 
         lineItems = new ArrayList<>();
 
+        elvMenu = (ExpandableListView) v.findViewById(R.id.elvMenu);
+        elvMenu.setDivider(null);
+        elvMenu.setDividerHeight(0);
+
         btnCart = (FloatingActionButton) v.findViewById(R.id.btnCart);
         setCartButtonHeight();
 
@@ -140,7 +144,6 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
 
                     //storeMenu = store.getStoreMenu();
                     aMenu = new MenuAdapter(getActivity(), storeMenu);
-                    elvMenu = (ExpandableListView) v.findViewById(R.id.elvMenu);
                     Log.d("DEBUG", "LISTVIEWEXPAND is " + elvMenu.toString());
                     elvMenu.setAdapter(aMenu);
                     elvMenu.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
