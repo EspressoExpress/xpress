@@ -20,6 +20,7 @@ import us.ridiculousbakery.espressoexpress.R;
  */
 public class OptionsAdapter extends BaseAdapter {
 
+
     private LayoutInflater inflater;
     private Context context;
     private TreeMap<String, ArrayList<String>> options;
@@ -28,6 +29,10 @@ public class OptionsAdapter extends BaseAdapter {
         public TextView name;
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        return super.getItemViewType(position);
+    }
 
     private ArrayList<String> sortedOptionValues() {
         ArrayList<String> internalOptions = new ArrayList<>();
