@@ -155,6 +155,8 @@ public class DeliveryMapFragment extends Fragment implements
     }
 
     private void mapAnimationStart() {
+        //Picasso.with(getActivity()).load(DisplayHelper.getProfileUrlFromEmail("wylynout@gmail.com").fit().transform(ProfileImageHelper.circleTransformation(67)).into(profileView);
+
         BitmapDescriptor startMarkerIcon =
                 BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
         startMarker = map.addMarker((new MarkerOptions()).position(startLatLng).icon(startMarkerIcon));
@@ -217,8 +219,8 @@ public class DeliveryMapFragment extends Fragment implements
          * than this.
          * 1000m on the diagonal translates into about 709m to each direction. */
         LatLng center = tmpBounds.getCenter();
-        LatLng northEast = move(center, 709, 709);
-        LatLng southWest = move(center, -709, -709);
+        LatLng northEast = move(center, 209, 209);
+        LatLng southWest = move(center, -209, -209);
         builder.include(southWest);
         builder.include(northEast);
         return builder.build();

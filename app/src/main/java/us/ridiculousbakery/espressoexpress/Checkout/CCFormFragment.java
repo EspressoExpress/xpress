@@ -6,8 +6,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.content.ContextCompat;
-import android.util.DisplayMetrics;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -74,7 +72,7 @@ public class CCFormFragment extends DialogFragment {
     public void onStart() {
         super.onStart();
         // safety check
-        if (getDialog() == null) {
+        /*if (getDialog() == null) {
             return;
         }
         Display display = getActivity().getWindowManager().getDefaultDisplay();
@@ -82,7 +80,7 @@ public class CCFormFragment extends DialogFragment {
         display.getMetrics(displayMetrics);
         float dialogWidth = displayMetrics.widthPixels - 56; // specify a value here
         float dialogHeight = displayMetrics.heightPixels - 112; // specify a value here
-        getDialog().getWindow().setLayout(Math.round(dialogWidth), Math.round(dialogHeight));
+        getDialog().getWindow().setLayout(Math.round(dialogWidth), Math.round(dialogHeight));*/
     }
 
     private void setupListeners() {
