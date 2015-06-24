@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
@@ -17,6 +18,8 @@ import us.ridiculousbakery.espressoexpress.R;
  * Created by teddywyly on 6/7/15.
  */
 public class MenuHeaderFragment extends Fragment {
+
+    private TextView tvStoreName;
 
     //================================================================================
     // Lifecycle
@@ -31,6 +34,13 @@ public class MenuHeaderFragment extends Fragment {
         return dialog;
     }
 
+    public void scaleTitleText(float scalingFactor) {
+        if (tvStoreName != null) {
+            tvStoreName.setScaleX(scalingFactor);
+            tvStoreName.setScaleY(scalingFactor);
+        }
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +53,10 @@ public class MenuHeaderFragment extends Fragment {
         String title = getArguments().getString("title");
         String imageURL = getArguments().getString("imageURL");
 
-        Log.d("IMAGE", imageURL);
-
         ImageView ivHeader = (ImageView) v.findViewById(R.id.ivHeader);
+        TextView tvStoreName = (TextView) v.findViewById(R.id.tvStoreName);
 
-        Log.d("VIEW", ivHeader.toString());
-
+        tvStoreName.setText(title);
         Picasso.with(getActivity()).load(imageURL).fit().into(ivHeader);
 
         return v;

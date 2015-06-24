@@ -27,6 +27,15 @@ public class MenuActivity extends AppCompatActivity {
             ft.replace(R.id.flContainer, fragmentMenu);
             ft.commit();
         }
+        setupActionBar();
+    }
+
+    private void setupActionBar() {
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        //getSupportActionBar().setLogo(R.drawable.ic_bird);
+        getSupportActionBar().setTitle("");
+        getSupportActionBar().setDisplayUseLogoEnabled(true);
+        getSupportActionBar().setElevation(0);
     }
 
     @Override

@@ -1,12 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="150dp"
         android:scaleType="centerCrop"
         android:id="@+id/ivHeader" />
 
-</LinearLayout>
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ivHeader"
+        android:layout_alignLeft="@+id/ivHeader"
+        android:layout_alignRight="@+id/ivHeader"
+        android:layout_alignEnd="@+id/ivHeader"
+        android:layout_alignStart="@+id/ivHeader"
+        android:layout_alignTop="@+id/ivHeader"
+        android:background="@drawable/dimmer"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/ivHeader"
+        android:layout_alignLeft="@+id/ivHeader"
+        android:layout_alignRight="@+id/ivHeader"
+        android:layout_alignEnd="@+id/ivHeader"
+        android:layout_alignStart="@+id/ivHeader"
+        android:layout_alignTop="@+id/ivHeader"
+        android:id="@+id/tvStoreName"
+        android:textColor="@android:color/white"
+        android:textSize="35sp"
+        android:text="Starbucks"
+        android:gravity="center"/>
+
+</RelativeLayout>

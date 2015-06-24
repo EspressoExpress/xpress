@@ -77,7 +77,8 @@
         <activity
             android:name=".ChooseItemFlow_Teddy.Activities.MenuActivity"
             android:label="@string/title_activity_menu"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/ProfileBarTheme">
         </activity>
         <activity
             android:name=".Checkout.CartActivity"

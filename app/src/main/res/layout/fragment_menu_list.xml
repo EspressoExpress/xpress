@@ -8,20 +8,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:minHeight="?attr/actionBarSize"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="?attr/colorPrimary">
-    </android.support.v7.widget.Toolbar>
+    <!--<android.support.v7.widget.Toolbar-->
+        <!--android:id="@+id/toolbar"-->
+        <!--android:minHeight="?attr/actionBarSize"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:background="?attr/colorPrimary">-->
+    <!--</android.support.v7.widget.Toolbar>-->
 
     <ExpandableListView
         android:layout_width="match_parent"
         android:layout_height="16dp"
         android:id="@+id/elvMenu"
         android:layout_above="@+id/btnCart"
-        android:layout_below="@+id/toolbar" />
+        android:layout_alignParentTop="true" />
 
     <Button
         android:layout_width="match_parent"

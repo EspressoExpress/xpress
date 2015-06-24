@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
@@ -105,11 +106,10 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_menu_list, null, false);
-        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-        AppCompatActivity activity = (AppCompatActivity) getActivity();
-        activity.setSupportActionBar(toolbar);
-        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
+//        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
+//        AppCompatActivity activity = (AppCompatActivity) getActivity();
+//        activity.setSupportActionBar(toolbar);
+//        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String storeID = getArguments().getString("storeId");
         storeID = "1NoCwWrzM5";
@@ -147,7 +147,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
                         }
                     });
 
-                    View header = inflater.inflate(R.layout.menu_header, null, false);
+                    final View header = inflater.inflate(R.layout.menu_header, null, false);
 
 
                     String imageURL = (String)store.get("imageURL");
@@ -155,7 +155,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
                     //Log.d("IMAGE", imageURL);
 
                     FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                    MenuHeaderFragment menuHeaderFragment = MenuHeaderFragment.newInstance("Hello", imageURL);
+                    final MenuHeaderFragment menuHeaderFragment = MenuHeaderFragment.newInstance("Hello", imageURL);
                     ft.replace(R.id.flContainer, menuHeaderFragment);
                     ft.commit();
                     elvMenu.addHeaderView(header);
@@ -163,6 +163,34 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
                     for(int i=0; i < aMenu.getGroupCount(); i++) {
                         elvMenu.expandGroup(i);
                     }
+
+                    elvMenu.setOnScrollListener(new AbsListView.OnScrollListener() {
+                        @Override
+                        public void onScrollStateChanged(AbsListView view, int scrollState) {
+
+                        }
+
+                        @Override
+                        public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                            final float headerHeight = header.getHeight() - ((AppCompatActivity) getActivity()).getSupportActionBar().getHeight();
+//                            Log.d("HEIGHT", headerHeight + "");
+//                            Log.d("HEIGHT", header.getTop() + "");
+
+                            float head = header.getTop() * -1;
+                            float base = (float)(headerHeight / 2.5);
+                            float scalingFactor = 1 - (head/base);
+
+                            Log.d("FACTOR", scalingFactor + "");
+
+
+                            menuHeaderFragment.scaleTitleText(scalingFactor);
+
+                            if (scalingFactor > 0.5f) {
+                                menuHeaderFragment.scaleTitleText(scalingFactor);
+                            }
+
+                        }
+                    });
 
                     btnCart = (Button) v.findViewById(R.id.btnCart);
                     setCartButtonHeight();
