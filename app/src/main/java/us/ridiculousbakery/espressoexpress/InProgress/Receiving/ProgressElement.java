@@ -62,8 +62,6 @@ public class ProgressElement extends LinearLayout {
 
     public void activate() {
 
-//        Log.i("ZZZZZZ", "activate " + c);
-
         if(  iv==null  )    iv = (ImageView) findViewById(R.id.ivIcon);
 
         TypedValue typedValue = new TypedValue();
@@ -75,10 +73,6 @@ public class ProgressElement extends LinearLayout {
         tv.setTextColor(c);
         setAlpha(1);
     }
-
-//    public void setAccentColor(Colo){
-//        accentColor = c;
-//    }
 
     public void setText(int i){
         String s  = getResources().getString(i);

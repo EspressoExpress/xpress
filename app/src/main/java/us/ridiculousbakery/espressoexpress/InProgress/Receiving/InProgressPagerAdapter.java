@@ -8,11 +8,11 @@ import java.util.ArrayList;
 /**
  * Created by bkuo on 5/31/15.
  */
-public class ReceivingFragmentPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
+public class InProgressPagerAdapter extends android.support.v4.app.FragmentPagerAdapter {
     private ArrayList<Fragment> fgTimelines;
     private ArrayList<String> tabTitles;
 
-    public ReceivingFragmentPagerAdapter(FragmentManager fm, ArrayList<String> titles, ArrayList<Fragment> fragments) {
+    public InProgressPagerAdapter(FragmentManager fm, ArrayList<String> titles, ArrayList<Fragment> fragments) {
         super(fm);
         tabTitles = titles;
         fgTimelines= fragments;
