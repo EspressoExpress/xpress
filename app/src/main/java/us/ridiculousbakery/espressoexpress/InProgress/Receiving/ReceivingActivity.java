@@ -33,8 +33,9 @@ public class ReceivingActivity extends AppCompatActivity {
     private String orderID;
     private ArrayList<Fragment> fragments = new ArrayList<Fragment>();
 
-    private ChatArrayAdapter aMessages;//= new ChatArrayAdapter(this,)
-    private ArrayList<String> messages = new ArrayList<String>();
+    private ArrayList<Message> messages = new ArrayList<Message>();
+    private ChatArrayAdapter aMessages= new ChatArrayAdapter(this,messages);
+
     private ReceivingFragmentPagerAdapter receivingFragmentPagerAdapter;
     private ArrayList<String> titles = new ArrayList<String>();
     private ViewPager viewPager;
