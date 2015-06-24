@@ -7,17 +7,56 @@
     android:padding="24dp">
 
 
+    <LinearLayout
+        android:id="@+id/llAccepted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-    <include
-        android:id="@+id/elAccepted"
-        layout="@layout/delivery_element" />
+        <TextView android:text="@string/deliver_accepted"
+            android:id="@+id/tvAccepted"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <include
-        android:id="@+id/elPickedUp"
-        layout="@layout/delivery_element" />
+        <Button android:text="Ok, going there now!"
+            android:id="@+id/btnAccepted"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </LinearLayout>
 
-    <include
-        android:id="@+id/elDelivered"
-        layout="@layout/delivery_element" />
+    <LinearLayout
+        android:id="@+id/llPickedUp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView android:text="@string/deliver_picked_up"
+            android:id="@+id/tvPickedUp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button android:text="On my way!"
+            android:id="@+id/btnPickedUp"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llDelivered"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView android:text="@string/deliver_delivered"
+            android:id="@+id/tvDelivered"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <Button android:text="Cha-Ching!"
+            android:id="@+id/btnDelivered"
+            android:layout_width="match_parent"
+            android:layout_height="50dp" />
+    </LinearLayout>
+
 
 </LinearLayout>
