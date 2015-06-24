@@ -39,6 +39,7 @@
             android:id="@+id/tvItemOption"
             android:layout_below="@+id/tvItemName"
             android:layout_alignParentLeft="true"
+            android:maxLines="1"
             android:ellipsize="end"
             />
 

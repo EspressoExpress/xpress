@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import us.ridiculousbakery.espressoexpress.InProgress.Receiving.ReceivingActivity;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.Order;
+import us.ridiculousbakery.espressoexpress.Model.SelectedOption;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.Model.TempOrder;
 import us.ridiculousbakery.espressoexpress.R;
@@ -113,7 +114,6 @@ public class CartFragment extends Fragment {
         super.onCreate(savedInstanceState);
         order = (TempOrder) getArguments().getSerializable("order");
         lineItems = order.getLineItems();
-
         alineItems = new CartItemAdapterSwipe(getActivity(), lineItems);
         store = Store.getInForeground(getArguments().getString("StoreId"));
         /*Store.getInBackground(getArguments().getString("StoreId"), new GetCallback<Store>() {
@@ -190,6 +190,7 @@ public class CartFragment extends Fragment {
                     LineItem lineItem = order.getLineItems().get(i);
                     ParseObject lineItemObj = new ParseObject("LineItem");
                     lineItemObj.put("name", lineItem.getItem().getName());
+                    lineItemObj.put("selectOptions", SelectedOption.ArrayToString(lineItem.getChosenOptions()));
                     try {
                         lineItemObj.save();
                     } catch (ParseException e) {
