@@ -32,9 +32,6 @@ public class ChatArrayAdapter extends ArrayAdapter<Message> {
     }
 
 
-    public Context getContext() {
-        return context;
-    }
      private int[] layouts = new int[]{R.layout.sender_chat_item, R.layout.receiver_chat_item};
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -44,7 +41,7 @@ public class ChatArrayAdapter extends ArrayAdapter<Message> {
         Message message = (Message) getItem(position);
         if (convertView == null) {
             viewHolder = new ViewHolder();
-            convertView = inflater.inflate(layouts[getItemViewType(position)], parent, false);
+            convertView = LayoutInflater.from(getContext()).inflate(layouts[getItemViewType(position)], parent, false);
             viewHolder.text = (TextView) convertView.findViewById(R.id.tvText);
             viewHolder.ivProfile = (ImageView) convertView.findViewById(R.id.ivProfile);
             convertView.setTag(viewHolder);

@@ -34,7 +34,7 @@ public class ReceivingActivity extends AppCompatActivity {
     private ArrayList<Fragment> fragments = new ArrayList<Fragment>();
 
     private ArrayList<Message> messages = new ArrayList<Message>();
-    private ChatArrayAdapter aMessages= new ChatArrayAdapter(this,messages);
+    private ChatArrayAdapter aMessages;
 
     private ReceivingFragmentPagerAdapter receivingFragmentPagerAdapter;
     private ArrayList<String> titles = new ArrayList<String>();
@@ -50,7 +50,7 @@ public class ReceivingActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         fragments.add(ProgressFragment.instance());
         titles.add("Progress");
-
+        aMessages= new ChatArrayAdapter(this,messages);
         receivingFragmentPagerAdapter = new ReceivingFragmentPagerAdapter(getSupportFragmentManager(), titles, fragments);
 
         if (savedInstanceState == null) {
@@ -58,6 +58,7 @@ public class ReceivingActivity extends AppCompatActivity {
             tabsStrip.setViewPager(viewPager);
 
         }
+//        addChatFragment(); //remove
 
     }
 
@@ -67,6 +68,7 @@ public class ReceivingActivity extends AppCompatActivity {
         titles.add("Chat");
         receivingFragmentPagerAdapter.notifyDataSetChanged();
         tabsStrip.notifyDataSetChanged();
+        ChatFragment.instance().setAdapter(aMessages);
     }
 
     public void addMapFragment() {
@@ -102,6 +104,8 @@ public class ReceivingActivity extends AppCompatActivity {
                 message,
                 senderId.equals(ParseUser.getCurrentUser().getObjectId()) ? 0 : 1
         ));
+        aMessages.notifyDataSetChanged();
+        Log.i("ZZZZZZ" , "applied to chat");
         ChatFragment.instance().scrollToEnd();
     }
 
