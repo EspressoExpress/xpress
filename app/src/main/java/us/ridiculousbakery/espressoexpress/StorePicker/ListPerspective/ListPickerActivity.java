@@ -132,7 +132,7 @@ public class ListPickerActivity extends NavDrawerLocationBaseActivity implements
 
                         @Override
                         public String getTitleDiction() {
-                            return "";
+                            return "%s";
                         }
                     }));
                     mapPicker.setStores(s);

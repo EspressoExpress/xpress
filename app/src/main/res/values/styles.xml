@@ -105,6 +105,7 @@
         <item name="background">@android:color/transparent</item>
 
         <item name="android:titleTextStyle">@style/MyActionBarTitleText</item>
+        <item name="colorPrimaryDark">#0097A7</item>
 
         <!-- Support library compatibility -->
         <item name="titleTextStyle">@style/MyActionBarTitleText</item>

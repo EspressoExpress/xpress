@@ -13,7 +13,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView android:text="@string/deliver_accepted"
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/deliver_accepted"
             android:id="@+id/tvAccepted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -21,7 +23,12 @@
         <Button android:text="Ok, going there now!"
             android:id="@+id/btnAccepted"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_statelist"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            fontPath = "open-sans/OpenSans-Bold.ttf" />
     </LinearLayout>
 
     <LinearLayout
@@ -30,7 +37,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView android:text="@string/deliver_picked_up"
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/deliver_picked_up"
             android:id="@+id/tvPickedUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -38,7 +47,13 @@
         <Button android:text="On my way!"
             android:id="@+id/btnPickedUp"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_statelist"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            fontPath = "open-sans/OpenSans-Bold.ttf"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -47,7 +62,9 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <TextView android:text="@string/deliver_delivered"
+        <TextView
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="@string/deliver_delivered"
             android:id="@+id/tvDelivered"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
@@ -55,7 +72,12 @@
         <Button android:text="Cha-Ching!"
             android:id="@+id/btnDelivered"
             android:layout_width="match_parent"
-            android:layout_height="50dp" />
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_statelist"
+            android:textColor="@android:color/white"
+            android:textAllCaps="false"
+            android:textSize="20sp"
+            fontPath = "open-sans/OpenSans-Bold.ttf" />
     </LinearLayout>
 
 
