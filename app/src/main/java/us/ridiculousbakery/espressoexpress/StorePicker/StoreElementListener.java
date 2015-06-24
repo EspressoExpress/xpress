@@ -5,4 +5,5 @@ package us.ridiculousbakery.espressoexpress.StorePicker;
  */
 public interface StoreElementListener {
     void onListStoreElementClicked(int position);
+    String getTitleDiction();
 }
