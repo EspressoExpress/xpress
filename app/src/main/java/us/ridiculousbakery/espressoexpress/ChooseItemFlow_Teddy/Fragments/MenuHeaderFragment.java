@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import us.ridiculousbakery.espressoexpress.DisplayHelper;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -72,6 +73,8 @@ public class MenuHeaderFragment extends Fragment {
 
         tvStoreName.setText(title);
         Picasso.with(getActivity()).load(imageURL).fit().into(ivHeader);
+        //Picasso.with(getActivity()).load(DisplayHelper.getProfileUrlFromEmail("wylynout@gmail.com")).fit().into(ivHeader);
+
 
         return v;
     }

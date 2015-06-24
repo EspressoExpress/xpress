@@ -33,10 +33,13 @@ import com.parse.ParseUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.ArrayList;
 
 import us.ridiculousbakery.espressoexpress.Checkout.CartActivity;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Adapters.MenuAdapter;
+import us.ridiculousbakery.espressoexpress.MD5Util;
 import us.ridiculousbakery.espressoexpress.Model.Item;
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.Order;
@@ -69,9 +72,12 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
         args.putString("storeId", storeId);
 
 //        args.putSerializable("store", store);
+
+
         fragment.setArguments(args);
         return fragment;
     }
+
 
     //================================================================================
     // Lifecycle
