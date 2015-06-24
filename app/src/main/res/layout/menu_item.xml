@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:text="@string/sample_text"
             android:id="@+id/tvName"
+            android:padding="10dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true" />
@@ -26,6 +27,7 @@
             android:layout_height="wrap_content"
             android:text="@string/sample_text"
             android:id="@+id/tvPrice"
+            android:padding="10dp"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />

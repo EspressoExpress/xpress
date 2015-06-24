@@ -86,7 +86,7 @@ public class MenuAdapter extends BaseExpandableListAdapter {
         }
 
 //        viewHolder.image.setImageResource(0);
-        viewHolder.price.setText("$4-6");
+        viewHolder.price.setText(item.getPriceRange());
         viewHolder.name.setText(item.getName());
 
 //        if (item.getImageURL() != null) {

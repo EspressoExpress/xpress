@@ -22,6 +22,7 @@ public class TempStore implements Serializable {
     private Double lon;
     private Double lat;
     private Integer background;
+    private String storeID;
 
     public TempStore(Store store) {
         this.name = store.getName();
@@ -29,6 +30,7 @@ public class TempStore implements Serializable {
         this.lon = store.getLon();
         this.lat = store.getLat();
         this.logo = store.getLogo();
+        this.storeID = store.getObjectId();
     }
 
     public String getName() {

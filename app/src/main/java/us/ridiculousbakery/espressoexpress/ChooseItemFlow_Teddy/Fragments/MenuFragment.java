@@ -182,9 +182,6 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
 
                             Log.d("FACTOR", scalingFactor + "");
 
-
-                            menuHeaderFragment.scaleTitleText(scalingFactor);
-
                             if (scalingFactor > 0.5f) {
                                 menuHeaderFragment.scaleTitleText(scalingFactor);
                             }

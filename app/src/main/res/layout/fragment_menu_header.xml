@@ -2,11 +2,11 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="150dp">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="150dp"
+        android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:id="@+id/ivHeader" />
 
@@ -21,19 +21,19 @@
         android:layout_alignTop="@+id/ivHeader"
         android:background="@drawable/dimmer"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/ivHeader"
-        android:layout_alignLeft="@+id/ivHeader"
-        android:layout_alignRight="@+id/ivHeader"
-        android:layout_alignEnd="@+id/ivHeader"
-        android:layout_alignStart="@+id/ivHeader"
-        android:layout_alignTop="@+id/ivHeader"
-        android:id="@+id/tvStoreName"
-        android:textColor="@android:color/white"
-        android:textSize="35sp"
-        android:text="Starbucks"
-        android:gravity="center"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/tvStoreName"
+            android:textColor="@android:color/white"
+            android:textSize="40sp"
+            android:text="Starbucks"
+            android:gravity="center"
+            android:paddingLeft="60dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
 
 </RelativeLayout>

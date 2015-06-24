@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:text="New Text"
         android:textSize="30sp"
+        android:padding="15dp"
         android:id="@+id/tvCategory"
         android:layout_gravity="center"/>
 </LinearLayout>

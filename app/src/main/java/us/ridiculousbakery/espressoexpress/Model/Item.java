@@ -21,6 +21,7 @@ public class Item implements Serializable {
 
     private static final long serialVersionUID = 4455604316807152635L;
     private String name;
+    private String priceRange;
     private String imageURL;
     private TreeMap <String, ArrayList<String>> options;
 
@@ -38,11 +39,18 @@ public class Item implements Serializable {
         this.options = options;
     }
 
+    public String getPriceRange() {
+        return priceRange;
+    }
+
     public static Item fromJSON(JSONObject json) {
         Item item = new Item();
         try {
             String itemName = json.getString("name");
             item.name = itemName;
+            String priceRange = json.getString("price_range");
+            Log.d("PRICERANGE", priceRange);
+            item.priceRange = priceRange;
 
             JSONArray sizes = json.getJSONArray("sizes");
             TreeMap<String, ArrayList<String>> newOptions = new TreeMap<>();

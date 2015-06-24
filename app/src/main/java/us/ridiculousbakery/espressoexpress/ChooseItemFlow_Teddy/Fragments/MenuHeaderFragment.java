@@ -54,7 +54,7 @@ public class MenuHeaderFragment extends Fragment {
         String imageURL = getArguments().getString("imageURL");
 
         ImageView ivHeader = (ImageView) v.findViewById(R.id.ivHeader);
-        TextView tvStoreName = (TextView) v.findViewById(R.id.tvStoreName);
+        tvStoreName = (TextView) v.findViewById(R.id.tvStoreName);
 
         tvStoreName.setText(title);
         Picasso.with(getActivity()).load(imageURL).fit().into(ivHeader);
