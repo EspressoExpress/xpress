@@ -78,7 +78,7 @@
             android:name=".ChooseItemFlow_Teddy.Activities.MenuActivity"
             android:label="@string/title_activity_menu"
             android:screenOrientation="portrait"
-            android:theme="@style/ProfileBarTheme"
+
             android:launchMode="singleTop">
         </activity>
         <activity
