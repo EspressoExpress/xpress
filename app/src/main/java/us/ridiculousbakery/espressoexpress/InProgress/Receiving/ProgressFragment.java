@@ -19,6 +19,7 @@ public class ProgressFragment extends Fragment {
     private ProgressElement elAccepted;
     private ProgressElement elPickedUp;
     private ProgressElement elDelivered;
+    private String lastStatus;
 
     public static ProgressFragment instance(){
         if(_instance==null) _instance=new ProgressFragment();
@@ -49,13 +50,16 @@ public class ProgressFragment extends Fragment {
         elDelivered.setText(R.string.progress_delivered);
 
         elPlaced.setMatchers(new String[]{Order.SUBMITTED,Order.ACCEPTED,Order.PICKED_UP,Order.DELIVERED});
-        elAccepted.setMatchers(new String[]{Order.ACCEPTED,Order.PICKED_UP,Order.DELIVERED});
-        elPickedUp.setMatchers(new String[]{Order.PICKED_UP,Order.DELIVERED});
+        elAccepted.setMatchers(new String[]{Order.ACCEPTED, Order.PICKED_UP, Order.DELIVERED});
+        elPickedUp.setMatchers(new String[]{Order.PICKED_UP, Order.DELIVERED});
         elDelivered.setMatchers(new String[]{Order.DELIVERED});
-
+        if (lastStatus == null) activate(Order.SUBMITTED);
+        else activate(lastStatus);
         return _v;
     }
-    public void activate(String status){
+
+    public void activate(String status) {
+        lastStatus = status;
         elPlaced.activate(status);
         elAccepted.activate(status);
         elPickedUp.activate(status);

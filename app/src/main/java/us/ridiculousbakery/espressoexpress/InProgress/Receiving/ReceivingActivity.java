@@ -31,25 +31,26 @@ public class ReceivingActivity extends AppCompatActivity {
     private OrderInProgressFragment orderInProgressFragment;
     private String deliverID;
     private String orderID;
-    private  ArrayList<Fragment>fragments = new ArrayList<Fragment>() ;
+    private ArrayList<Fragment> fragments = new ArrayList<Fragment>();
 
-    private ChatArrayAdapter aMessages ;//= new ChatArrayAdapter(this,)
+    private ChatArrayAdapter aMessages;//= new ChatArrayAdapter(this,)
     private ArrayList<String> messages = new ArrayList<String>();
-    private ReceivingFragmentPagerAdapter  receivingFragmentPagerAdapter;
+    private ReceivingFragmentPagerAdapter receivingFragmentPagerAdapter;
     private ArrayList<String> titles = new ArrayList<String>();
     private ViewPager viewPager;
     private PagerSlidingTabStrip tabsStrip;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.receiving_activity);
         PushService.setDefaultPushCallback(this, ReceivingActivity.class);
-        tabsStrip= (PagerSlidingTabStrip) findViewById(R.id.tabs);
-        viewPager= (ViewPager) findViewById(R.id.viewpager);
+        tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         fragments.add(ProgressFragment.instance());
         titles.add("Progress");
 
-        receivingFragmentPagerAdapter  = new ReceivingFragmentPagerAdapter(getSupportFragmentManager(), titles, fragments);
+        receivingFragmentPagerAdapter = new ReceivingFragmentPagerAdapter(getSupportFragmentManager(), titles, fragments);
 
         if (savedInstanceState == null) {
             viewPager.setAdapter(receivingFragmentPagerAdapter);
@@ -57,34 +58,42 @@ public class ReceivingActivity extends AppCompatActivity {
 
         }
 
-        addChatFragment();
-        addMapFragment();
     }
-    public void addChatFragment(){
-        if(fragments.indexOf(ChatFragment.instance()) >= 0) return;
+
+    public void addChatFragment() {
+        if (fragments.indexOf(ChatFragment.instance()) >= 0) return;
         fragments.add(ChatFragment.instance());
         titles.add("Chat");
         receivingFragmentPagerAdapter.notifyDataSetChanged();
         tabsStrip.notifyDataSetChanged();
     }
 
-    public void addMapFragment(){
-        if(fragments.indexOf(MapFragment.instance()) <0) return;
+    public void addMapFragment() {
+        if (fragments.indexOf(MapFragment.instance()) >= 0) return;
         fragments.add(MapFragment.instance());
         titles.add("Track");
         receivingFragmentPagerAdapter.notifyDataSetChanged();
         tabsStrip.notifyDataSetChanged();
     }
-    public void addOrderConfirmFragment(){}
 
+    public void addOrderConfirmFragment() {
+    }
 
 
     private void updateStatus(JSONObject json) {
         String orderId = json.optString("orderId", null);
         String status = json.optString("status", null);
+
+        if (status.equals(Order.ACCEPTED)) addChatFragment();
+        if (status.equals(Order.PICKED_UP) || status.equals(Order.DELIVERED)) {
+            addChatFragment();
+            addMapFragment();
+        }
         ProgressFragment.instance().activate(status);
     }
-    private void applyChat(JSONObject json){
+
+    private void applyChat(JSONObject json) {
+        addChatFragment();
         String senderId = json.optString("senderId", null);
 //        if(senderId.equals(ParseUser.getCurrentUser().getObjectId())) return;
         String message = json.optString("message", null);
@@ -105,14 +114,15 @@ public class ReceivingActivity extends AppCompatActivity {
 
                 JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
                 String type = json.optString("type", "");
-                if(type.equals("status")) updateStatus(json);
-                if(type.equals("chat")) applyChat(json);
+                if (type.equals("status")) updateStatus(json);
+                if (type.equals("chat")) applyChat(json);
             } catch (JSONException e) {
                 e.printStackTrace();
             }
             Log.i("ZZZZZZ R_A", "onReceive!  CELEBRATE");
         }
     };
+
     @Override
     public void onPause() {
         super.onPause();
