@@ -1,5 +1,7 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,8 +9,10 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +22,7 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.RelativeLayout;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.parse.GetCallback;
 import com.parse.ParseException;
 import com.parse.ParseObject;
@@ -49,7 +54,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     private MenuAdapter aMenu;
     private StoreMenu storeMenu;
     private ExpandableListView elvMenu;
-    private Button btnCart;
+    private FloatingActionButton btnCart;
     private ArrayList<LineItem> lineItems;
     private CustomizeItemDialog customizeDialog;
     private Store store;
@@ -106,13 +111,15 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View v = inflater.inflate(R.layout.fragment_menu_list, null, false);
-//        Toolbar toolbar = (Toolbar) v.findViewById(R.id.toolbar);
-//        AppCompatActivity activity = (AppCompatActivity) getActivity();
-//        activity.setSupportActionBar(toolbar);
-//        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         String storeID = getArguments().getString("storeId");
         storeID = "1NoCwWrzM5";
+
+        lineItems = new ArrayList<>();
+
+        btnCart = (FloatingActionButton) v.findViewById(R.id.btnCart);
+        setCartButtonHeight();
+
 
         Store.getInBackground(storeID, new GetCallback<Store>() {
             @Override
@@ -133,7 +140,6 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
 
                     //storeMenu = store.getStoreMenu();
                     aMenu = new MenuAdapter(getActivity(), storeMenu);
-                    lineItems = new ArrayList<>();
                     elvMenu = (ExpandableListView) v.findViewById(R.id.elvMenu);
                     Log.d("DEBUG", "LISTVIEWEXPAND is " + elvMenu.toString());
                     elvMenu.setAdapter(aMenu);
@@ -155,7 +161,7 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
                     //Log.d("IMAGE", imageURL);
 
                     FragmentTransaction ft = getChildFragmentManager().beginTransaction();
-                    final MenuHeaderFragment menuHeaderFragment = MenuHeaderFragment.newInstance("Hello", imageURL);
+                    final MenuHeaderFragment menuHeaderFragment = MenuHeaderFragment.newInstance(store.getName(), imageURL);
                     ft.replace(R.id.flContainer, menuHeaderFragment);
                     ft.commit();
                     elvMenu.addHeaderView(header);
@@ -177,20 +183,47 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
 //                            Log.d("HEIGHT", header.getTop() + "");
 
                             float head = header.getTop() * -1;
-                            float base = (float)(headerHeight / 2.5);
-                            float scalingFactor = 1 - (head/base);
+                            float base = (float) (headerHeight / 2.5);
+                            float scalingFactor = 1 - (head / base);
 
-                            Log.d("FACTOR", scalingFactor + "");
+//                            Log.d("FACTOR", scalingFactor + "");
+//                            Log.d("HEAD", head + "");
+//
+//
+                            AppCompatActivity act = (AppCompatActivity) getActivity();
+                            ActionBar bar = act.getSupportActionBar();
+
+                            if (headerHeight - head < bar.getHeight() / 6) {
+                                bar.setBackgroundDrawable(getResources().getDrawable(R.color.colorPrimary));
+                                bar.setTitle(Html.fromHtml("<font color='#ffffff'>" + store.getName() + "</font>"));
+                                bar.setTitle(store.getName());
+                            } else {
+                                bar.setBackgroundDrawable(getResources().getDrawable(android.R.color.transparent));
+                                bar.setTitle("");
+                            }
+
+
+                            float magic = headerHeight / 2;
+
+                            if (head > magic) {
+                                menuHeaderFragment.translateTitleTextVertical(head - magic);
+                            }
+
+                            float alphaScale = head / headerHeight;
+                            if (alphaScale < 0.4) {
+                                alphaScale = 0.4f;
+                            }
+                            menuHeaderFragment.setOverlayAlpha(alphaScale);
 
                             if (scalingFactor > 0.5f) {
                                 menuHeaderFragment.scaleTitleText(scalingFactor);
                             }
 
+
                         }
                     });
 
-                    btnCart = (Button) v.findViewById(R.id.btnCart);
-                    setCartButtonHeight();
+
                     btnCart.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
@@ -214,15 +247,24 @@ public class MenuFragment extends Fragment implements CustomizeItemDialog.Custom
 
         return v;
     }
-
+//
     private void setCartButtonHeight() {
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams)btnCart.getLayoutParams();
+
         if (lineItems.size() > 0) {
-            params.height = 150;
+            if (btnCart.getScaleX() == 0.0f) {
+                AnimatorSet set = new AnimatorSet();
+                set.playTogether(
+                        ObjectAnimator.ofFloat(btnCart, "scaleX", 0.0f, 1.0f)
+                                .setDuration(500),
+                        ObjectAnimator.ofFloat(btnCart, "scaleY", 0.0f, 1.0f)
+                                .setDuration(500)
+                );
+                set.start();
+            }
         } else {
-            params.height = 0;
+            btnCart.setScaleX(0);
+            btnCart.setScaleY(0);
         }
-        btnCart.setLayoutParams(params);
     }
 
 

@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.TreeMap;
 
 import us.ridiculousbakery.espressoexpress.R;
@@ -33,6 +34,13 @@ public class OptionsAdapter extends BaseAdapter {
             List<String> strings = entry.getValue();
             for (int i=0; i<strings.size(); i++) {
                 internalOptions.add(strings.get(i));
+//
+//                if (entry.getKey().equals("Size")) {
+//                    String l = strings.get(i);
+//                    internalOptions.add(l.split("-")[0]);
+//                } else {
+//                    internalOptions.add(strings.get(i));
+//                }
             }
         }
         return internalOptions;
@@ -85,7 +93,12 @@ public class OptionsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+        Random rand = new Random();
+        int randomNum = rand.nextInt((100 - 20) + 1) + 20;
+
+
         viewHolder.name.setText(op);
+        viewHolder.name.setPadding(0, randomNum, 0, randomNum);
 
 
         if (positionIsInFirstGroup(position)) {

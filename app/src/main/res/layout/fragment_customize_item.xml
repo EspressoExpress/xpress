@@ -22,18 +22,13 @@
             </TableRow>
     </TableLayout>
 
-    <ImageView
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:id="@+id/imageView3"
-        android:layout_gravity="center"
-        android:src="@drawable/cafe_24_2x"/>
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/sample_text"
         android:gravity="center"
+        android:textSize="30sp"
+        android:padding="15dp"
         android:id="@+id/tvChoicePrompt" />
 
     <FrameLayout

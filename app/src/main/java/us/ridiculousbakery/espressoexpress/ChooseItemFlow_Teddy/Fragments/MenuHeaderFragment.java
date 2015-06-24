@@ -20,6 +20,7 @@ import us.ridiculousbakery.espressoexpress.R;
 public class MenuHeaderFragment extends Fragment {
 
     private TextView tvStoreName;
+    private View vOverlay;
 
     //================================================================================
     // Lifecycle
@@ -41,6 +42,18 @@ public class MenuHeaderFragment extends Fragment {
         }
     }
 
+    public void translateTitleTextVertical(float y) {
+        if (tvStoreName != null) {
+            tvStoreName.setTranslationY(y);
+        }
+    }
+
+    public void setOverlayAlpha(float alpha) {
+        if (vOverlay != null) {
+            vOverlay.setAlpha(alpha);
+        }
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +68,7 @@ public class MenuHeaderFragment extends Fragment {
 
         ImageView ivHeader = (ImageView) v.findViewById(R.id.ivHeader);
         tvStoreName = (TextView) v.findViewById(R.id.tvStoreName);
+        vOverlay = (View) v.findViewById(R.id.vOverlay);
 
         tvStoreName.setText(title);
         Picasso.with(getActivity()).load(imageURL).fit().into(ivHeader);

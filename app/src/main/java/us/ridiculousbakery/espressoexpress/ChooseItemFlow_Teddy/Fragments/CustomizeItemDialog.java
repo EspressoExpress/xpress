@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -94,6 +95,8 @@ public class CustomizeItemDialog extends DialogFragment {
                     if (op.getCategory().equals("Size")) {
                         String size = op.getName();
                         String parts[] = size.split("-");
+//                        Log.d("PARTSDEBUG", parts[0]);
+//                        Log.d("COUNT", parts.length +"");
                         op.setName(parts[0]);
                         price = Double.parseDouble(parts[1]);
                     }

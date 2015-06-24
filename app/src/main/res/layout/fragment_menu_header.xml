@@ -19,7 +19,8 @@
         android:layout_alignEnd="@+id/ivHeader"
         android:layout_alignStart="@+id/ivHeader"
         android:layout_alignTop="@+id/ivHeader"
-        android:background="@drawable/dimmer"/>
+        android:id="@+id/vOverlay"
+        android:background="@drawable/blue_overlay"/>
 
 
         <TextView
@@ -27,7 +28,7 @@
             android:layout_height="wrap_content"
             android:id="@+id/tvStoreName"
             android:textColor="@android:color/white"
-            android:textSize="40sp"
+            android:textSize="50sp"
             android:text="Starbucks"
             android:gravity="center"
             android:paddingLeft="60dp"
