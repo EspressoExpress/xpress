@@ -57,6 +57,27 @@
 
     </style>
 
+    <style name="CheckoutBarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:homeAsUpIndicator">@drawable/ic_custom_up</item>
+        <item name="android:textColorPrimary">#212121</item>
+        <item name="android:textColorSecondary">#727272</item>
+        <item name="android:divider">#B6B6B6</item>
+
+        <item name="colorPrimaryDark">#0097A7</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorAccent">#8BC34A</item>
+        <item name="colorControlHighlight">#B2EBF2</item>
+
+        <!--<item name="android:textColor">#FFFFFFFF</item>-->
+        <!--<item name="android:titleTextStyle">#FFFFFFFF</item>-->
+        <!--<item name="android:titleTextStyle">?attr/titleTextStyle</item>-->
+
+        <item name="colorControlNormal">#727272</item>
+        <item name="colorControlActivated">#8BC34A</item>
+        <item name="android:actionBarStyle">@style/CheckoutBar</item>
+        <item name="actionBarStyle">@style/CheckoutBar</item>
+
+    </style>
     <!-- the theme applied to the application or activity -->
     <style name="ProfileBarTheme" parent="@style/Theme.AppCompat.Light">
         <item name="android:windowActionBarOverlay">true</item>
@@ -69,6 +90,11 @@
         <item name="windowActionBarOverlay">true</item>
         <item name="actionBarStyle">@style/TransparentBar</item>
 
+    </style>
+
+    <style name="CheckoutBar" parent="TransparentBar">
+        <item name="android:background">@color/colorPrimary</item>
+        <item name="background">@color/colorPrimary</item>
     </style>
 
     <!-- ActionBar styles -->

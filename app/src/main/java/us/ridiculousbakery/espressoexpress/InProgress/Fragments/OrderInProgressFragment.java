@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,7 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
+import us.ridiculousbakery.espressoexpress.DisplayHelper;
 import us.ridiculousbakery.espressoexpress.InProgress.Delivering.DeliveringHeaderFragment;
 import us.ridiculousbakery.espressoexpress.InProgress.Receiving.ReceivingHeaderFragment;
 import us.ridiculousbakery.espressoexpress.InProgress.SmartFragmentStatePagerAdapter;
@@ -55,7 +57,7 @@ public class OrderInProgressFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View v = inflater.inflate(R.layout.fragment_order_in_progress, container, false);
-        btStartMarker = (Button) v.findViewById(R.id.btStartMarker);
+        //btStartMarker = (Button) v.findViewById(R.id.btStartMarker);
 
         final boolean isDelivering = false;/*= getArguments().getBoolean("isDelivering");*/
         String parseOrderID = getArguments().getString("parseOrderID");
@@ -90,7 +92,7 @@ public class OrderInProgressFragment extends Fragment {
 
 
         // SHOW LOADING UI
-        /*if (isDelivering) {
+        if (isDelivering) {
 
             deliveringHeaderFragment = DeliveringHeaderFragment.newInstance(DisplayHelper.getProfileUrl(receivingUser.getEmail()), receivingUser.getString("displayName"));
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
@@ -101,7 +103,7 @@ public class OrderInProgressFragment extends Fragment {
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
             ft.replace(R.id.flHeaderContainer, receivingHeaderFragment);
             ft.commit();
-        }*/
+        }
 
         ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewpager);
         aPager = new SampleFragmentPagerAdapter(getFragmentManager());
@@ -109,7 +111,7 @@ public class OrderInProgressFragment extends Fragment {
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) v.findViewById(R.id.tabs);
         tabStrip.setViewPager(viewPager);
 
-        setupListeners();
+        //setupListeners();
 
         /*ParseQuery<ParseUser> query =  ParseQuery.getQuery("_User");
         query.whereEqualTo("objectID", userID);

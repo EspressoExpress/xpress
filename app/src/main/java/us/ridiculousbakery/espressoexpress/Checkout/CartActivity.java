@@ -1,18 +1,22 @@
 package us.ridiculousbakery.espressoexpress.Checkout;
 
+import android.content.Context;
 import android.location.Address;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.devmarvel.creditcardentry.library.CreditCard;
 import com.google.android.gms.maps.model.LatLng;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import us.ridiculousbakery.espressoexpress.Model.TempOrder;
-import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerLocationBaseActivity;
 import us.ridiculousbakery.espressoexpress.R;
 
-public class CartActivity extends NavDrawerLocationBaseActivity implements
+public class CartActivity extends AppCompatActivity implements
         CartFragment.OnWidgetClickedListener,
         AddressMapFragment.OnWidgetClickedListener,
         AddressListFragment.OnWidgetClickedListener,
@@ -20,6 +24,11 @@ public class CartActivity extends NavDrawerLocationBaseActivity implements
         CartItemAdapterSwipe.OnItemDeleteListener{
 
     CartFragment cartFragment;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(base));
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,4 +116,29 @@ public class CartActivity extends NavDrawerLocationBaseActivity implements
     public void onDeleteItem(int position) {
         cartFragment.deleteItem(position);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == android.R.id.home) finish();
+//            Intent i = new Intent(this, CartActivity.class);
+//            startActivity(i);
+//            return true;
+//        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }
