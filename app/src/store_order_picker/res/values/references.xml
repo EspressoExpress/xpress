@@ -4,8 +4,8 @@
         <item>@drawable/sbux_twit_logo</item>
         <item>@drawable/blue_twit_logo</item>
         <item>@drawable/philz_twit_logo</item>
-
-
+        <item>@drawable/peets_twit_logo</item>
+        
     </array>
     <array name="store_bgs">
         <item>@drawable/starbucksbg</item>
