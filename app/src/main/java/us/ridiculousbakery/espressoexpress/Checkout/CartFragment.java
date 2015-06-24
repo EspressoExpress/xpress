@@ -6,6 +6,7 @@ import android.location.Address;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,6 +93,7 @@ public class CartFragment extends Fragment {
         rlCCInfo = (RelativeLayout) v.findViewById(R.id.rlCCInfo);
         btAddress = (Button) v.findViewById(R.id.btAddress);
         btCheckout = (Button) v.findViewById(R.id.btCheckout);
+        btCheckout.setEnabled(false);
         btPayment = (Button) v.findViewById(R.id.btPayment);
         tvAddress = (TextView) v.findViewById(R.id.tvAddress);
         tvAddressLine2 = (TextView) v.findViewById(R.id.tvAddressLine2);
@@ -215,12 +217,12 @@ public class CartFragment extends Fragment {
             order.setLon(latLng.longitude);
             tvAddress.setText(address.getAddressLine(0));
             tvAddressLine2.setText(address.getLocality() + ", " + address.getAdminArea());
-            //animation doesn't work
-            /*tvAddress.animate().translationY(tvAddress.getHeight())
-                    .alpha(1.0f)
-                    .setDuration(2000);*/
             if (!LOCK_VISIBILITY) {
                 rlDeliveryAddress.setVisibility(View.VISIBLE);
+                //doesn't work
+                /*rlDeliveryAddress.animate().translationY(tvAddress.getHeight())
+                    .alpha(1.0f)
+                    .setDuration(2000);*/
                 btAddress.setVisibility(View.GONE);
                 btPayment.setVisibility(View.VISIBLE);
             }
@@ -237,6 +239,15 @@ public class CartFragment extends Fragment {
             rlCCInfo.setVisibility(View.VISIBLE);
             btPayment.setVisibility(View.GONE);
         }
+        btCheckout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.round_cornered_button));
+        btCheckout.setVisibility(View.VISIBLE);
+        //btCheckout.setTextSize(getResources().getDimension(R.dimen.button_text_size));
         btCheckout.setEnabled(true);
+    }
+
+    public void deleteItem(int position) {
+        lineItems.remove(position);
+        alineItems.notifyDataSetChanged();
+        tvTotal$.setText("$" + StringHelper.priceToString(order.getTotalPrice()));
     }
 }

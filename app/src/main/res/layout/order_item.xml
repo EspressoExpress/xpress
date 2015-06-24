@@ -9,7 +9,7 @@
     swipe:rightEdgeSwipeOffset="0dp">
     <!-- Bottom View Start-->
     <LinearLayout
-        android:background="#66ddff00"
+        android:background="@android:color/holo_red_light"
         android:id="@+id/bottom_wrapper"
         android:layout_width="80dp"
         android:weightSum="1"

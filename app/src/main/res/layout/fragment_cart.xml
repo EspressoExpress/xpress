@@ -57,8 +57,7 @@
             android:layout_toLeftOf="@+id/tvChangeAddress"
             android:layout_alignParentTop="true"
             android:text="Delievery adress here"
-            android:textSize="20sp"
-            android:textStyle="bold"
+            android:textSize="18sp"
             />
 
         <TextView
@@ -70,7 +69,7 @@
             android:layout_toLeftOf="@+id/tvChangeAddress"
             android:layout_below="@+id/tvAddress"
             android:text="City, State"
-            android:textSize="20sp"
+            android:textSize="18sp"
             android:layout_marginBottom="16dp"
             />
 
@@ -207,37 +206,53 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="56dp"
+        android:layout_margin="8dp"
         android:text="Add Delivery Address"
         android:id="@+id/btAddress"
         android:layout_above="@+id/btCheckout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:background="?attr/colorPrimary"
+        android:background="@drawable/round_cornered_button"
         android:textColor="@android:color/white"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        fontPath = "open-sans/OpenSans-Bold.ttf"
         />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="56dp"
+        android:layout_margin="8dp"
         android:text="Enter Payment"
         android:id="@+id/btPayment"
         android:layout_above="@+id/btCheckout"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:visibility="gone"
-        android:background="?attr/colorPrimary"
+        android:background="@drawable/round_cornered_button"
         android:textColor="@android:color/white"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        fontPath = "open-sans/OpenSans-Bold.ttf"
         />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="56dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginBottom="8dp"
         android:text="Get It Now"
         android:id="@+id/btCheckout"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:background="@drawable/round_cornered_button_disable"
+        android:textColor="@android:color/white"
         android:enabled="false"
+        android:textAllCaps="false"
+        android:textSize="20sp"
+        fontPath = "open-sans/OpenSans-Bold.ttf"
         />
 
 

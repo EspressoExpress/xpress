@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -99,7 +100,8 @@ public class CCFormFragment extends DialogFragment {
             @Override
             public void cardValid(CreditCard creditCard) {
                 btSavePayment.setText("Save");
-                btSavePayment.setBackgroundColor(getResources().getColor(R.color.material_blue_grey_800));
+                btSavePayment.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.round_cornered_button));
+                //btSavePayment.setBackgroundColor(getResources().getColor(R.color.material_blue_grey_800));
                 btSavePayment.setTextColor(getResources().getColor(android.R.color.white));
             }
         });

@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.daimajia.swipe.SimpleSwipeListener;
 import com.daimajia.swipe.SwipeLayout;
@@ -22,6 +21,7 @@ import us.ridiculousbakery.espressoexpress.R;
  */
 public class CartItemAdapterSwipe extends ArraySwipeAdapter<LineItem> {
 
+    OnItemDeleteListener listener;
     private static class ViewHolder {
         TextView tvItemName;
         TextView tvItemOption;
@@ -30,8 +30,13 @@ public class CartItemAdapterSwipe extends ArraySwipeAdapter<LineItem> {
         SwipeLayout swipeLayout;
     }
 
+    public interface OnItemDeleteListener {
+        void onDeleteItem(int position);
+    }
+
     public CartItemAdapterSwipe(Context context, List<LineItem> lineItems) {
         super(context, android.R.layout.simple_list_item_1, lineItems);
+        listener = (OnItemDeleteListener) context;
     }
 
 
@@ -41,7 +46,7 @@ public class CartItemAdapterSwipe extends ArraySwipeAdapter<LineItem> {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         final LineItem lineItem = (LineItem) getItem(position);
         ViewHolder viewHolder;
         if (convertView == null) {
@@ -76,7 +81,10 @@ public class CartItemAdapterSwipe extends ArraySwipeAdapter<LineItem> {
         viewHolder.bottom.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getContext(), "click delete", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), lineItem.getItem().getName(), Toast.LENGTH_SHORT).show();
+                listener.onDeleteItem(position);
+                /*remove(lineItem);
+                notifyDataSetChanged();*/
             }
         });
         return convertView;
