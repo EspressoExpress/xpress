@@ -57,9 +57,31 @@ public class DeliveryMapFragment extends Fragment implements
     private long MARKER_MOVE_INTERVAL = 2000;
     private static final LatLng DEFAULT_DELIVERY_ADDRESS = new LatLng(37.402794, -122.116398); //Box HQ
     private static final LatLng DEFAULT_COFFEE_SHOP_ADDRESS = new LatLng(37.403731, -122.112364); //StarBucks near Box HQ
+    private LatLng startLatLng;
+    private LatLng endLatLng;
     private Marker startMarker;
     private Marker endMarker;
     private List<LatLng> directionSteps;
+    private static DeliveryMapFragment _instance;
+
+    public DeliveryMapFragment() {
+
+    }
+
+    public static DeliveryMapFragment instance() {
+        if (_instance == null)
+            _instance = new DeliveryMapFragment();
+        return _instance;
+    }
+
+    public static DeliveryMapFragment newInstance(LatLng startAddrLatLng, LatLng endAddrLatLng) {
+            _instance = new DeliveryMapFragment();
+            Bundle args = new Bundle();
+            args.putParcelable("start_address", startAddrLatLng);
+            args.putParcelable("end_address", endAddrLatLng);
+            _instance.setArguments(args);
+        return _instance;
+    }
 
 
     //================================================================================
@@ -70,6 +92,15 @@ public class DeliveryMapFragment extends Fragment implements
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mapFragment = new SupportMapFragment();
+        Bundle args = getArguments();
+        if (args != null) {
+            startLatLng = (LatLng) args.getParcelable("start_address");
+            endLatLng = (LatLng) args.getParcelable("end_address");
+        } else {
+            startLatLng = DEFAULT_COFFEE_SHOP_ADDRESS;
+            endLatLng = DEFAULT_DELIVERY_ADDRESS;
+        }
+
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap map) {
@@ -83,25 +114,16 @@ public class DeliveryMapFragment extends Fragment implements
         View v = inflater.inflate(R.layout.fragment_delivery_map, container, false);
         FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
         transaction.add(R.id.deliveryMapView, mapFragment).commit();
-        /*if (mapFragment != null) {
-            mapFragment.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap map) {
-                    loadMap(map);
-                }
-            });
-        } else {
-            Toast.makeText(getActivity(), "Error - Map Fragment was null!!", Toast.LENGTH_SHORT).show();
-        }*/
         return v;
     }
 
-    protected void loadMap(GoogleMap googleMap) {
+    public void loadMap(GoogleMap googleMap) {
         map = googleMap;
         if (map != null) {
             // Map is ready
             Toast.makeText(getActivity(), "Map Fragment was loaded properly!", Toast.LENGTH_SHORT).show();
             map.setMyLocationEnabled(true);
+            //showStartIcon();
             mapAnimationStart();
 
 
@@ -117,17 +139,35 @@ public class DeliveryMapFragment extends Fragment implements
         }
     }
 
-    private void mapAnimationStart() {
+    public void getMapReady() {
+        mapFragment.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap map) {
+                loadMap(map);
+            }
+        });
+    }
+
+    public void showStartIcon() {
         BitmapDescriptor startMarkerIcon =
                 BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
         startMarker = map.addMarker((new MarkerOptions()).position(DEFAULT_COFFEE_SHOP_ADDRESS).icon(startMarkerIcon));
         startMarker.setPosition(DEFAULT_COFFEE_SHOP_ADDRESS);
+        CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(DEFAULT_COFFEE_SHOP_ADDRESS, 17);
+        map.animateCamera(cameraUpdate);
+    }
+
+    private void mapAnimationStart() {
+        BitmapDescriptor startMarkerIcon =
+                BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED);
+        startMarker = map.addMarker((new MarkerOptions()).position(startLatLng).icon(startMarkerIcon));
+        startMarker.setPosition(startLatLng);
         BitmapDescriptor endMarkerIcon =
                 BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN);
-        endMarker = map.addMarker((new MarkerOptions()).position(DEFAULT_DELIVERY_ADDRESS).icon(endMarkerIcon));
-        endMarker.setPosition(DEFAULT_DELIVERY_ADDRESS);
-        getBestZoom(DEFAULT_COFFEE_SHOP_ADDRESS, DEFAULT_DELIVERY_ADDRESS);
-        (new connectAsyncTask()).execute(DEFAULT_COFFEE_SHOP_ADDRESS, DEFAULT_DELIVERY_ADDRESS);
+        endMarker = map.addMarker((new MarkerOptions()).position(endLatLng).icon(endMarkerIcon));
+        endMarker.setPosition(endLatLng);
+        getBestZoom(startLatLng, endLatLng);
+        (new connectAsyncTask()).execute(startLatLng, endLatLng);
     }
 
 

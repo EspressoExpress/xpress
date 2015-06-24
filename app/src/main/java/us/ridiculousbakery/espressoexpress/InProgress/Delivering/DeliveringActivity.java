@@ -2,14 +2,14 @@ package us.ridiculousbakery.espressoexpress.InProgress.Delivering;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderInProgressFragment;
 import us.ridiculousbakery.espressoexpress.R;
 
-public class DeliveringActivity extends ActionBarActivity {
+public class DeliveringActivity extends AppCompatActivity {
 
     private OrderInProgressFragment orderInProgressFragment;
 
@@ -17,14 +17,12 @@ public class DeliveringActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_delivering);
+        //String parseOrderID = getIntent().getStringExtra("parseOrderID");
+        String parseOrderID = "az8P3CaZTR";
+        //String userID = getIntent().getStringExtra("userID");
+        //String userID = "HmR0es0hPp";
         if (savedInstanceState == null) {
-
-            String parseOrderID = getIntent().getStringExtra("parseOrderID");
-
-            //String userID = getIntent().getStringExtra("userID");
-            //userID = "HmR0es0hPp";
-
-            orderInProgressFragment = OrderInProgressFragment.newInstance(true, parseOrderID);
+            orderInProgressFragment = OrderInProgressFragment.newInstance(false, parseOrderID);
             FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
             ft.replace(R.id.flContainer, orderInProgressFragment);
             ft.commit();

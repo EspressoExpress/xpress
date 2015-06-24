@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseUser;
 import com.parse.PushService;
 
@@ -20,6 +21,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import us.ridiculousbakery.espressoexpress.InProgress.Fragments.DeliveryMapFragment;
 import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderInProgressFragment;
 import us.ridiculousbakery.espressoexpress.InProgress.Fragments.OrderPlacedFragment;
 import us.ridiculousbakery.espressoexpress.Model.Order;
@@ -72,8 +74,8 @@ public class ReceivingActivity extends AppCompatActivity {
     }
 
     public void addMapFragment() {
-        if (fragments.indexOf(MapFragment.instance()) >= 0) return;
-        fragments.add(MapFragment.instance());
+        if (fragments.indexOf(DeliveryMapFragment.instance()) >= 0) return;
+        fragments.add(DeliveryMapFragment.newInstance(new LatLng(37.403731, -122.112364), new LatLng(37.402794, -122.116398)));
         titles.add("Track");
         receivingFragmentPagerAdapter.notifyDataSetChanged();
         tabsStrip.notifyDataSetChanged();
@@ -105,7 +107,7 @@ public class ReceivingActivity extends AppCompatActivity {
                 senderId.equals(ParseUser.getCurrentUser().getObjectId()) ? 0 : 1
         ));
         aMessages.notifyDataSetChanged();
-        Log.i("ZZZZZZ" , "applied to chat");
+        Log.i("ZZZZZZ", "applied to chat");
         ChatFragment.instance().scrollToEnd();
     }
 

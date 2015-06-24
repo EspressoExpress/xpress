@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.parse.ParseException;
@@ -17,9 +17,9 @@ import com.parse.ParseObject;
 import com.parse.ParseQuery;
 import com.parse.ParseUser;
 
-import us.ridiculousbakery.espressoexpress.DisplayHelper;
 import us.ridiculousbakery.espressoexpress.InProgress.Delivering.DeliveringHeaderFragment;
 import us.ridiculousbakery.espressoexpress.InProgress.Receiving.ReceivingHeaderFragment;
+import us.ridiculousbakery.espressoexpress.InProgress.SmartFragmentStatePagerAdapter;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -38,8 +38,9 @@ public class OrderInProgressFragment extends Fragment {
 
     private ReceivingHeaderFragment receivingHeaderFragment;
     private DeliveringHeaderFragment deliveringHeaderFragment;
-
     private ParseUser otherUser;
+    private Button btStartMarker;
+    private SampleFragmentPagerAdapter aPager;
 
     //================================================================================
     // Lifecycle
@@ -54,8 +55,9 @@ public class OrderInProgressFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         final View v = inflater.inflate(R.layout.fragment_order_in_progress, container, false);
+        btStartMarker = (Button) v.findViewById(R.id.btStartMarker);
 
-        final boolean isDelivering = getArguments().getBoolean("isDelivering");
+        final boolean isDelivering = false;/*= getArguments().getBoolean("isDelivering");*/
         String parseOrderID = getArguments().getString("parseOrderID");
 
         //query Parse
@@ -77,8 +79,18 @@ public class OrderInProgressFragment extends Fragment {
                 e.printStackTrace();
             }
         }
+
+        try {
+            deliveringUser = (ParseUser) user_query.get("4ND6B9PsYi");//Bert
+            receivingUser = (ParseUser) user_query.get("saLdABgOFA"); //me
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
+
         // SHOW LOADING UI
-        if (isDelivering) {
+        /*if (isDelivering) {
 
             deliveringHeaderFragment = DeliveringHeaderFragment.newInstance(DisplayHelper.getProfileUrl(receivingUser.getEmail()), receivingUser.getString("displayName"));
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
@@ -89,12 +101,15 @@ public class OrderInProgressFragment extends Fragment {
             FragmentTransaction ft = getChildFragmentManager().beginTransaction();
             ft.replace(R.id.flHeaderContainer, receivingHeaderFragment);
             ft.commit();
-        }
+        }*/
 
         ViewPager viewPager = (ViewPager) v.findViewById(R.id.viewpager);
-        viewPager.setAdapter(new SampleFragmentPagerAdapter(getFragmentManager()));
+        aPager = new SampleFragmentPagerAdapter(getFragmentManager());
+        viewPager.setAdapter(aPager);
         PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip) v.findViewById(R.id.tabs);
         tabStrip.setViewPager(viewPager);
+
+        setupListeners();
 
         /*ParseQuery<ParseUser> query =  ParseQuery.getQuery("_User");
         query.whereEqualTo("objectID", userID);
@@ -131,7 +146,18 @@ public class OrderInProgressFragment extends Fragment {
         return v;
     }
 
-    public class SampleFragmentPagerAdapter extends FragmentPagerAdapter {
+    private void setupListeners() {
+        btStartMarker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DeliveryMapFragment deliveryMapFragment = (DeliveryMapFragment) aPager.getRegisteredFragment(0);
+                Toast.makeText(getActivity(), "start Marker clicked", Toast.LENGTH_SHORT).show();
+                deliveryMapFragment.getMapReady();
+            }
+        });
+    }
+
+    public class SampleFragmentPagerAdapter extends SmartFragmentStatePagerAdapter {
         final int PAGE_COUNT = 2;
         private String tabTitles[] = new String[] { "Map", "Chat" };
 
@@ -150,7 +176,13 @@ public class OrderInProgressFragment extends Fragment {
                 return new DeliveryMapFragment();
             } else {
                 //return ChatFragment.newInstance(otherUser.getObjectId());
-                ParseUser currentUser = ParseUser.getCurrentUser();
+                ParseUser currentUser = null; //me
+                try {
+                    currentUser = (ParseUser) ParseQuery.getQuery("_User").get("saLdABgOFA");
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+                //ParseUser currentUser = ParseUser.getCurrentUser();
                 return ChatFragment.newInstance(currentUser.getObjectId(), currentUser.getEmail());
             }
         }
