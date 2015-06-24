@@ -9,6 +9,8 @@ import android.widget.TextView;
 import us.ridiculousbakery.espressoexpress.Model.Store;
 import us.ridiculousbakery.espressoexpress.R;
 
+import static java.lang.String.format;
+
 /**
  * Created by bkuo on 6/14/15.
  */
@@ -34,7 +36,7 @@ public class FancyItemLayout extends ItemStoreLayout {
         if(tvName==null) tvName = (TextView) findViewById(R.id.tvName);
         if(ivBg==null) ivBg = (ImageView) findViewById(R.id.ivBackground);
 
-        tvName.setText(store.getName());
+        tvName.setText(format(listener.getTitleDiction(), store.getName()));
         TypedArray ta= getResources().obtainTypedArray(R.array.store_bgs);
         ivBg.setImageDrawable(ta.getDrawable(store.getBackground()));
 

@@ -30,6 +30,7 @@ import us.ridiculousbakery.espressoexpress.StorePicker.StoreElementListener;
 public class ListPickerActivity extends NavDrawerLocationBaseActivity implements
         PagerFragment.PagerListener,
         StoreElementListener,
+
         ListFragment.ListListener {
     /*
      * Define a request code to send to Google Play services This code is
@@ -94,6 +95,7 @@ public class ListPickerActivity extends NavDrawerLocationBaseActivity implements
         ft.commit();
     }
 
+
     private void start_map_and_pager_fragments() {
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
         MapFragment.get_instance().setMenuVisibility(true);
@@ -127,6 +129,11 @@ public class ListPickerActivity extends NavDrawerLocationBaseActivity implements
                         public void onListStoreElementClicked(int position) {
                             startMenuActivity(stores.get(position));
                         }
+
+                        @Override
+                        public String getTitleDiction() {
+                            return "";
+                        }
                     }));
                     mapPicker.setStores(s);
 
@@ -152,6 +159,23 @@ public class ListPickerActivity extends NavDrawerLocationBaseActivity implements
             startMenuActivity(stores.get(position));
         }
     }
+
+    public String getTitleDiction() {
+        Checkable s = (Checkable) findViewById(R.id.xToggle);
+        if (s != null && s.isChecked()) {
+            return "Deliver for %s";
+        } else {
+            return "Order from %s";
+        }
+    }
+    public void onToggle(){
+        Log.i("ZZZZZZ", "toggled");
+        StoreListAdapter s =((StoreListAdapter) ListFragment.get_instance().getAdapter());
+        if(s!=null) s.notifyDataSetChanged();
+    }
+
+    ;
+
 
     @Override
     public void onNewMapTargetRequest(final int index, final boolean animate) {

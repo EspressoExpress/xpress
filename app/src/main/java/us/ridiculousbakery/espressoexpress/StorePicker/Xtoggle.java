@@ -12,6 +12,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import us.ridiculousbakery.espressoexpress.R;
+import us.ridiculousbakery.espressoexpress.StorePicker.ListPerspective.ListFragment;
 
 /**
  * Created by bkuo on 6/21/15.
@@ -63,23 +64,6 @@ public class Xtoggle extends FrameLayout implements Checkable {
         };
     }
 
-//    @Override
-//    public void setOnTouchListener(OnTouchListener l) {
-//        super.setOnTouchListener(wrappedTouchListener(l));
-//    }
-//
-//    private OnTouchListener wrappedTouchListener(OnTouchListener l) {
-//        return new OnTouchListener() {
-//            @Override
-//            public boolean onTouch(View v, MotionEvent event) {
-//                if( event.getAction() == MotionEvent.ACTION_DOWN){
-//                    tX = event.getRawX();
-//                }else if(event.getAction()==MotionEvent.ACTION_MOVE){
-//                }
-//                return true;
-//            }
-//        };
-//    }
 
     @Override
     public void setChecked(boolean checked) {
@@ -103,9 +87,18 @@ public class Xtoggle extends FrameLayout implements Checkable {
     public boolean isChecked() {
         return checked;
     }
-
+    private ListFragment.ListListener mToggleListener ;
     @Override
     public void toggle() {
         setChecked(!isChecked());
+        if(mToggleListener!=null)mToggleListener.onToggle();
+    }
+
+    public void setOnToggleListener(ListFragment.ListListener l){
+        mToggleListener = l;
+    }
+
+    public interface onToggleListener{
+        void onToggle();
     }
 }

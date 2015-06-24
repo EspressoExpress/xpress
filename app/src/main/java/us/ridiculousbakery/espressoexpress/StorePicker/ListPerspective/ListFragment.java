@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import java.util.List;
@@ -69,12 +70,13 @@ public class ListFragment extends Fragment {
 
             }
         });
+        z.setOnToggleListener(listListener);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Log.i("ZZZZZZZ", "clicked onNewMapTargetRequest: " + position);
-                Store store  = (Store)parent.getItemAtPosition(position);
+                Store store = (Store) parent.getItemAtPosition(position);
                 listListener.onNewMapTarget(position);
 
             }
@@ -101,8 +103,13 @@ public class ListFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    public ListAdapter getAdapter() {
+        return lv.getAdapter();
+    }
+
     public interface ListListener {
         void onNewMapTarget(int index);
+        void onToggle();
 
     }
 
