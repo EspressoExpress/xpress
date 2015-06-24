@@ -37,6 +37,10 @@ public class TempStore implements Serializable {
         return name;
     }
 
+    public String getStoreID() {
+        return storeID;
+    }
+
     public Integer getLogo() {
         return logo;
     }
