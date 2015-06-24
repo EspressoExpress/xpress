@@ -36,8 +36,9 @@ public class CartActivity extends NavDrawerLocationBaseActivity implements
         orderItems.add(new LineItem(new Item("Frapp"), null, 3.00));
         order.setLineItems(orderItems);
         */
+        //String storeID = "1NoCwWrzM5";
         TempOrder order = (TempOrder) getIntent().getSerializableExtra("order");
-        String storeID = "1NoCwWrzM5";
+        String storeID = order.getStore().getStoreID();
         if (savedInstanceState == null) {
             // Create order fragment
             //cartFragment = CartFragment.newInstance(getIntent().getStringExtra("orderId"));
