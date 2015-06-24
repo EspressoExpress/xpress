@@ -242,7 +242,7 @@ public class CartFragment extends Fragment {
         }
         btCheckout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.round_cornered_button));
         btCheckout.setVisibility(View.VISIBLE);
-        btCheckout.setHeight(btAddress.getHeight());
+        btCheckout.setLayoutParams(btAddress.getLayoutParams());
         btCheckout.setEnabled(true);
     }
 

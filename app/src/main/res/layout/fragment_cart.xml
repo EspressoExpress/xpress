@@ -141,7 +141,6 @@
         android:layout_alignParentRight="true"
         android:id="@+id/rlOrderItems"
         android:visibility="visible"
-        android:padding="16dp"
         android:background="@android:color/white">
 
         <TextView
@@ -156,7 +155,17 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:gravity="center_vertical|center"
+            android:layout_marginTop="16dp"
             />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/background_material_light"
+            android:layout_below="@+id/tvHeader"
+            android:id="@+id/list_divider_start"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"/>
 
         <ListView
             android:layout_width="wrap_content"
@@ -168,7 +177,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/tvHeader"
+            android:layout_below="@+id/list_divider_start"
             />
 
         <TextView
@@ -180,7 +189,8 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/lvOrderItems"
             android:textSize="16sp"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -190,7 +200,8 @@
             android:layout_alignParentRight="true"
             android:layout_below="@+id/lvOrderItems"
             android:textSize="16sp"
-            android:layout_marginTop="16dp"/>
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -200,8 +211,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_below="@+id/tvDeliveryCharge"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:layout_marginTop="16dp"
+            android:layout_marginLeft="16dp"
             fontPath = "open-sans/OpenSans-Bold.ttf"/>
 
         <TextView
@@ -211,8 +223,9 @@
             android:id="@+id/tvTotal$"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/tvDeliveryCharge$"
-            android:textSize="16sp"
+            android:textSize="20sp"
             android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
             fontPath = "open-sans/OpenSans-Bold.ttf"/>
 
     </RelativeLayout>
@@ -223,7 +236,7 @@
         android:layout_margin="8dp"
         android:text="Add Delivery Address"
         android:id="@+id/btAddress"
-        android:layout_above="@+id/btCheckout"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:background="@drawable/round_cornered_button"
@@ -239,7 +252,7 @@
         android:layout_margin="8dp"
         android:text="Enter Payment"
         android:id="@+id/btPayment"
-        android:layout_above="@+id/btCheckout"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:visibility="gone"
@@ -252,7 +265,7 @@
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="56dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginBottom="8dp"
