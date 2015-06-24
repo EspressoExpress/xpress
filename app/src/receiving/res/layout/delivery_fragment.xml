@@ -14,11 +14,14 @@
         android:orientation="vertical">
 
         <TextView
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/deliver_accepted"
             android:id="@+id/tvAccepted"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="40dp"
+            />
 
         <Button android:text="Ok, going there now!"
             android:id="@+id/btnAccepted"
@@ -32,19 +35,22 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/llPickedUp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/deliver_picked_up"
             android:id="@+id/tvPickedUp"
             android:layout_width="match_parent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="40dp"
             android:layout_height="wrap_content" />
 
-        <Button android:text="On my way!"
+        <Button android:text="I got the goods!"
             android:id="@+id/btnPickedUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,16 +63,19 @@
     </LinearLayout>
 
     <LinearLayout
+        android:visibility="gone"
         android:id="@+id/llDelivered"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <TextView
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/deliver_delivered"
             android:id="@+id/tvDelivered"
             android:layout_width="match_parent"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="40dp"
             android:layout_height="wrap_content" />
 
         <Button android:text="Cha-Ching!"

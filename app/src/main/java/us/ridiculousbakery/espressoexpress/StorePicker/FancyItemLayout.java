@@ -39,9 +39,7 @@ public class FancyItemLayout extends ItemStoreLayout {
         tvName.setText(format(listener.getTitleDiction(), store.getName()));
         TypedArray ta= getResources().obtainTypedArray(R.array.store_bgs);
         ivBg.setImageDrawable(ta.getDrawable(store.getBackground()));
-
         ta.recycle();
-
 
     }
 
