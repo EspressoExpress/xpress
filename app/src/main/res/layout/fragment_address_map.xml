@@ -46,10 +46,13 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:id="@+id/btSelectAddress"
-            android:background="?attr/colorAccent"
+            android:background="?attr/colorPrimary"
             android:text="Update Address"
             android:textColor="@android:color/white"
-            android:textSize="18sp"/>
+            android:textSize="20sp"
+            android:textAllCaps="false"
+            fontPath = "open-sans/OpenSans-Bold.ttf"
+            />
     </LinearLayout>
 
 </LinearLayout>

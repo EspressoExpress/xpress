@@ -20,7 +20,8 @@ public class CartActivity extends NavDrawerLocationBaseActivity implements
         CartFragment.OnWidgetClickedListener,
         AddressMapFragment.OnWidgetClickedListener,
         AddressListFragment.OnWidgetClickedListener,
-        CCFormFragment.OnWidgetClickedListener{
+        CCFormFragment.OnWidgetClickedListener,
+        CartItemAdapterSwipe.OnItemDeleteListener{
 
     CartFragment cartFragment;
 
@@ -103,5 +104,10 @@ public class CartActivity extends NavDrawerLocationBaseActivity implements
     @Override
     public void onSaveCCInfo(CreditCard cc) {
         cartFragment.saveAndShowCCInfo(cc);
+    }
+
+    @Override
+    public void onDeleteItem(int position) {
+        cartFragment.deleteItem(position);
     }
 }

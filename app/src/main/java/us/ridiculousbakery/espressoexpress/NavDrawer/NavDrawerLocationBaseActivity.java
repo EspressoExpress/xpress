@@ -74,8 +74,8 @@ public class NavDrawerLocationBaseActivity extends AppCompatActivity implements 
                             .build()
             );
         }
-        if(p.getBoolean(ALT_ACCENT, false)) setTheme(R.style.XpressTheme);
-        else setTheme(R.style.XpressThemeB);
+        if(p.getBoolean(ALT_ACCENT, false)) setTheme(R.style.XpressThemeB);
+        else setTheme(R.style.XpressTheme);
 
         super.setContentView(R.layout.nav_drawer_wrapper);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
