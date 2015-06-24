@@ -86,7 +86,9 @@
             android:layout_width="fill_parent"
             android:layout_height="1dp"
             android:background="@color/background_material_light"
-            android:layout_below="@+id/tvAddressLine2"/>
+            android:layout_below="@+id/tvAddressLine2"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp"/>
 
     </RelativeLayout>
 
@@ -164,8 +166,7 @@
             android:background="@color/background_material_light"
             android:layout_below="@+id/tvHeader"
             android:id="@+id/list_divider_start"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"/>
+            />
 
         <ListView
             android:layout_width="wrap_content"
@@ -180,6 +181,14 @@
             android:layout_below="@+id/list_divider_start"
             />
 
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:background="@color/background_material_light"
+            android:layout_below="@+id/lvOrderItems"
+            android:id="@+id/list_divider_end"
+            />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -187,7 +196,7 @@
             android:id="@+id/tvDeliveryCharge"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:layout_below="@+id/lvOrderItems"
+            android:layout_below="@+id/list_divider_end"
             android:textSize="16sp"
             android:layout_marginTop="16dp"
             android:layout_marginLeft="16dp"/>
@@ -198,7 +207,7 @@
             android:text="$5.00"
             android:id="@+id/tvDeliveryCharge$"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/lvOrderItems"
+            android:layout_below="@+id/list_divider_end"
             android:textSize="16sp"
             android:layout_marginTop="16dp"
             android:layout_marginRight="16dp"/>
