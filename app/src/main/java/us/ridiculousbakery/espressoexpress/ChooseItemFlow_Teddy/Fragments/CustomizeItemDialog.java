@@ -1,5 +1,7 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
@@ -14,6 +16,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -48,7 +52,9 @@ public class CustomizeItemDialog extends DialogFragment {
     private TableRow trOptions;
     private OptionsAdapter aOptions;
     private Item item;
-    private Button btnAdd;
+    private CircleButton btnAdd;
+    private CircleButton btnCancel;
+    private LinearLayout llButtons;
     private TextView tvChoicePrompt;
 
     private ArrayList<SelectedOption> chosenOptions;
@@ -83,7 +89,12 @@ public class CustomizeItemDialog extends DialogFragment {
         aOptions = new OptionsAdapter(getActivity(), optionsCopy);
         chosenOptions = new ArrayList<>();
         gvOptions.setAdapter(aOptions);
-        btnAdd = (Button) view.findViewById(R.id.btnAdd);
+
+        btnAdd = (CircleButton) view.findViewById(R.id.btnAdd);
+        btnCancel = (CircleButton) view.findViewById(R.id.btnCancel);
+        llButtons = (LinearLayout) view.findViewById(R.id.llButtons);
+
+
         tvChoicePrompt = (TextView) view.findViewById(R.id.tvChoicePrompt);
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
@@ -105,6 +116,13 @@ public class CustomizeItemDialog extends DialogFragment {
                 LineItem lineItem = new LineItem(item, chosenOptions, 0.00);
                 lineItem.setPrice(price);
                 listener.onFinishCustomizingLineItem(lineItem);
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
             }
         });
 
@@ -143,9 +161,23 @@ public class CustomizeItemDialog extends DialogFragment {
 
     private void setButtonVisability() {
         if (aOptions.getCount() > 0) {
-            btnAdd.setVisibility(Button.INVISIBLE);
+//            btnAdd.setVisibility(Button.INVISIBLE);
+//            llButtons.setVisibility(LinearLayout.INVISIBLE);
+            llButtons.setAlpha(0);
         } else {
-            btnAdd.setVisibility(Button.VISIBLE);
+//            btnAdd.setVisibility(Button.VISIBLE);
+//            llButtons.setVisibility(LinearLayout.VISIBLE);
+            if (llButtons.getAlpha()==0.0) {
+                AnimatorSet set = new AnimatorSet();
+                set.playTogether(
+                        ObjectAnimator.ofFloat(llButtons, "alpha", 0.0f, 1.0f)
+                                .setDuration(500),
+                        ObjectAnimator.ofFloat(llButtons, "rotation", 45.0f, 0f)
+                                .setDuration(500)
+                );
+                set.start();
+            }
+
         }
     }
 
@@ -158,7 +190,7 @@ public class CustomizeItemDialog extends DialogFragment {
             TextView tvCategory = (TextView) view.findViewById(R.id.tvCategory);
             tvName.setText(op.getName());
             tvCategory.setText(op.getCategory());
-            CircleButton btnCancel = (CircleButton) view.findViewById(R.id.btnCancel);
+            ImageButton btnCancel = (ImageButton) view.findViewById(R.id.btnCancel);
             btnCancel.setTag(op);
             btnCancel.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -175,7 +207,7 @@ public class CustomizeItemDialog extends DialogFragment {
             trOptions.addView(view);
         }
         if (aOptions.firstGroupKey() != null) {
-            tvChoicePrompt.setText(aOptions.firstGroupKey());
+            tvChoicePrompt.setText(aOptions.firstGroupKey() + "?");
         } else {
             tvChoicePrompt.setText("");
         }

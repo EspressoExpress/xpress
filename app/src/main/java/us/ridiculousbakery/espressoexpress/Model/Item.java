@@ -64,16 +64,16 @@ public class Item implements Serializable {
             newOptions.put("Size", size);
             //2
             ArrayList<String> milk = new ArrayList<String>();
-            milk.add("None");
-            milk.add("Splash");
+            milk.add("Black");
+            milk.add("Light");
             milk.add("Medium");
-            milk.add("A lot");
-            newOptions.put("Milk", milk);
+            milk.add("Creamy");
+            newOptions.put("Cream", milk);
             //3
             ArrayList<String> sugar = new ArrayList<String>();
-            sugar.add("None");
-            sugar.add("Little");
-            sugar.add("A lot");
+            sugar.add("Black");
+            sugar.add("A Little");
+            sugar.add("Sweet");
             newOptions.put("Sugar", sugar);
 
             item.options = newOptions;

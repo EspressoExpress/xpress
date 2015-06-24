@@ -10,6 +10,7 @@
         android:layout_height="match_parent"
         android:text="New Text"
         android:id="@+id/tvName"
+        android:textSize="15sp"
         android:textColor="#CfCfCC"
         android:minHeight="75dp"
         android:gravity="center"/>

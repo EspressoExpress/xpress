@@ -25,7 +25,7 @@ public class DisplayHelper {
 //        return "http://2.gravatar.com/avatar/ac73bb914aef6ef42af47e0c37696e05.jpg";
 
         String hash =  MD5Util.md5Hex(email.toLowerCase().trim());
-        return " http://2.gravatar.com/avatar/" + hash + ".jpg?d=identicon";
+        return "http://2.gravatar.com/avatar/" + hash + ".jpg?d=identicon";
 
     }
 

@@ -10,7 +10,7 @@ public class ItemOption {
 
     public enum Options {
         SIZE_OPTION("Size"),
-        MILK_OPTION("Milk"),
+        MILK_OPTION("Cream"),
         SUGAR_OPTION("Sugar")
         ;
 

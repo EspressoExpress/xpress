@@ -21,6 +21,7 @@ import us.ridiculousbakery.espressoexpress.R;
 public class OptionsAdapter extends BaseAdapter {
 
     private LayoutInflater inflater;
+    private Context context;
     private TreeMap<String, ArrayList<String>> options;
 
     private class ViewHolder {
@@ -47,6 +48,7 @@ public class OptionsAdapter extends BaseAdapter {
     }
 
     public OptionsAdapter(Context context, TreeMap<String, ArrayList<String>> options) {
+        this.context = context;
         this.inflater = LayoutInflater.from(context);
         this.options = options;
 
@@ -93,20 +95,22 @@ public class OptionsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Random rand = new Random();
-        int randomNum = rand.nextInt((100 - 20) + 1) + 20;
+//        Random rand = new Random();
+//        int randomNum = rand.nextInt((100 - 20) + 1) + 20;
 
 
         viewHolder.name.setText(op);
-        viewHolder.name.setPadding(0, randomNum, 0, randomNum);
+//        viewHolder.name.setPadding(0, randomNum, 0, randomNum);
 
 
         if (positionIsInFirstGroup(position)) {
             convertView.setAlpha(1.0f);
             convertView.setEnabled(true);
+            viewHolder.name.setTextColor(this.context.getResources().getColor(R.color.colorPrimary));
         } else {
             convertView.setAlpha(0.3f);
             convertView.setEnabled(false);
+            viewHolder.name.setTextColor(this.context.getResources().getColor(android.R.color.darker_gray));
         }
 
         return convertView;
