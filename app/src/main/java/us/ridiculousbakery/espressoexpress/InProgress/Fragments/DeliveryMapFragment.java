@@ -1,6 +1,5 @@
 package us.ridiculousbakery.espressoexpress.InProgress.Fragments;
 
-import android.graphics.Color;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -28,8 +27,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -201,7 +198,7 @@ public class DeliveryMapFragment extends Fragment implements
         builder.include(start);
         builder.include(end);
         LatLngBounds bounds = builder.build();
-        int padding = 128; // offset from edges of the map in pixels
+        int padding = 160; // offset from edges of the map in pixels
         CameraUpdate cameraUpdate = CameraUpdateFactory
                 .newLatLngBounds(bounds, padding);
         map.animateCamera(cameraUpdate);
@@ -250,7 +247,7 @@ public class DeliveryMapFragment extends Fragment implements
             super.onPostExecute(result);
             //progressDialog.hide();
             if(result!=null){
-                //drawPath(result);
+                drawPath(result);
                 animateMarker();
             }
         }
@@ -268,14 +265,14 @@ public class DeliveryMapFragment extends Fragment implements
             directionSteps = decodePoly(encodedString);
             //Toast.makeText(getActivity(), list.toString(), Toast.LENGTH_SHORT).show();
             //Toast.makeText(getActivity(), list.size()+"", Toast.LENGTH_SHORT).show();
-            for(int z = 0; z<directionSteps.size()-1;z++){
+            /*for(int z = 0; z<directionSteps.size()-1;z++){
                 LatLng src= directionSteps.get(z);
                 LatLng dest= directionSteps.get(z+1);
                 Polyline line = map.addPolyline(new PolylineOptions()
                         .add(new LatLng(src.latitude, src.longitude), new LatLng(dest.latitude,   dest.longitude))
                         .width(8)
                         .color(Color.BLUE).geodesic(true));
-            }
+            }*/
 
         }
         catch (JSONException e) {
@@ -322,9 +319,8 @@ public class DeliveryMapFragment extends Fragment implements
 
     private void animateMarker() {
         Handler handler = new Handler();
-        for(int z = 0; z < directionSteps.size()-1;z++){
+        for(int z = 0; z <= directionSteps.size()-1;z++){
             final LatLng src= directionSteps.get(z);
-            final LatLng dest= directionSteps.get(z+1);
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
