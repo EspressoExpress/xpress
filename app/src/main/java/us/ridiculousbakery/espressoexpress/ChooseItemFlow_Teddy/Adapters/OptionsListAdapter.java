@@ -67,7 +67,7 @@ public class OptionsListAdapter extends BaseAdapter {
                     value = it.name;
                 }
             }
-            if (!key.isEmpty() && value.isEmpty()) {
+            if (!key.isEmpty() && !value.isEmpty()) {
                 SelectedOption chosenOption = new SelectedOption(value, key);
                 newOptions.add(chosenOption);
                 key = "";
