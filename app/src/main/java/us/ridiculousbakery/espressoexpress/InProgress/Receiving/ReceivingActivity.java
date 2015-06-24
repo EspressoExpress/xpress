@@ -102,9 +102,12 @@ public class ReceivingActivity extends AppCompatActivity {
         String senderId = json.optString("senderId", null);
 //        if(senderId.equals(ParseUser.getCurrentUser().getObjectId())) return;
         String message = json.optString("message", null);
+        String url = json.optString("senderUrl", null);
+
         aMessages.add(new Message(
                 message,
-                senderId.equals(ParseUser.getCurrentUser().getObjectId()) ? 0 : 1
+                senderId.equals(ParseUser.getCurrentUser().getObjectId()) ? 0 : 1,
+                url
         ));
         aMessages.notifyDataSetChanged();
         Log.i("ZZZZZZ", "applied to chat");

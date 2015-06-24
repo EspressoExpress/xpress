@@ -20,6 +20,7 @@ import com.parse.ParseUser;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import us.ridiculousbakery.espressoexpress.Model.XpressUser;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -86,6 +87,7 @@ public class ChatFragment extends Fragment {
                     obj.putOpt("action", XpressReceiver.outerAction);
                     obj.putOpt("message", text);
                     obj.putOpt("senderId", userID);
+                    obj.putOpt("senderUrl", XpressUser.getGravatarUrl(ParseUser.getCurrentUser()));
                     obj.putOpt("type", "chat");
                 } catch (JSONException e) {
                     e.printStackTrace();

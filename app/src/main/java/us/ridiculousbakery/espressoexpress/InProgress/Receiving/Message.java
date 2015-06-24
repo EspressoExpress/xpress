@@ -6,10 +6,20 @@ package us.ridiculousbakery.espressoexpress.InProgress.Receiving;
 public class Message {
     final static public int SENDER=0;
     final static public int RECEIVER=1;
+    public String url;
 
-    public Message(String msg, int t){
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public Message(String msg, int t, String url){
         this.message=msg;
         this.message_type=t;
+        this.url =url;
     }
     public String getMessage() {
         return message;

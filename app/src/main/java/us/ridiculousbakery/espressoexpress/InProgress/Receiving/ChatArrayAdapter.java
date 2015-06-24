@@ -8,8 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
+import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.ProfileImageHelper;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -48,8 +51,7 @@ public class ChatArrayAdapter extends ArrayAdapter<Message> {
         } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
-
-//        Picasso.with(getContext()).load(DisplayHelper.getProfileUrlFromEmail(message.getTargetUserEmail())).fit().transform(ProfileImageHelper.circleTransformation(67)).into(profileView);
+        if(message.getUrl()!=null) Picasso.with(getContext()).load(message.getUrl()).fit().transform(ProfileImageHelper.circleTransformation(67)).into(viewHolder.ivProfile);
 
 
         viewHolder.text.setText(message.getMessage());
