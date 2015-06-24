@@ -250,7 +250,7 @@ public class DeliveryMapFragment extends Fragment implements
             super.onPostExecute(result);
             //progressDialog.hide();
             if(result!=null){
-                drawPath(result);
+                //drawPath(result);
                 animateMarker();
             }
         }
@@ -322,14 +322,18 @@ public class DeliveryMapFragment extends Fragment implements
 
     private void animateMarker() {
         Handler handler = new Handler();
-        for(int z = 0; z <= directionSteps.size()-1;z++){
+        for(int z = 0; z < directionSteps.size()-1;z++){
             final LatLng src= directionSteps.get(z);
+            final LatLng dest= directionSteps.get(z+1);
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
                     startMarker.setPosition(src);
+                    getBestZoom(startMarker.getPosition(), endMarker.getPosition());
                 }
             }, MARKER_MOVE_INTERVAL*z);
+
+
         }
     }
 

@@ -240,9 +240,8 @@ public class CartFragment extends Fragment {
             rlCCInfo.setVisibility(View.VISIBLE);
             btPayment.setVisibility(View.GONE);
         }
-        btCheckout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.round_cornered_button));
+        btCheckout.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_statelist));
         btCheckout.setVisibility(View.VISIBLE);
-        btCheckout.setLayoutParams(btAddress.getLayoutParams());
         btCheckout.setEnabled(true);
     }
 

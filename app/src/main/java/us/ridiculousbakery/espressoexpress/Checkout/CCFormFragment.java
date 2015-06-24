@@ -100,7 +100,7 @@ public class CCFormFragment extends DialogFragment {
             @Override
             public void cardValid(CreditCard creditCard) {
                 btSavePayment.setText("Save");
-                btSavePayment.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.round_cornered_button));
+                btSavePayment.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.button_statelist));
                 //btSavePayment.setBackgroundColor(getResources().getColor(R.color.material_blue_grey_800));
                 btSavePayment.setTextColor(getResources().getColor(android.R.color.white));
             }
