@@ -23,7 +23,7 @@ public class ParseQueryHelper {
     public static String updateSubmittedOrdertoAccepted(Order order) throws ParseException {
         String receiverId = order.getReceiverId();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Order");
-        query.whereEqualTo("status", "order submitted");
+        query.whereEqualTo("status", Order.ACCEPTED);
         query.whereEqualTo("receiver_id", receiverId);
         ParseUser user = ParseUser.getCurrentUser();
         List<ParseObject> results = null;
@@ -34,7 +34,7 @@ public class ParseQueryHelper {
         }
         String orderID = null;
         for (ParseObject submittedOrder_obj : results) { //should be only one order anyway
-            submittedOrder_obj.put("status", "order accepted");
+            submittedOrder_obj.put("status", Order.ACCEPTED);
             submittedOrder_obj.put("deliverer_id", user.getObjectId());
             submittedOrder_obj.put("deliverer_name", user.get("displayName"));
             submittedOrder_obj.save();
@@ -48,7 +48,7 @@ public class ParseQueryHelper {
     public static ArrayList<MarkedOrder> getSubmittedOrderfromParse(String store_name) {
         ArrayList<MarkedOrder> markedOrders = new ArrayList<>();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Order");
-        query.whereEqualTo("status", "order submitted");
+        query.whereEqualTo("status", Order.SUBMITTED);
         query.whereEqualTo("store_name", store_name);
         List<ParseObject> results = null;
         try {
