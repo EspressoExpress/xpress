@@ -45,6 +45,7 @@ public class ChatFragment extends Fragment {
     private Handler handler = new Handler();
 
     private static ChatFragment _instance;
+    private ListAdapter pendingAdapter;
 
     public static ChatFragment instance() {
         if (_instance == null) _instance = new ChatFragment();
@@ -67,7 +68,8 @@ public class ChatFragment extends Fragment {
     }
 
     public void setAdapter(ListAdapter l) {
-        lvChat.setAdapter(l);
+        if(lvChat==null) pendingAdapter = l;
+        else lvChat.setAdapter(l);
     }
     public void scrollToEnd(){}
 
@@ -103,7 +105,7 @@ public class ChatFragment extends Fragment {
                 etMessage.setText("");
                 etMessage.clearFocus();
             }});
-
+        if(pendingAdapter!=null) lvChat.setAdapter(pendingAdapter);
 
         return v;
     }

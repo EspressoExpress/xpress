@@ -170,7 +170,7 @@ public class ListPickerActivity extends NavDrawerLocationBaseActivity implements
     }
     public void onToggle(){
         Log.i("ZZZZZZ", "toggled");
-        StoreListAdapter s =((StoreListAdapter) ListFragment.get_instance().getAdapter());
+        StoreListAdapter s =(StoreListAdapter) ListFragment.get_instance().getAdapter();
         if(s!=null) s.notifyDataSetChanged();
     }
 

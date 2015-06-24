@@ -38,7 +38,7 @@ public class ReceivingActivity extends AppCompatActivity {
     private ArrayList<Message> messages = new ArrayList<Message>();
     private ChatArrayAdapter aMessages;
 
-    private ReceivingFragmentPagerAdapter receivingFragmentPagerAdapter;
+    private InProgressPagerAdapter receivingFragmentPagerAdapter;
     private ArrayList<String> titles = new ArrayList<String>();
     private ViewPager viewPager;
     private PagerSlidingTabStrip tabsStrip;
@@ -53,15 +53,12 @@ public class ReceivingActivity extends AppCompatActivity {
         fragments.add(ProgressFragment.instance());
         titles.add("Progress");
         aMessages= new ChatArrayAdapter(this,messages);
-        receivingFragmentPagerAdapter = new ReceivingFragmentPagerAdapter(getSupportFragmentManager(), titles, fragments);
+        receivingFragmentPagerAdapter = new InProgressPagerAdapter(getSupportFragmentManager(), titles, fragments);
 
         if (savedInstanceState == null) {
             viewPager.setAdapter(receivingFragmentPagerAdapter);
             tabsStrip.setViewPager(viewPager);
-
         }
-//        addChatFragment(); //remove
-
     }
 
     public void addChatFragment() {
@@ -114,14 +111,11 @@ public class ReceivingActivity extends AppCompatActivity {
         ChatFragment.instance().scrollToEnd();
     }
 
-    Order order;
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
 
         @Override
         public void onReceive(Context context, Intent intent) {
             try {
-//                Log.i("ZZZZZZ R_A", "onReceive!  "+status+" /"+orderId);
-
                 JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
                 String type = json.optString("type", "");
                 if (type.equals("status")) updateStatus(json);
@@ -147,6 +141,10 @@ public class ReceivingActivity extends AppCompatActivity {
         Log.i("ZZZZZZZ", "called register on " + XpressReceiver.intentAction);
     }
 }
+
+
+
+
 //    private void checkOrderStatus() {
 //
 //        if (deliverID == null) {
