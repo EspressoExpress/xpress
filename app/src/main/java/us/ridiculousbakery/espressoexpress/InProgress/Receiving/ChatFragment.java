@@ -110,24 +110,4 @@ public class ChatFragment extends Fragment {
         return v;
     }
 
-//    private void receiveMessages() {
-//        ParseQuery<Message> query = ParseQuery.getQuery(Message.class);
-//        query.setLimit(MAX_CHAT_MESSAGES_TO_SHOW);
-//        query.orderByAscending("createdAt");
-//        query.whereEqualTo("chatId", chatID);
-//        query.findInBackground(new FindCallback<Message>() {
-//            public void done(List<Message> messages, ParseException e) {
-//                if (e == null) {
-//                    Log.d("DEBUG", messages.toString());
-//                    aMessages.clear();
-//                    aMessages.addAll(messages);
-//                    aMessages.notifyDataSetChanged(); // update adapter
-//                    lvChat.invalidate(); // redraw listview
-//                } else {
-//                    Log.d("message", "Error: " + e.getMessage());
-//                }
-//            }
-//        });
-//
-//    }
 }

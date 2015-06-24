@@ -1,12 +1,7 @@
 package us.ridiculousbakery.espressoexpress.InProgress.Delivering;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -16,7 +11,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.parse.ParseUser;
 import com.parse.PushService;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -27,8 +21,6 @@ import us.ridiculousbakery.espressoexpress.InProgress.Receiving.ChatFragment;
 import us.ridiculousbakery.espressoexpress.InProgress.Receiving.InProgressPagerAdapter;
 import us.ridiculousbakery.espressoexpress.InProgress.Receiving.Message;
 import us.ridiculousbakery.espressoexpress.InProgress.Receiving.ReceivingActivity;
-import us.ridiculousbakery.espressoexpress.InProgress.Receiving.XpressReceiver;
-import us.ridiculousbakery.espressoexpress.Model.Order;
 import us.ridiculousbakery.espressoexpress.R;
 
 public class DeliveringActivity extends AppCompatActivity {
@@ -79,17 +71,17 @@ public class DeliveringActivity extends AppCompatActivity {
         tabsStrip.notifyDataSetChanged();
     }
 
-    private void updateStatus(JSONObject json) {
-        String orderId = json.optString("orderId", null);
-        String status = json.optString("status", null);
-
-        if (status.equals(Order.ACCEPTED)) addChatFragment();
-        if (status.equals(Order.PICKED_UP) || status.equals(Order.DELIVERED)) {
-            addChatFragment();
-            addMapFragment();
-        }
-        DeliveryStepsFragment.instance();//.activate(status);
-    }
+//    private void updateStatus(JSONObject json) {
+//        String orderId = json.optString("orderId", null);
+//        String status = json.optString("status", null);
+//
+//        if (status.equals(Order.ACCEPTED)) addChatFragment();
+//        if (status.equals(Order.PICKED_UP) || status.equals(Order.DELIVERED)) {
+//            addChatFragment();
+//            addMapFragment();
+//        }
+//        DeliveryStepsFragment.instance();//.activate(status);
+//    }
 
     private void applyChat(JSONObject json) {
         addChatFragment();
@@ -108,35 +100,35 @@ public class DeliveringActivity extends AppCompatActivity {
         ChatFragment.instance().scrollToEnd();
     }
 
-    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            try {
-                JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
-                String type = json.optString("type", "");
-                if (type.equals("status")) updateStatus(json);
-                if (type.equals("chat")) applyChat(json);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            Log.i("ZZZZZZ R_A", "onReceive!  CELEBRATE");
-        }
-    };
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
-        Log.i("ZZZZZZ", "called unregister");
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter(XpressReceiver.intentAction));
-        Log.i("ZZZZZZZ", "called register on " + XpressReceiver.intentAction);
-    }
+//    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+//
+//        @Override
+//        public void onReceive(Context context, Intent intent) {
+//            try {
+//                JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
+//                String type = json.optString("type", "");
+//                if (type.equals("status")) updateStatus(json);
+//                if (type.equals("chat")) applyChat(json);
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//            }
+//            Log.i("ZZZZZZ R_A", "onReceive!  CELEBRATE");
+//        }
+//    };
+//
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        LocalBroadcastManager.getInstance(this).unregisterReceiver(mBroadcastReceiver);
+//        Log.i("ZZZZZZ", "called unregister");
+//    }
+//
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//        LocalBroadcastManager.getInstance(this).registerReceiver(mBroadcastReceiver, new IntentFilter(XpressReceiver.intentAction));
+//        Log.i("ZZZZZZZ", "called register on " + XpressReceiver.intentAction);
+//    }
 
 
 }

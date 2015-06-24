@@ -23,7 +23,7 @@
             android:layout_marginTop="40dp"
             />
 
-        <Button android:text="Ok, going there now!"
+        <Button android:text="I've got the goods!"
             android:id="@+id/btnAccepted"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
             android:layout_marginTop="40dp"
             android:layout_height="wrap_content" />
 
-        <Button android:text="I got the goods!"
+        <Button android:text="I've completed delivery! "
             android:id="@+id/btnPickedUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
