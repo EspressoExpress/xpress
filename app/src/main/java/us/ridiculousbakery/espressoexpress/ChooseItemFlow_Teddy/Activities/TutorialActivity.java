@@ -1,16 +1,16 @@
 package us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Fragments.ScreenSlidePagerFragment;
-import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.Titanic;
-import us.ridiculousbakery.espressoexpress.ChooseItemFlow_Teddy.TitanicTextView;
 import us.ridiculousbakery.espressoexpress.R;
 
 public class TutorialActivity extends ActionBarActivity {
@@ -57,4 +57,11 @@ public class TutorialActivity extends ActionBarActivity {
         startActivity(i);
         overridePendingTransition(R.anim.fade_in, R.anim.fade_out);
     }
+
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(CalligraphyContextWrapper.wrap(base));
+    }
+
 }
