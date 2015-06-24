@@ -150,11 +150,11 @@
         </receiver>
         <activity
             android:name=".InProgress.Receiving.ReceivingActivity" android:exported="true"
-            android:screenOrientation="portrait" >
-            android:label="@string/title_activity_receiving" >
-            <!--<intent-filter>-->
-            <!--<action android:name="SEND_PUSH"/></action>-->
-            <!--</intent-filter>-->
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
+            android:label="@string/title_activity_receiving"
+            >
+
         </activity>
         <activity
             android:name=".Checkout.ParseUploadActivity"

@@ -17,6 +17,7 @@
         android:id="@+id/tvText"
         android:padding="20dp"
         android:lines="3"
+        android:gravity="left"
         android:layout_marginRight="64dp"
         android:layout_width="match_parent"
         android:layout_height="64dp">

@@ -98,6 +98,8 @@ public class ChatFragment extends Fragment {
                 push.setQuery(query);
                 push.setData(obj);
                 push.sendInBackground();
+                etMessage.setText("");
+                etMessage.clearFocus();
             }});
 
 
