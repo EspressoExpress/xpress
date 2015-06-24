@@ -14,6 +14,7 @@ import com.daimajia.swipe.adapters.ArraySwipeAdapter;
 import java.util.List;
 
 import us.ridiculousbakery.espressoexpress.Model.LineItem;
+import us.ridiculousbakery.espressoexpress.Model.SelectedOption;
 import us.ridiculousbakery.espressoexpress.R;
 
 /**
@@ -63,7 +64,7 @@ public class CartItemAdapterSwipe extends ArraySwipeAdapter<LineItem> {
         }
         viewHolder.tvItemName.setText(lineItem.getItem().getName());
         viewHolder.tvPrice.setText("$" + StringHelper.priceToString(lineItem.getPrice()));
-
+        viewHolder.tvItemOption.setText(SelectedOption.ArrayToString(lineItem.getChosenOptions()));
 
 
 

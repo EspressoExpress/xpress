@@ -1,6 +1,7 @@
 package us.ridiculousbakery.espressoexpress.Model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
  * Created by teddywyly on 6/14/15.
@@ -28,5 +29,20 @@ public class SelectedOption implements Serializable {
 
     public String getCategory() {
         return category;
+    }
+
+    public static String toString(SelectedOption o) {
+        return o.getCategory() + ": " + o.getName();
+    }
+
+    public static String ArrayToString(ArrayList<SelectedOption> l) {
+        String optionStr = "";
+        for (int i=0; i < l.size(); i++) {
+            optionStr += toString(l.get(i));
+            if (i < l.size()-1) {
+                optionStr += ", ";
+            }
+        }
+        return  optionStr;
     }
 }

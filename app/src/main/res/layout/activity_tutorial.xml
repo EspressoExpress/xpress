@@ -51,13 +51,14 @@
             android:id="@+id/button"
             android:onClick="OnStartPressed"
             android:textColor="@color/bakers_chocolate"
-            android:background="#FFFFFF"
+            android:background="@drawable/round_cornered_view"
             android:textSize="20sp"
             android:layout_marginLeft="40dp"
             android:layout_marginRight="40dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:layout_alignParentStart="true"
+            />
     </RelativeLayout>
 
 

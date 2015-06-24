@@ -8,10 +8,6 @@ import android.support.v4.app.FragmentTransaction;
 import com.devmarvel.creditcardentry.library.CreditCard;
 import com.google.android.gms.maps.model.LatLng;
 
-import java.util.ArrayList;
-
-import us.ridiculousbakery.espressoexpress.Model.Item;
-import us.ridiculousbakery.espressoexpress.Model.LineItem;
 import us.ridiculousbakery.espressoexpress.Model.TempOrder;
 import us.ridiculousbakery.espressoexpress.NavDrawer.NavDrawerLocationBaseActivity;
 import us.ridiculousbakery.espressoexpress.R;
@@ -34,13 +30,13 @@ public class CartActivity extends NavDrawerLocationBaseActivity implements
 
         //test object
 
-        TempOrder order = new TempOrder();
+        /*TempOrder order = new TempOrder();
         ArrayList<LineItem> orderItems = new ArrayList<>();
         orderItems.add(new LineItem(new Item("Latte"), null, 3.00));
         orderItems.add(new LineItem(new Item("Frapp"), null, 3.00));
         order.setLineItems(orderItems);
-
-        //order.setStore(new Store("Starbucks"));
+        */
+        TempOrder order = (TempOrder) getIntent().getSerializableExtra("order");
         String storeID = "1NoCwWrzM5";
         if (savedInstanceState == null) {
             // Create order fragment
