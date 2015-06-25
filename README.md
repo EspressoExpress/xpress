@@ -19,7 +19,7 @@ Coffee requesters will select a nearby cafe and place a standing order.  The ord
 
 ## Optional User Stores
 
-* [ ] Users can do all of the above  **beautifully**
+* [x] Users can do all of the above  **beautifully**
 * [x] After order acceptance delivery user and requesting user can chat in realtime
 * [ ] User can store common orders / payment information in a user profile.
 * [ ] Stripe integration
@@ -28,4 +28,4 @@ Coffee requesters will select a nearby cafe and place a standing order.  The ord
 * [ ] Users may receive receipts / earnings advices through push notification.
 
 <img src='mockup.png' title='Mockup' width='' alt='Mockup' />
-<img src='xpress3.gif' title='1st Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='xpress4.gif' title='1st Video Walkthrough' width='' alt='Video Walkthrough' />
